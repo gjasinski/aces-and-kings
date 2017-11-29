@@ -1,8 +1,8 @@
-package pl.edu.agh.to2.acesandkings.app;
+package pl.edu.agh.to2.acesandkings.app.helloworld;
 
-import pl.edu.agh.to2.acesandkings.game.MessageService;
-import pl.edu.agh.to2.acesandkings.player.MessageRepository;
-import pl.edu.agh.to2.acesandkings.vis.MessagePrinter;
+import pl.edu.agh.to2.acesandkings.game.helloworld.MessageService;
+import pl.edu.agh.to2.acesandkings.player.helloworld.MessageRepository;
+import pl.edu.agh.to2.acesandkings.vis.helloworld.MessagePrinter;
 
 /**
  * Created by Paweł Grochola on 29.11.2017.

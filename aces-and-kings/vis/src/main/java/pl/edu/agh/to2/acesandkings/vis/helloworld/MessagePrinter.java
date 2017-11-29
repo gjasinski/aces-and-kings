@@ -1,6 +1,6 @@
-package pl.edu.agh.to2.acesandkings.vis;
+package pl.edu.agh.to2.acesandkings.vis.helloworld;
 
-import pl.edu.agh.to2.acesandkings.game.MessageService;
+import pl.edu.agh.to2.acesandkings.game.helloworld.MessageService;
 
 /**
  * Created by Paweł Grochola on 29.11.2017.
