@@ -13,10 +13,6 @@ public class CardStackImpl implements CardStack {
         this.position = position;
     }
 
-    public List<Card> getStack() {
-        return stack;
-    }
-
     @Override
     public void putCardOnStack(Card card) {
         stack.add(card);
@@ -34,14 +30,25 @@ public class CardStackImpl implements CardStack {
 
     @Override
     public Optional<Card> removeCardFromStack() {
-        return Optional.ofNullable(stack.remove(stack.size() - 1));
+        Card card = null;
+        if (!stack.isEmpty())
+            card = stack.remove(stack.size() - 1);
+        return Optional.ofNullable(card);
     }
 
     @Override
     public void changeStackState() {
-        if (state == State.ACITVE)
+        if (state == State.ACTIVE)
             state = State.INACTIVE;
         else
-            state = State.ACITVE;
+            state = State.ACTIVE;
+    }
+
+    public List<Card> getStack() {
+        return stack;
+    }
+
+    public State getState() {
+        return state;
     }
 }
