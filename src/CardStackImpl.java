@@ -51,4 +51,8 @@ public class CardStackImpl implements CardStack {
     public State getState() {
         return state;
     }
+
+    public StackPosition getPosition() {
+        return position;
+    }
 }

@@ -1,5 +1,6 @@
 import com.sun.corba.se.spi.orbutil.fsm.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,44 +9,34 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class CardStackImplTest {
-    private CardStackImpl cardStack = new CardStackImpl(StackPosition.FOUR);
+    private CardStackImpl cardStack;
+    private List<Card> cardList;
+
+    @Before
+    public void setUp() throws Exception {
+        cardStack = new CardStackImpl(StackPosition.FOUR);
+        cardList = new ArrayList<>();
+        cardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
+        cardList.add(new Card(Suit.DIAMONDS, Rank.TEN));
+        cardList.add(new Card(Suit.CLUBS, Rank.KING));
+    }
 
     @Test //[1]
     public void setUpNewStackTest() {
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.HEARTS, Rank.EIGHT));
-        cardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
-        cardList.add(new Card(Suit.DIAMONDS, Rank.TEN));
-        cardList.add(new Card(Suit.CLUBS, Rank.JACK));
-        cardList.add(new Card(Suit.SPADES, Rank.THREE));
-        cardList.add(new Card(Suit.CLUBS, Rank.KING));
-
         cardStack.setUpNewStack(cardList);
-
         Assert.assertTrue(cardStack.getStack().equals(cardList));
     }
 
     @Test //[2]
     public void putCardOnStackTest() {
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
-        cardList.add(new Card(Suit.DIAMONDS, Rank.TEN));
-        cardList.add(new Card(Suit.CLUBS, Rank.KING));
-
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.SEVEN));
         cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.TEN));
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.KING));
-
         Assert.assertTrue(cardStack.getStack().equals(cardList));
     }
 
     @Test //[3]
     public void removeCardFromStackWithParamTest() {
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
-        cardList.add(new Card(Suit.DIAMONDS, Rank.TEN));
-        cardList.add(new Card(Suit.CLUBS, Rank.KING));
-
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.SEVEN));
         cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.TEN));
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.KING));
@@ -82,11 +73,6 @@ public class CardStackImplTest {
 
     @Test //[4]
     public void removeCardFromStackWithNoParamTest() {
-        List<Card> cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
-        cardList.add(new Card(Suit.DIAMONDS, Rank.TEN));
-        cardList.add(new Card(Suit.CLUBS, Rank.KING));
-
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.SEVEN));
         cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.TEN));
         cardStack.putCardOnStack(new Card(Suit.CLUBS, Rank.KING));
@@ -109,7 +95,6 @@ public class CardStackImplTest {
         Assert.assertTrue(cardStack.getStack().size() == 0);
     }
 
-
     @Test //[5]
     public void changeStackStateTest() {
         Assert.assertTrue(cardStack.getState().equals(State.INACTIVE));
@@ -118,5 +103,4 @@ public class CardStackImplTest {
         cardStack.changeStackState();
         Assert.assertTrue(cardStack.getState().equals(State.INACTIVE));
     }
-
 }
