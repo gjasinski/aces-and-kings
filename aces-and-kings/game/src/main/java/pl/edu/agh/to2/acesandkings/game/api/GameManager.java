@@ -1,12 +1,12 @@
 package pl.edu.agh.to2.acesandkings.game.api;
 
-import pl.edu.agh.to2.acesandkings.game.model.ObservableCardStackDTO;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackDTO;
 
 import java.util.List;
 
 public interface GameManager {
-    List<ObservableCardStackDTO> initializeNewGame();
+    List<CardStackDTO> initializeNewGame();
 
-    List<ObservableCardStackDTO> initializeSavedGame();
+    List<CardStackDTO> initializeSavedGame();
 
 }
