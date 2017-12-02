@@ -1,3 +1,5 @@
+package pl.edu.agh.to2.acesandkings.game.model;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
