@@ -1,3 +1,5 @@
+package pl.edu.agh.to2.acesandkings.game.model;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

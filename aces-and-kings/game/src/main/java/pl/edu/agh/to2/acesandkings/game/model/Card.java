@@ -1,3 +1,5 @@
+package pl.edu.agh.to2.acesandkings.game.model;
+
 public class Card {
     private final Rank rank;
     private final Suit suit;
