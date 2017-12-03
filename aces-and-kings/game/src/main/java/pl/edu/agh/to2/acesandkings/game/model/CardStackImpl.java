@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -11,26 +13,34 @@ public class CardStackImpl implements CardStack {
 
     public CardStackImpl(StackPosition position) {
         this.state = State.INACTIVE;
-        this.stack = new ObservableList<Card>();
+        this.stack = FXCollections.observableArrayList();
         this.position = position;
     }
 
     @Override
     public void putCardOnStack(Card card) {
-        // TODO
-        stack.add(card);
+        // empty stack
+        if (!getLastCard().isPresent())
+            stack.add(card);
+        else {
+            Card lastCard = getLastCard().get();
+            if (card.getSuit().equals(lastCard.getSuit())) {
+                if (isPositionKing() && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
+                    stack.add(card);
+                else if (isPositionAce() && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
+                    stack.add(card);
+            }
+        }
     }
 
     @Override
     public void setUpNewStack(List<Card> cardsList) {
-        Collections.copy(stack, cardsList);
+        stack.addAll(cardsList);
     }
 
     @Override
     public boolean removeCardFromStack(Card card) {
-        if (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card))
-            return stack.remove(card);
-        return false;
+        return (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card)) && stack.remove(card);
     }
 
     @Override
@@ -49,7 +59,24 @@ public class CardStackImpl implements CardStack {
             state = State.ACTIVE;
     }
 
-    public List<Card> getStack() {
+    private boolean isPositionKing() {
+        return position.equals(StackPosition.CLUBS_KING) || position.equals(StackPosition.DIAMONDS_KING) ||
+                position.equals(StackPosition.HEARTH_KING) || position.equals(StackPosition.SPADES_KING);
+    }
+
+    private boolean isPositionAce() {
+        return position.equals(StackPosition.CLUBS_ACE) || position.equals(StackPosition.DIAMONDS_ACE) ||
+                position.equals(StackPosition.HEARTH_ACE) || position.equals(StackPosition.SPADES_ACE);
+    }
+
+    private Optional<Card> getLastCard() {
+        Card card = null;
+        if (!stack.isEmpty())
+            card = stack.get(stack.size() - 1);
+        return Optional.ofNullable(card);
+    }
+
+    public ObservableList<Card> getStack() {
         return stack;
     }
 
