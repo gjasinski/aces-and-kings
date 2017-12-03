@@ -6,28 +6,31 @@ import java.util.Optional;
 
 public class CardStackImpl implements CardStack {
     private State state;
-    private List<Card> stack;
+    private ObservableList<Card> stack;
     private StackPosition position;
 
     public CardStackImpl(StackPosition position) {
         this.state = State.INACTIVE;
-        this.stack = new ArrayList<>();
+        this.stack = new ObservableList<Card>();
         this.position = position;
     }
 
     @Override
     public void putCardOnStack(Card card) {
+        // TODO
         stack.add(card);
     }
 
     @Override
     public void setUpNewStack(List<Card> cardsList) {
-        stack = cardsList;
+        Collections.copy(stack, cardsList);
     }
 
     @Override
     public boolean removeCardFromStack(Card card) {
-        return stack.remove(card);
+        if (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card))
+            return stack.remove(card);
+        return false;
     }
 
     @Override
