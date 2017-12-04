@@ -2,16 +2,13 @@ package pl.edu.agh.to2.acesandkings.game.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import pl.edu.agh.to2.acesandkings.common.model.Card;
-import pl.edu.agh.to2.acesandkings.common.model.CardStack;
-import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
-import pl.edu.agh.to2.acesandkings.common.model.State;
+import pl.edu.agh.to2.acesandkings.common.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CardStackImpl implements CardStack {
+public class CardStackImpl implements CardStack, CardStackObservable {
     private State state;
     private ObservableList<Card> stack;
     private StackPosition position;
@@ -82,7 +79,7 @@ public class CardStackImpl implements CardStack {
     }
 
     @Override
-    public ObservableList<Card> getUnmodifableObservableStack() {
+    public ObservableList<Card> getUnmodifiableObservableStack() {
         return FXCollections.unmodifiableObservableList(stack);
     }
 

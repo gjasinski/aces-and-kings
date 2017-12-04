@@ -4,9 +4,11 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public interface CardStack {
+public interface CardStackObservable {
 
     List<Card> getStack();
+
+    ObservableList<Card> getUnmodifiableObservableStack();
 
     State getState();
 
