@@ -3,6 +3,7 @@ package pl.edu.agh.to2.acesandkings.game.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,8 +72,9 @@ public class CardStackImpl implements CardStack {
         return Optional.ofNullable(card);
     }
 
-    ObservableList<Card> getStack() {
-        return stack;
+    @Override
+    public List<Card> getStack() {
+        return new ArrayList<>(this.stack);
     }
 
     @Override
