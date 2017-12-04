@@ -3,5 +3,3 @@ include 'vis'
 include 'game'
 include 'player'
 include 'app'
-include 'controllers'
-

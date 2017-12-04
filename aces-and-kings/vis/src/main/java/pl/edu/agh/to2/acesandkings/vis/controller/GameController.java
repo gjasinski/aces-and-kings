@@ -1,6 +1,6 @@
-package pl.edu.agh.to2.acesandkings.controller;
+package pl.edu.agh.to2.acesandkings.vis.controller;
 
-import javafx.scene.control.Button;
+import pl.edu.agh.to2.acesandkings.game.api.*;
 
 /**
  * Created by Julia on 2017-12-04.
@@ -10,7 +10,7 @@ public class GameController {
     private AppController appController;
 
     //model
-    private ActiveCardManipulator activeCardManipulator;
+    private ActiveCardsManipulator activeCardManipulator;
     private CardsMovePossibilityGuard cardsMovePossibilityGuard;
     private CardsInHandManipulator cardsInHandManipulator;
     private CardStackManager cardStackManager;
@@ -21,7 +21,7 @@ public class GameController {
     public void setAppController(AppController appController) {
         this.appController = appController;
     }
-    public void setActiveCardManipulator(ActiveCardManipulator activeCardManipulator){
+    public void setActiveCardManipulator(ActiveCardsManipulator activeCardManipulator){
         this.activeCardManipulator = activeCardManipulator;
     }
     public void setCardsMovePossibilityGuard(CardsMovePossibilityGuard cardsMovePossibilityGuard){

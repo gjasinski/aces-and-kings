@@ -1,6 +1,4 @@
-package pl.edu.agh.to2.acesandkings.controller;
-
-import javafx.scene.control.Button;
+package pl.edu.agh.to2.acesandkings.vis.controller;
 
 /**
  * Created by Julia on 2017-12-04.
