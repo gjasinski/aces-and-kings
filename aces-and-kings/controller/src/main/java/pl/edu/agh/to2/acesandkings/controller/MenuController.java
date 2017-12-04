@@ -9,6 +9,9 @@ public class MenuController {
 
     private AppController appController;
 
+    public void setAppController(AppController appController) {
+        this.appController = appController;
+    }
     public void handleStartButtonAction(){}
     public void handleContinueButtonAction(){}
 }
