@@ -1,16 +1,13 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
-import java.util.List;
-import java.util.Optional;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public interface CardStack {
-    void putCardOnStack(Card card);
 
-    void setUpNewStack(List<Card> cardsList);
+    ObservableList<Card> getUnmodifableObservableStack();
 
-    boolean removeCardFromStack(Card card);
+    State getState();
 
-    Optional<Card> removeCardFromStack();
-
-    void changeStackState();
+    StackPosition getPosition();
 }

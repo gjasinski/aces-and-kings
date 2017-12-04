@@ -1,11 +1,11 @@
 package pl.edu.agh.to2.acesandkings.game.api;
 
 import io.reactivex.Observable;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackDTO;
+import pl.edu.agh.to2.acesandkings.game.model.CardStack;
 
 import java.util.List;
 
 public interface CardStackRepositoryPublisher {
-    Observable<List<CardStackDTO>> getRepositoryObserver();
+    Observable<List<CardStack>> getRepositoryObserver();
 
 }

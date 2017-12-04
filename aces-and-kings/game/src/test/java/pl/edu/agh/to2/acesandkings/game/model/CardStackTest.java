@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardStackImplTest {
+public class CardStackTest {
     private CardStackImpl cardStack;
     private List<Card> cardList;
 
