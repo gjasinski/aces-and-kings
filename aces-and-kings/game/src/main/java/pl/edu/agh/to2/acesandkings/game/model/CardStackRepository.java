@@ -1,5 +1,8 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
+import pl.edu.agh.to2.acesandkings.common.model.Card;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+
 import java.util.List;
 import java.util.Optional;
 

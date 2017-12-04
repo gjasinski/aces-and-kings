@@ -1,6 +1,6 @@
 package pl.edu.agh.to2.acesandkings.game.api;
 
-import pl.edu.agh.to2.acesandkings.game.model.CardStack;
+import pl.edu.agh.to2.acesandkings.common.model.CardStack;
 
 import java.util.List;
 
