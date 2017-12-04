@@ -1,9 +1,8 @@
-package pl.edu.agh.to2.acesandkings.game.model;
+package pl.edu.agh.to2.acesandkings.common.model;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class CardTest {
     private Card card;

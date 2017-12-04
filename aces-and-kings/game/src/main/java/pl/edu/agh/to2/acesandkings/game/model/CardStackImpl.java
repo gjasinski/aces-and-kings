@@ -2,6 +2,10 @@ package pl.edu.agh.to2.acesandkings.game.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import pl.edu.agh.to2.acesandkings.common.model.Card;
+import pl.edu.agh.to2.acesandkings.common.model.CardStack;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.common.model.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,12 +61,12 @@ public class CardStackImpl implements CardStack {
 
     private boolean isPositionKing() {
         return position.equals(StackPosition.CLUBS_KING) || position.equals(StackPosition.DIAMONDS_KING) ||
-                position.equals(StackPosition.HEARTH_KING) || position.equals(StackPosition.SPADES_KING);
+                position.equals(StackPosition.HEART_KING) || position.equals(StackPosition.SPADES_KING);
     }
 
     private boolean isPositionAce() {
         return position.equals(StackPosition.CLUBS_ACE) || position.equals(StackPosition.DIAMONDS_ACE) ||
-                position.equals(StackPosition.HEARTH_ACE) || position.equals(StackPosition.SPADES_ACE);
+                position.equals(StackPosition.HEART_ACE) || position.equals(StackPosition.SPADES_ACE);
     }
 
     private Optional<Card> getLastCard() {

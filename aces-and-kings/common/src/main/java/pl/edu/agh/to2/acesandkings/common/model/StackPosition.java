@@ -1,4 +1,4 @@
-package pl.edu.agh.to2.acesandkings.game.model;
+package pl.edu.agh.to2.acesandkings.common.model;
 
 public enum StackPosition {
     ACE,
@@ -13,8 +13,8 @@ public enum StackPosition {
     TEN,
     JACK,
     QUEEN,
-    HEARTH_KING,
-    HEARTH_ACE,
+    HEART_KING,
+    HEART_ACE,
     DIAMONDS_KING,
     DIAMONDS_ACE,
     CLUBS_KING,
