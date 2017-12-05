@@ -35,6 +35,7 @@ public class CardStackImpl implements CardStack, CardStackObservable {
     }
 
     void setUpNewStack(List<Card> cardsList) {
+        stack.clear();
         stack.addAll(cardsList);
     }
 

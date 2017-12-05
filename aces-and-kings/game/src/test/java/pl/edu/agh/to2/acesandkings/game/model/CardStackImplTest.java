@@ -132,7 +132,7 @@ public class CardStackImplTest {
         Assert.assertTrue(cardStack.getStack().equals(cardList));
     }
 
-    @Test //[8]
+    @Test //[9]
     public void putCardOnEmptyStackTest() {
         cardStack = new CardStackImpl(StackPosition.FOUR);
 
