@@ -3,6 +3,7 @@ package pl.edu.agh.to2.acesandkings.game.model;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pl.edu.agh.to2.acesandkings.common.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +111,7 @@ public class CardStackImplTest {
 
     @Test //[8]
     public void putCardOnKingsStackTest() {
-        cardStack = new CardStackImpl(StackPosition.HEARTH_KING);
+        cardStack = new CardStackImpl(StackPosition.HEART_KING);
 
         cardList = new ArrayList<>();
         cardList.add(new Card(Suit.HEARTS, Rank.KING));
