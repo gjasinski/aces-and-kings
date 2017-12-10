@@ -1,6 +1,6 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
-import pl.edu.agh.to2.acesandkings.game.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.CardStackView;
 
 import java.util.HashMap;

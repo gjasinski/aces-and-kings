@@ -1,6 +1,5 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
-import pl.edu.agh.to2.acesandkings.game.api.CardStackRepositoryPublisher;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 
 /**
@@ -9,7 +8,6 @@ import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 public class AppController {
 
     private GameManager gameManager;
-    private CardStackRepositoryPublisher cardStackRepositoryPublisher;
 
     public void showMenuViewDialog(){
 
