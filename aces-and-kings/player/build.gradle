@@ -12,4 +12,5 @@ repositories {
 dependencies {
     compile project(':common')
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.neo4j.driver:neo4j-java-driver:1.4.4'
 }
