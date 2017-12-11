@@ -16,10 +16,14 @@ public class GameScreenView extends ScreenView {
     private final BorderPane borderPane = new BorderPane();
     private final StackPane undoButtonPlace = new StackPane();
     private final StackPane redoButtonPlace = new StackPane();
+    private final StackPane menuButtonPlace = new StackPane();
+
+    private static final String BACKGROUND_STYLE = "-fx-background-color: #009900";
 
     public GameScreenView(final Stage stage) {
         this.stage = stage;
         setUpButtonRow();
+        setUpRightColumn();
         stage.setScene(new Scene(borderPane));
     }
 
@@ -27,12 +31,20 @@ public class GameScreenView extends ScreenView {
         final HBox buttonRow = new HBox();
         buttonRow.setPadding(new Insets(20, 20, 20, 20));
         buttonRow.setSpacing(10);
-        buttonRow.setStyle("-fx-background-color: #009900");
+        buttonRow.setStyle(BACKGROUND_STYLE);
         buttonRow.setAlignment(Pos.CENTER_RIGHT);
         final Pane spacer = new Pane();
         HBox.setHgrow(spacer, Priority.SOMETIMES);
         buttonRow.getChildren().addAll(spacer, undoButtonPlace, redoButtonPlace);
         borderPane.setBottom(buttonRow);
+    }
+
+    private void setUpRightColumn() {
+        final VBox rightColumn = new VBox();
+        rightColumn.setPadding(new Insets(20, 20, 20, 20));
+        rightColumn.setStyle(BACKGROUND_STYLE);
+        rightColumn.getChildren().add(menuButtonPlace);
+        borderPane.setRight(rightColumn);
     }
 
     public void setBoard(final BoardView boardView) {
@@ -49,15 +61,17 @@ public class GameScreenView extends ScreenView {
         redoButtonPlace.getChildren().add(button.getNode());
     }
 
-
+    public void setMenuButton(final MenuButtonView button) {
+        menuButtonPlace.getChildren().clear();
+        menuButtonPlace.getChildren().add(button.getNode());
+    }
     public static class TemporaryMainToRemove extends Application {
         @Override
         public void start(final Stage primaryStage) throws Exception {
             final GameScreenView gameScreenView = new GameScreenView(primaryStage);
-            final UndoButtonView undoButton = new UndoButtonView();
-            final RedoButtonView redoButton = new RedoButtonView();
-            gameScreenView.setUndoButton(undoButton);
-            gameScreenView.setRedoButton(redoButton);
+            gameScreenView.setUndoButton(new UndoButtonView());
+            gameScreenView.setRedoButton(new RedoButtonView());
+            gameScreenView.setMenuButton((new MenuButtonView()));
             primaryStage.show();
         }
 
