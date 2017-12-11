@@ -35,18 +35,19 @@ public class CardStackImpl implements CardStack, CardStackObservable {
     }
 
     void setUpNewStack(List<Card> cardsList) {
+        stack.clear();
         stack.addAll(cardsList);
     }
 
     boolean removeCardFromStack(Card card) {
-        return (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card)) && stack.remove(card);
+        return isRemoveCardFromStackAllowed(card) && stack.remove(card);
     }
 
     Optional<Card> removeCardFromStack() {
-        Card card = null;
-        if (!stack.isEmpty())
-            card = stack.remove(stack.size() - 1);
-        return Optional.ofNullable(card);
+        Optional<Card> card = getLastCard();
+        if (card.isPresent() && isRemoveCardFromStackAllowed(card.get()))
+            stack.remove(card.get());
+        return card;
     }
 
     void changeStackState() {
@@ -71,6 +72,38 @@ public class CardStackImpl implements CardStack, CardStackObservable {
         if (!stack.isEmpty())
             card = stack.get(stack.size() - 1);
         return Optional.ofNullable(card);
+    }
+
+    boolean isRemoveCardFromStackAllowed(Card card) {
+        boolean result = false;
+        if (stack.contains(card)) {
+            if (state.equals(State.ACTIVE))
+                result = true;
+            else {
+                Optional<Card> lastCard = getLastCard();
+                if (lastCard.isPresent() && card.equals(lastCard.get()))
+                    result = (position.isPositionAce() && !card.getRank().equals(Rank.ACE)) ||
+                            (position.isPositionKing() && !card.getRank().equals(Rank.KING)) ||
+                            position.isPositionMiddle();
+            }
+        }
+        return result;
+    }
+
+    boolean isPutCardOnStackAllowed(Card card){
+        boolean result = false;
+        Optional<Card> lastCard = getLastCard();
+        if (!lastCard.isPresent())
+            result = true;
+        else {
+            if (card.getSuit().equals(lastCard.get().getSuit())) {
+                if (position.isPositionKing() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() - 1)
+                    result = true;
+                else if (position.isPositionAce() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() + 1)
+                    result = true;
+            }
+        }
+        return result;
     }
 
     @Override
