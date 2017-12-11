@@ -21,5 +21,19 @@ public enum StackPosition {
     CLUBS_ACE,
     SPADES_KING,
     SPADES_ACE,
-    EXTRA_STACK
+    EXTRA_STACK;
+
+    public boolean isPositionKing() {
+        return this.equals(CLUBS_KING) || this.equals(DIAMONDS_KING) ||
+                this.equals(HEART_KING) || this.equals(SPADES_KING);
+    }
+
+    public boolean isPositionAce() {
+        return this.equals(CLUBS_ACE) || this.equals(DIAMONDS_ACE) ||
+                this.equals(HEART_ACE) || this.equals(SPADES_ACE);
+    }
+
+    public boolean isPositionMiddle() {
+        return this.ordinal() < 12;
+    }
 }

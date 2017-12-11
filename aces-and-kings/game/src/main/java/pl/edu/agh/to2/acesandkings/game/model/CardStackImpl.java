@@ -40,14 +40,14 @@ public class CardStackImpl implements CardStack, CardStackObservable {
     }
 
     boolean removeCardFromStack(Card card) {
-        return (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card)) && stack.remove(card);
+        return isRemoveCardFromStackAllowed(card) && stack.remove(card);
     }
 
     Optional<Card> removeCardFromStack() {
-        Card card = null;
-        if (!stack.isEmpty())
-            card = stack.remove(stack.size() - 1);
-        return Optional.ofNullable(card);
+        Optional<Card> card = getLastCard();
+        if (card.isPresent() && isRemoveCardFromStackAllowed(card.get()))
+            stack.remove(card.get());
+        return card;
     }
 
     void changeStackState() {
@@ -72,6 +72,22 @@ public class CardStackImpl implements CardStack, CardStackObservable {
         if (!stack.isEmpty())
             card = stack.get(stack.size() - 1);
         return Optional.ofNullable(card);
+    }
+
+    boolean isRemoveCardFromStackAllowed(Card card) {
+        boolean result = false;
+        if (stack.contains(card)) {
+            if (state.equals(State.ACTIVE))
+                result = true;
+            else {
+                Optional<Card> lastCard = getLastCard();
+                if (lastCard.isPresent() && card.equals(lastCard.get()))
+                    result = (position.isPositionAce() && !card.getRank().equals(Rank.ACE)) ||
+                            (position.isPositionKing() && !card.getRank().equals(Rank.KING)) ||
+                            position.isPositionMiddle();
+            }
+        }
+        return result;
     }
 
     @Override

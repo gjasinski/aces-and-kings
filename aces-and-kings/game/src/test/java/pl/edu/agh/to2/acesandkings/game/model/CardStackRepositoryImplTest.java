@@ -54,12 +54,20 @@ public class CardStackRepositoryImplTest {
     @Test //[2]
     public void putCardOnStackTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 2);
-        // put correct card
+        // put correct card on ACES stack
         cardStackRepository.putCardOnStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.THREE));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 3);
-        // put incorrect card
+        // put incorrect card on ACES stack
         cardStackRepository.putCardOnStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.FIVE));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 3);
+
+        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 1);
+        // put correct card on KINGS stack
+        cardStackRepository.putCardOnStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.QUEEN));
+        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 2);
+        // put incorrect card on KINGS stack
+        cardStackRepository.putCardOnStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.TEN));
+        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 2);
 
         Assert.assertTrue(cardStackRepository.getCardStackList().get(3).getStack().size() == 0);
         // put card on empty stack
@@ -116,10 +124,10 @@ public class CardStackRepositoryImplTest {
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.ACE)));
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.KING)));
         // remove card from middle stack in State.INACTIVE
-        Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.CLUBS, Rank.QUEEN)));
+        Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.SPADES, Rank.JACK)));
         cardStackRepository.changeStackState(StackPosition.EIGHT);
         // remove card from middle stack in State.ACTIVE
-        Assert.assertTrue(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.CLUBS, Rank.QUEEN)));
+        Assert.assertTrue(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.SPADES, Rank.JACK)));
         // remove card from empty stack
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.ACE, new Card(Suit.CLUBS, Rank.QUEEN)));
         cardStackRepository.changeStackState(StackPosition.ACE);

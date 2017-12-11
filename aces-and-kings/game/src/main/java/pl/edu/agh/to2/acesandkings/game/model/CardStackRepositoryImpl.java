@@ -17,89 +17,63 @@ public class CardStackRepositoryImpl implements CardStackRepository {
 
     @Override
     public void putCardOnStack(StackPosition position, Card card) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                cardStack.putCardOnStack(card);
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        searchedCardStack.putCardOnStack(card);
     }
 
     @Override
     public void setUpNewCardOrder(StackPosition position, List<Card> cardsList) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                cardStack.setUpNewStack(cardsList);
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        searchedCardStack.setUpNewStack(cardsList);
     }
 
     @Override
     public boolean removeCardFromStack(StackPosition position, Card card) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                return cardStack.removeCardFromStack(card);
-        return false;
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        return searchedCardStack.removeCardFromStack(card);
     }
 
     @Override
     public Optional<Card> removeCardFromStack(StackPosition position) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                return cardStack.removeCardFromStack();
-        return Optional.empty();
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        return searchedCardStack.removeCardFromStack();
     }
 
     @Override
     public void changeStackState(StackPosition position) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                cardStack.changeStackState();
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        searchedCardStack.changeStackState();
     }
 
     @Override
     public boolean isRemoveCardFromStackAllowed(StackPosition position, Card card) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position))
-                if (cardStack.getStack().contains(card)) {
-                    if (cardStack.getState().equals(State.ACTIVE))
-                        return true;
-                    else {
-                        Card lastCard = getLastCard(cardStack.getStack());
-                        if (lastCard.equals(card)) {
-//                        check if it's not last card on border stack
-                            if (isPositionAce(position) && !lastCard.getRank().equals(Rank.ACE))
-                                return true;
-                            if (isPositionKing(position) && !lastCard.getRank().equals(Rank.KING))
-                                return true;
-                        }
-                    }
-                }
-        return false;
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        return searchedCardStack.isRemoveCardFromStackAllowed(card);
     }
 
     @Override
     public boolean isPutCardOnStackAllowed(StackPosition position, Card card) {
-        for (CardStackImpl cardStack : cardStackList)
-            if (cardStack.getPosition().equals(position)) {
-                if (cardStack.getStack().isEmpty())
+        CardStackImpl searchedCardStack = getStackFromPosition(position);
+        if (searchedCardStack.getStack().isEmpty())
+            return true;
+        else {
+            Card lastCard = getLastCard(searchedCardStack.getStack());
+            if (card.getSuit().equals(lastCard.getSuit())) {
+                if (searchedCardStack.getPosition().isPositionKing() && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
                     return true;
-                else {
-                    Card lastCard = getLastCard(cardStack.getStack());
-                    if (card.getSuit().equals(lastCard.getSuit())) {
-                        if (isPositionKing(cardStack.getPosition()) && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
-                            return true;
-                        else if (isPositionAce(cardStack.getPosition()) && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
-                            return true;
-                    }
-                }
+                else if (searchedCardStack.getPosition().isPositionAce() && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
+                    return true;
             }
+        }
         return false;
     }
 
-    private boolean isPositionKing(StackPosition position) {
-        return position.equals(StackPosition.CLUBS_KING) || position.equals(StackPosition.DIAMONDS_KING) ||
-                position.equals(StackPosition.HEART_KING) || position.equals(StackPosition.SPADES_KING);
-    }
-
-    private boolean isPositionAce(StackPosition position) {
-        return position.equals(StackPosition.CLUBS_ACE) || position.equals(StackPosition.DIAMONDS_ACE) ||
-                position.equals(StackPosition.HEART_ACE) || position.equals(StackPosition.SPADES_ACE);
+    private CardStackImpl getStackFromPosition(StackPosition position) {
+        CardStackImpl searchedCardStack = null;
+        for (CardStackImpl cardStack : cardStackList)
+            if (cardStack.getPosition().equals(position))
+                searchedCardStack = cardStack;
+        return searchedCardStack;
     }
 
     private Card getLastCard(List<Card> stack) {

@@ -9,28 +9,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardStackImplTest {
-    private CardStackImpl cardStack;
-    private List<Card> cardList;
+    private CardStackImpl acesCardStack;
+    private CardStackImpl kingsCardStack;
+    private CardStackImpl middleCardStack;
+    private List<Card> acesCardList;
+    private List<Card> kingsCardList;
+    private List<Card> middleCardList;
 
     @Before
     public void setUp() throws Exception {
-        cardStack = new CardStackImpl(StackPosition.CLUBS_ACE);
+        // ACES stack
+        acesCardStack = new CardStackImpl(StackPosition.CLUBS_ACE);
+        acesCardList = new ArrayList<>();
+        acesCardList.add(new Card(Suit.CLUBS, Rank.ACE));
+        acesCardList.add(new Card(Suit.CLUBS, Rank.TWO));
+        acesCardList.add(new Card(Suit.CLUBS, Rank.THREE));
+        acesCardStack.setUpNewStack(acesCardList);
 
-        cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.CLUBS, Rank.ACE));
-        cardList.add(new Card(Suit.CLUBS, Rank.TWO));
-        cardList.add(new Card(Suit.CLUBS, Rank.THREE));
+        // KINGS stack
+        kingsCardStack = new CardStackImpl(StackPosition.HEART_KING);
+        kingsCardList = new ArrayList<>();
+        kingsCardList.add(new Card(Suit.HEARTS, Rank.KING));
+        kingsCardList.add(new Card(Suit.HEARTS, Rank.QUEEN));
+        kingsCardList.add(new Card(Suit.HEARTS, Rank.JACK));
+        kingsCardStack.setUpNewStack(kingsCardList);
 
-        cardStack.setUpNewStack(cardList);
+        // MIDDLE stack
+        middleCardStack = new CardStackImpl(StackPosition.THREE);
+        middleCardList = new ArrayList<>();
+        middleCardList.add(new Card(Suit.DIAMONDS, Rank.QUEEN));
+        middleCardList.add(new Card(Suit.CLUBS, Rank.SEVEN));
+        middleCardList.add(new Card(Suit.HEARTS, Rank.JACK));
+        middleCardStack.setUpNewStack(middleCardList);
     }
 
     @Test //[1]
     public void setUpNewStackTest() {
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+        Assert.assertTrue(acesCardStack.getStack().equals(acesCardList));
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
     }
 
     @Test //[2]
-    public void removeCardFromStackWithParamTest() {
+    public void removeCardFromAcesStackWithParamTest() {
+        removeCardFromStackWithParamTest(acesCardStack, acesCardList);
+    }
+
+    @Test //[2]
+    public void removeCardFromKingsStackWithParamTest() {
+        removeCardFromStackWithParamTest(kingsCardStack, kingsCardList);
+    }
+
+    private void removeCardFromStackWithParamTest(CardStackImpl cardStack, List<Card> cardList) {
         Card card = cardList.get(cardList.size() - 1);
         cardStack.removeCardFromStack(card);
         Assert.assertFalse(cardStack.getStack().equals(cardList));
@@ -43,104 +72,148 @@ public class CardStackImplTest {
         cardList.remove(card);
         Assert.assertTrue(cardStack.getStack().equals(cardList));
 
-        card = cardList.get(cardList.size() - 1);
         cardStack.removeCardFromStack();
-        Assert.assertFalse(cardStack.getStack().equals(cardList));
-        cardList.remove(card);
+        // can't remove last card on KINGS/ACES stack position
         Assert.assertTrue(cardStack.getStack().equals(cardList));
-
-        cardStack.removeCardFromStack();
-        Assert.assertTrue(cardStack.getStack().size() == 0);
+        Assert.assertTrue(cardStack.getStack().size() == 1);
     }
 
     @Test //[3]
-    public void removeIncorrectCardFromStackWithParamTest() {
-        Card card = new Card(Suit.CLUBS, Rank.ACE);
-        cardStack.removeCardFromStack(card);
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+    public void removeCardFromMiddleStackWithParamTest() {
+        Card card = middleCardList.get(middleCardList.size() - 1);
+        middleCardStack.removeCardFromStack(card);
+        Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
+        middleCardList.remove(card);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
+
+        card = middleCardList.get(middleCardList.size() - 2);
+        middleCardStack.removeCardFromStack(card);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
+
+        middleCardStack.changeStackState();
+        middleCardStack.removeCardFromStack(card);
+        Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
+        middleCardList.remove(card);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
+
+        card = middleCardList.get(middleCardList.size() - 1);
+        middleCardStack.removeCardFromStack(card);
+        Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
+        middleCardList.remove(card);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
+
+        middleCardStack.removeCardFromStack();
+        Assert.assertTrue(middleCardStack.getStack().size() == 0);
     }
 
     @Test //[4]
-    public void removeCardFromStackWithNoParamTest() {
-        cardStack.removeCardFromStack();
-        Assert.assertFalse(cardStack.getStack().equals(cardList));
-        cardList.remove(cardList.size() - 1);
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+    public void removeIncorrectCardFromStackWithParamTest() {
+        Card card = new Card(Suit.CLUBS, Rank.ACE);
+        acesCardStack.removeCardFromStack(card);
+        Assert.assertTrue(acesCardStack.getStack().equals(acesCardList));
 
-        cardStack.removeCardFromStack();
-        Assert.assertFalse(cardStack.getStack().equals(cardList));
-        cardList.remove(cardList.size() - 1);
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+        kingsCardStack.removeCardFromStack(card);
+        Assert.assertTrue(kingsCardStack.getStack().equals(kingsCardList));
 
-        cardStack.removeCardFromStack();
-        Assert.assertTrue(cardStack.getStack().size() == 0);
+        middleCardStack.changeStackState();
+        middleCardStack.removeCardFromStack(card);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
     }
 
     @Test //[5]
-    public void removeCardFromEmptyStackWithNoParamTest() {
-        cardStack.removeCardFromStack();
-        cardStack.removeCardFromStack();
-        cardStack.removeCardFromStack();
-        Assert.assertTrue(cardStack.getStack().size() == 0);
-        cardStack.removeCardFromStack();
-        Assert.assertTrue(cardStack.getStack().size() == 0);
+    public void removeCardFromAcesStackWithNoParamTest() {
+        removeCardFromStackWithNoParamTest(acesCardStack, acesCardList);
     }
 
     @Test //[6]
-    public void changeStackStateTest() {
-        Assert.assertTrue(cardStack.getState().equals(State.INACTIVE));
-        cardStack.changeStackState();
-        Assert.assertTrue(cardStack.getState().equals(State.ACTIVE));
-        cardStack.changeStackState();
-        Assert.assertTrue(cardStack.getState().equals(State.INACTIVE));
+    public void removeCardFromKingsStackWithNoParamTest() {
+        removeCardFromStackWithNoParamTest(kingsCardStack, kingsCardList);
+    }
+
+    private void removeCardFromStackWithNoParamTest(CardStackImpl cardStack, List<Card> cardList) {
+        cardStack.removeCardFromStack();
+        Assert.assertFalse(cardStack.getStack().equals(cardList));
+        cardList.remove(cardList.size() - 1);
+        Assert.assertTrue(cardStack.getStack().equals(cardList));
+
+        cardStack.removeCardFromStack();
+        Assert.assertFalse(cardStack.getStack().equals(cardList));
+
+//      can't remove last card on KINGS/ACES position
+        cardStack.removeCardFromStack();
+        Assert.assertTrue(cardStack.getStack().size() == 1);
     }
 
     @Test //[7]
-    public void putCardOnAcesStackTest() {
-        // bad card for this stack
-        cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+    public void removeCardFromMiddleStackWithNoParamTest() {
+        middleCardStack.removeCardFromStack();
+        Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
+        middleCardList.remove(middleCardList.size() - 1);
+        Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
 
-        // add correct card
-        Card card = new Card(Suit.CLUBS, Rank.FOUR);
-        cardStack.putCardOnStack(card);
-        Assert.assertFalse(cardStack.getStack().equals(cardList));
-        cardList.add(card);
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+        middleCardStack.removeCardFromStack();
+        Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
+
+        middleCardStack.removeCardFromStack();
+        Assert.assertTrue(middleCardStack.getStack().size() == 0);
     }
 
     @Test //[8]
-    public void putCardOnKingsStackTest() {
-        cardStack = new CardStackImpl(StackPosition.HEART_KING);
-
-        cardList = new ArrayList<>();
-        cardList.add(new Card(Suit.HEARTS, Rank.KING));
-        cardList.add(new Card(Suit.HEARTS, Rank.QUEEN));
-        cardList.add(new Card(Suit.HEARTS, Rank.JACK));
-
-        cardStack.setUpNewStack(cardList);
-
-        // bad card for this stack
-        cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
-
-        // add correct card
-        Card card = new Card(Suit.HEARTS, Rank.TEN);
-        cardStack.putCardOnStack(card);
-        Assert.assertFalse(cardStack.getStack().equals(cardList));
-        cardList.add(card);
-        Assert.assertTrue(cardStack.getStack().equals(cardList));
+    public void removeCardFromEmptyStackWithNoParamTest() {
+        middleCardStack.removeCardFromStack();
+        middleCardStack.removeCardFromStack();
+        middleCardStack.removeCardFromStack();
+        Assert.assertTrue(middleCardStack.getStack().size() == 0);
+        middleCardStack.removeCardFromStack();
+        Assert.assertTrue(middleCardStack.getStack().size() == 0);
     }
 
     @Test //[9]
-    public void putCardOnEmptyStackTest() {
-        cardStack = new CardStackImpl(StackPosition.FOUR);
+    public void changeStackStateTest() {
+        Assert.assertTrue(middleCardStack.getState().equals(State.INACTIVE));
+        middleCardStack.changeStackState();
+        Assert.assertTrue(middleCardStack.getState().equals(State.ACTIVE));
+        middleCardStack.changeStackState();
+        Assert.assertTrue(middleCardStack.getState().equals(State.INACTIVE));
+    }
 
-        cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
-        Assert.assertTrue(cardStack.getStack().size() == 1);
+    @Test //[10]
+    public void putCardOnAcesStackTest() {
+        // bad card for this stack
+        acesCardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
+        Assert.assertTrue(acesCardStack.getStack().equals(acesCardList));
+
+        // add correct card
+        Card card = new Card(Suit.CLUBS, Rank.FOUR);
+        acesCardStack.putCardOnStack(card);
+        Assert.assertFalse(acesCardStack.getStack().equals(acesCardList));
+        acesCardList.add(card);
+        Assert.assertTrue(acesCardStack.getStack().equals(acesCardList));
+    }
+
+    @Test //[11]
+    public void putCardOnKingsStackTest() {
+        // bad card for this stack
+        kingsCardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
+        Assert.assertTrue(kingsCardStack.getStack().equals(kingsCardList));
+
+        // add correct card
+        Card card = new Card(Suit.HEARTS, Rank.TEN);
+        kingsCardStack.putCardOnStack(card);
+        Assert.assertFalse(kingsCardStack.getStack().equals(kingsCardList));
+        kingsCardList.add(card);
+        Assert.assertTrue(kingsCardStack.getStack().equals(kingsCardList));
+    }
+
+    @Test //[12]
+    public void putCardOnEmptyStackTest() {
+        acesCardStack = new CardStackImpl(StackPosition.FOUR);
+
+        acesCardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
+        Assert.assertTrue(acesCardStack.getStack().size() == 1);
 
         // adding another card
-        cardStack.putCardOnStack(new Card(Suit.HEARTS, Rank.TEN));
-        Assert.assertTrue(cardStack.getStack().size() == 1);
+        acesCardStack.putCardOnStack(new Card(Suit.HEARTS, Rank.TEN));
+        Assert.assertTrue(acesCardStack.getStack().size() == 1);
     }
 }
