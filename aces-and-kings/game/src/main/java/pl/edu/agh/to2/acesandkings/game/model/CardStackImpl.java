@@ -90,6 +90,22 @@ public class CardStackImpl implements CardStack, CardStackObservable {
         return result;
     }
 
+    boolean isPutCardOnStackAllowed(Card card){
+        boolean result = false;
+        Optional<Card> lastCard = getLastCard();
+        if (!lastCard.isPresent())
+            result = true;
+        else {
+            if (card.getSuit().equals(lastCard.get().getSuit())) {
+                if (position.isPositionKing() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() - 1)
+                    result = true;
+                else if (position.isPositionAce() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() + 1)
+                    result = true;
+            }
+        }
+        return result;
+    }
+
     @Override
     public List<Card> getStack() {
         return new ArrayList<>(this.stack);

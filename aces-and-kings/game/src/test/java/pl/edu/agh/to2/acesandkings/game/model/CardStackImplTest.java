@@ -216,4 +216,7 @@ public class CardStackImplTest {
         acesCardStack.putCardOnStack(new Card(Suit.HEARTS, Rank.TEN));
         Assert.assertTrue(acesCardStack.getStack().size() == 1);
     }
+
+    // TODO isRemoveCardFromStackAllowed
+    // TODO isPutCardOnStackAllowed
 }

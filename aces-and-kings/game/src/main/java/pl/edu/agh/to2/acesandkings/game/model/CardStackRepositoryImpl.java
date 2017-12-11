@@ -8,10 +8,10 @@ import pl.edu.agh.to2.acesandkings.common.model.State;
 import java.util.List;
 import java.util.Optional;
 
-public class CardStackRepositoryImpl implements CardStackRepository {
+class CardStackRepositoryImpl implements CardStackRepository {
     private List<CardStackImpl> cardStackList;
 
-    public CardStackRepositoryImpl(List<CardStackImpl> cardStackList) {
+    CardStackRepositoryImpl(List<CardStackImpl> cardStackList) {
         this.cardStackList = cardStackList;
     }
 
@@ -54,18 +54,7 @@ public class CardStackRepositoryImpl implements CardStackRepository {
     @Override
     public boolean isPutCardOnStackAllowed(StackPosition position, Card card) {
         CardStackImpl searchedCardStack = getStackFromPosition(position);
-        if (searchedCardStack.getStack().isEmpty())
-            return true;
-        else {
-            Card lastCard = getLastCard(searchedCardStack.getStack());
-            if (card.getSuit().equals(lastCard.getSuit())) {
-                if (searchedCardStack.getPosition().isPositionKing() && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
-                    return true;
-                else if (searchedCardStack.getPosition().isPositionAce() && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
-                    return true;
-            }
-        }
-        return false;
+        return searchedCardStack.isPutCardOnStackAllowed(card);
     }
 
     private CardStackImpl getStackFromPosition(StackPosition position) {
