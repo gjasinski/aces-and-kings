@@ -9,6 +9,6 @@ import java.util.List;
  */
 public class GameScreenFactory {
     public GameScreenView createGameScreen(final List<CardStackObservable> cardStackObservables) {
-        return new GameScreenView();
+        return new GameScreenView(null);
     }
 }
