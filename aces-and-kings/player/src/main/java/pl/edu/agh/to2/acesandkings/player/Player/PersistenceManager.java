@@ -1,24 +1,29 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
-import pl.edu.agh.to2.acesandkings.player.API.Change;
 import pl.edu.agh.to2.acesandkings.player.DB.GraphDatabaseConnection;
 
-/**
- * Copyright Miron Markowski 2017.
- */
+import java.util.Queue;
+
+
 public class PersistenceManager {
     GraphDatabaseConnection graphDatabaseConnection;
+    private Queue<Change> cachedChanges;
 
-    void saveCachedValuesToDatabase(){
+    public void saveCachedValuesToDatabase(){
+    }
+
+    public boolean hasNoCachedValues(){
+        return true;
     }
 
     Change takePreviousBoardStateFromDatabase(){
-
-        return new Change(0, 0, 0);
+        return null;
+//        return new Change(0, 0, 0);
     }
 
     Change takeNextBoardStateFromDatabase(){
-        return new Change(0, 0, 0);
+        return null;
+//        return new Change(0, 0, 0);
     }
 
     void saveMove(Change change){
