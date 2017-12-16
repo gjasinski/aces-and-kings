@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
-import pl.edu.agh.to2.acesandkings.common.model.*;
+import pl.edu.agh.to2.acesandkings.common.model.Card;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.common.model.State;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +10,7 @@ import java.util.Optional;
 class CardStackRepositoryImpl implements CardStackRepository {
     private List<CardStackImpl> cardStackList;
 
-    CardStackRepositoryImpl(List<CardStackImpl> cardStackList) {
+    void setCardStackList(List<CardStackImpl> cardStackList) {
         this.cardStackList = cardStackList;
     }
 
@@ -37,9 +39,9 @@ class CardStackRepositoryImpl implements CardStackRepository {
     }
 
     @Override
-    public void changeStackState(StackPosition position) {
+    public void changeStackState(StackPosition position, State newState) {
         CardStackImpl searchedCardStack = getStackFromPosition(position);
-        searchedCardStack.changeStackState();
+        searchedCardStack.changeStackState(newState);
     }
 
     @Override
@@ -66,7 +68,7 @@ class CardStackRepositoryImpl implements CardStackRepository {
         return stack.get(stack.size() - 1);
     }
 
-    public List<CardStackImpl> getCardStackList() {
+    List<CardStackImpl> getCardStackList() {
         return cardStackList;
     }
 }

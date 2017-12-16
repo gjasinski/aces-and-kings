@@ -17,26 +17,34 @@ public enum StackPosition {
     TEN(Rank.TEN),
     JACK(Rank.JACK),
     QUEEN(Rank.QUEEN),
-    HEART_KING,
-    HEART_ACE,
-    DIAMONDS_KING,
-    DIAMONDS_ACE,
-    CLUBS_KING,
-    CLUBS_ACE,
-    SPADES_KING,
-    SPADES_ACE,
+    HEART_KING(Rank.KING, Suit.HEARTS),
+    HEART_ACE(Rank.ACE, Suit.HEARTS),
+    DIAMONDS_KING(Rank.KING, Suit.DIAMONDS),
+    DIAMONDS_ACE(Rank.ACE, Suit.DIAMONDS),
+    CLUBS_KING(Rank.KING, Suit.CLUBS),
+    CLUBS_ACE(Rank.ACE, Suit.CLUBS),
+    SPADES_KING(Rank.KING, Suit.SPADES),
+    SPADES_ACE(Rank.ACE, Suit.SPADES),
     EXTRA_STACK;
 
     private Rank rank;
-    private boolean middleStackPosition;
+    private Suit suit;
+    private boolean middleStackPosition = false;
+    private boolean borderPosition = false;
+    private static final int NUMBER_OF_MIDDLE_STACKS = 12;
 
     StackPosition(Rank rank){
         this.rank = rank;
         this.middleStackPosition = true;
     }
 
+    StackPosition(Rank rank, Suit suit){
+        this.rank = rank;
+        this.suit = suit;
+        this.borderPosition = true;
+    }
+
     StackPosition(){
-        this.middleStackPosition = false;
     }
 
     public boolean isPositionKing() {
@@ -53,13 +61,31 @@ public enum StackPosition {
         return this.middleStackPosition;
     }
 
+    public boolean isBorderPosition() {
+        return borderPosition;
+    }
+
+    public Rank getRank() {
+        return this.rank;
+    }
+
+    public Suit getSuit() {
+        return this.suit;
+    }
+
     public static List<StackPosition> getMiddlePositions(){
         return Arrays.stream(StackPosition.values())
                 .filter(StackPosition::isMiddleStackPosition)
                 .collect(Collectors.toList());
     }
 
-    public Rank getRank() {
-        return rank;
+    public static List<StackPosition> getBorderPositions(){
+        return Arrays.stream(StackPosition.values())
+                .filter(StackPosition::isBorderPosition)
+                .collect(Collectors.toList());
+    }
+
+    public static int getNumberOfMiddleStacks() {
+        return NUMBER_OF_MIDDLE_STACKS;
     }
 }

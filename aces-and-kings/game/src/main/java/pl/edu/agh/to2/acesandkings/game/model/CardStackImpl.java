@@ -50,11 +50,8 @@ public class CardStackImpl implements CardStackObservable {
         return card;
     }
 
-    void changeStackState() {
-        if (state == State.ACTIVE)
-            state = State.INACTIVE;
-        else
-            state = State.ACTIVE;
+    void changeStackState(State newState) {
+        this.state = newState;
     }
 
     private boolean isPositionKing() {
@@ -90,7 +87,7 @@ public class CardStackImpl implements CardStackObservable {
         return result;
     }
 
-    boolean isPutCardOnStackAllowed(Card card){
+    boolean isPutCardOnStackAllowed(Card card) {
         boolean result = false;
         Optional<Card> lastCard = getLastCard();
         if (!lastCard.isPresent())
