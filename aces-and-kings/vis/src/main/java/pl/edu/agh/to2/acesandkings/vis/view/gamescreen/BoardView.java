@@ -78,8 +78,8 @@ public class BoardView {
     }
 
     private void drawMiddleCardStack() {
-        List<StackPosition> stackPositions = Arrays.asList(StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
-                StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN, StackPosition.KING);
+        List<StackPosition> stackPositions = Arrays.asList(StackPosition.ACE,StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
+                StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN);
         int y = 10;
         for (int i = 0; i < 4; i++) {
             int x = 130;
@@ -96,7 +96,7 @@ public class BoardView {
         int y = 560;
         int x = 50;
 
-        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND).getStack());
+        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND_STACK).getStack());
         addStack(handCardStackView.draw(x, y), root);
     }
 

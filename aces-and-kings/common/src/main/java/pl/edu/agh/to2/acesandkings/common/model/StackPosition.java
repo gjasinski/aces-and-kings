@@ -22,7 +22,7 @@ public enum StackPosition {
     CLUBS_ACE,
     SPADES_KING,
     SPADES_ACE,
-    HAND,
+    HAND_STACK,
     EXTRA_STACK;
 
     public boolean isPositionKing() {
