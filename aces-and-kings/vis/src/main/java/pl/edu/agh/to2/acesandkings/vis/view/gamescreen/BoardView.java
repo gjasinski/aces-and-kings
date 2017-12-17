@@ -7,12 +7,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.CardStack;
+import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.ExtraCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.HandCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.MiddleCardStackView;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +28,10 @@ public class BoardView {
     Color c = new Color(0.3, 0.4, 0.3, 1);
     Scene scene = new Scene(root, 700, 650, c);
 
-    private Map<StackPosition, CardStack> cardStacks;
+    private Map<StackPosition, CardStackObservable> cardStacks;
     private Stage primaryStage;
 
-    public BoardView(Map<StackPosition, CardStack> cardStacks, Stage primaryStage) {
+    public BoardView(Map<StackPosition, CardStackObservable> cardStacks, Stage primaryStage) {
         this.cardStacks = cardStacks;
         this.primaryStage = primaryStage;
     }
@@ -42,12 +45,10 @@ public class BoardView {
 
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
     private void addStack(List<ImageView> stacks, Group root) {
-        for (ImageView imageView : stacks
-                ) {
+        for (ImageView imageView : stacks) {
             imageView.setPickOnBounds(true);
             imageView.setOnMouseClicked((MouseEvent e) -> {
                 System.out.println("Clicked!");
@@ -57,31 +58,35 @@ public class BoardView {
     }
 
     private void drawBorderCardStack() {
+        List<StackPosition> stackPositionsAce = new LinkedList<>(Arrays.asList(StackPosition.SPADES_ACE, StackPosition.CLUBS_ACE, StackPosition.HEART_ACE, StackPosition.DIAMONDS_ACE));
         int y = 10;
         int x = 10;
-        for (int i = 14; i <= 20; i = i + 2) {
-            StackPosition stackPosition = StackPosition.values()[i];
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPosition).getStack());
+        for (int i = 0; i <4; i ++) {
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsAce.get(i)).getStack());
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
+
         y = 10;
         x = 500;
-        for (int i = 13; i <= 19; i = i + 2) {
-            StackPosition stackPosition = StackPosition.values()[i];
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPosition).getStack());
+
+        List<StackPosition> stackPositionsKing = new LinkedList<>(Arrays.asList(StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING));
+
+        for (int i = 0; i < 4; i ++) {
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getStack());
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
     }
 
     private void drawMiddleCardStack() {
+        List<StackPosition> stackPositions = new LinkedList<>(Arrays.asList(StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
+                StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN, StackPosition.KING));
         int y = 10;
         for (int i = 0; i < 4; i++) {
             int x = 130;
-            for (int j = 1; j <= 3; j++) {
-                StackPosition stackPosition = StackPosition.values()[j + 3 * i];
-                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPosition).getStack());
+            for (int j = 0; j < 3; j++) {
+                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPositions.get(j+3*i)).getStack());
                 addStack(middleCardStackView.draw(x, y), root);
                 x = x + 130;
             }
@@ -90,20 +95,18 @@ public class BoardView {
     }
 
     private void drawHandCardStack() {
-        int y =560;
-        int x =50;
+        int y = 560;
+        int x = 50;
 
-        StackPosition stackPosition = StackPosition.values()[21];
-        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(stackPosition).getStack());
+        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND).getStack());
         addStack(handCardStackView.draw(x, y), root);
     }
 
     private void drawExtraCardStack() {
-        int y =400;
-        int x =600;
+        int y = 400;
+        int x = 600;
 
-        StackPosition stackPosition = StackPosition.values()[22];
-        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(stackPosition).getStack());
+        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack());
         addStack(extraCardStackView.draw(x, y), root);
     }
 }
