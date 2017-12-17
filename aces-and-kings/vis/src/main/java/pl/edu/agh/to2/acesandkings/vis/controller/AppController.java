@@ -37,13 +37,13 @@ public class AppController {
 
         Button startButton = new Button();
         startButton.setText("Start new game");
-        startButton.setPrefSize(150, 50);
+        startButton.setPrefSize(150, 45);
         startButton.setOnAction(e -> {
             menuController.handleStartAction();
         });
         Button continueButton = new Button();
         continueButton.setText("Load saved game");
-        continueButton.setPrefSize(150, 50);
+        continueButton.setPrefSize(150, 45);
         continueButton.setOnAction(e -> {
             menuController.handleContinueAction();
         });
