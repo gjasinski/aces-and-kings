@@ -15,12 +15,10 @@ import java.io.IOException;
 
 public class CardView {
     private Card card;
+    private ImageView img;
 
     public CardView(Card card) {
         this.card = card;
-    }
-
-    public ImageView draw(int x, int y)  {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(resolvePath()).getFile());
         BufferedImage imageb = null;
@@ -32,11 +30,18 @@ public class CardView {
         }
 
         Image image = SwingFXUtils.toFXImage(imageb, null);
-        ImageView img = new ImageView();
+        img = new ImageView();
+
+        img.setFitHeight(60);
+        img.setFitWidth(60);
         img.setImage(image);
+    }
+
+    public ImageView draw(int x, int y)  {
+
         img.setX(x);
         img.setY(y);
-
+        img.setPreserveRatio(true);
         return img;
     }
 

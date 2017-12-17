@@ -13,6 +13,7 @@ public enum StackPosition {
     TEN,
     JACK,
     QUEEN,
+    KING,
     HEART_KING,
     HEART_ACE,
     DIAMONDS_KING,
@@ -21,6 +22,7 @@ public enum StackPosition {
     CLUBS_ACE,
     SPADES_KING,
     SPADES_ACE,
+    HAND,
     EXTRA_STACK;
 
     public boolean isPositionKing() {
