@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import pl.edu.agh.to2.acesandkings.common.model.CardStack;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
@@ -15,7 +14,6 @@ import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.HandCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.MiddleCardStackView;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +56,7 @@ public class BoardView {
     }
 
     private void drawBorderCardStack() {
-        List<StackPosition> stackPositionsAce = new LinkedList<>(Arrays.asList(StackPosition.SPADES_ACE, StackPosition.CLUBS_ACE, StackPosition.HEART_ACE, StackPosition.DIAMONDS_ACE));
+        List<StackPosition> stackPositionsAce = Arrays.asList(StackPosition.SPADES_ACE, StackPosition.CLUBS_ACE, StackPosition.HEART_ACE, StackPosition.DIAMONDS_ACE);
         int y = 10;
         int x = 10;
         for (int i = 0; i <4; i ++) {
@@ -70,7 +68,7 @@ public class BoardView {
         y = 10;
         x = 500;
 
-        List<StackPosition> stackPositionsKing = new LinkedList<>(Arrays.asList(StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING));
+        List<StackPosition> stackPositionsKing = Arrays.asList(StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING);
 
         for (int i = 0; i < 4; i ++) {
             BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getStack());
@@ -80,8 +78,8 @@ public class BoardView {
     }
 
     private void drawMiddleCardStack() {
-        List<StackPosition> stackPositions = new LinkedList<>(Arrays.asList(StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
-                StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN, StackPosition.KING));
+        List<StackPosition> stackPositions = Arrays.asList(StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
+                StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN, StackPosition.KING);
         int y = 10;
         for (int i = 0; i < 4; i++) {
             int x = 130;
