@@ -38,7 +38,8 @@ public class CardStackRepositoryImplTest {
         cardStackList.get(1).setUpNewStack(stack1);
         cardStackList.get(2).setUpNewStack(stack2);
 
-        cardStackRepository = new CardStackRepositoryImpl(cardStackList);
+        cardStackRepository = new CardStackRepositoryImpl();
+        cardStackRepository.setCardStackList(cardStackList);
     }
 
     @Test //[1]
@@ -108,9 +109,9 @@ public class CardStackRepositoryImplTest {
     @Test //[6]
     public void changeStackStateTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getState().equals(State.INACTIVE));
-        cardStackRepository.changeStackState(StackPosition.EIGHT);
+        cardStackRepository.changeStackState(StackPosition.EIGHT, State.ACTIVE);
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getState().equals(State.ACTIVE));
-        cardStackRepository.changeStackState(StackPosition.EIGHT);
+        cardStackRepository.changeStackState(StackPosition.EIGHT, State.INACTIVE);
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getState().equals(State.INACTIVE));
     }
 
@@ -125,12 +126,12 @@ public class CardStackRepositoryImplTest {
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.KING)));
         // remove card from middle stack in State.INACTIVE
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.SPADES, Rank.JACK)));
-        cardStackRepository.changeStackState(StackPosition.EIGHT);
+        cardStackRepository.changeStackState(StackPosition.EIGHT, State.ACTIVE);
         // remove card from middle stack in State.ACTIVE
         Assert.assertTrue(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.EIGHT, new Card(Suit.SPADES, Rank.JACK)));
         // remove card from empty stack
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.ACE, new Card(Suit.CLUBS, Rank.QUEEN)));
-        cardStackRepository.changeStackState(StackPosition.ACE);
+        cardStackRepository.changeStackState(StackPosition.ACE, State.INACTIVE);
         Assert.assertFalse(cardStackRepository.isRemoveCardFromStackAllowed(StackPosition.ACE, new Card(Suit.CLUBS, Rank.QUEEN)));
     }
 

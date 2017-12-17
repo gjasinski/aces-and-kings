@@ -90,7 +90,7 @@ public class CardStackImplTest {
         middleCardStack.removeCardFromStack(card);
         Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
 
-        middleCardStack.changeStackState();
+        middleCardStack.changeStackState(State.ACTIVE);
         middleCardStack.removeCardFromStack(card);
         Assert.assertFalse(middleCardStack.getStack().equals(middleCardList));
         middleCardList.remove(card);
@@ -115,7 +115,7 @@ public class CardStackImplTest {
         kingsCardStack.removeCardFromStack(card);
         Assert.assertTrue(kingsCardStack.getStack().equals(kingsCardList));
 
-        middleCardStack.changeStackState();
+        middleCardStack.changeStackState(State.ACTIVE);
         middleCardStack.removeCardFromStack(card);
         Assert.assertTrue(middleCardStack.getStack().equals(middleCardList));
     }
@@ -171,9 +171,9 @@ public class CardStackImplTest {
     @Test //[9]
     public void changeStackStateTest() {
         Assert.assertTrue(middleCardStack.getState().equals(State.INACTIVE));
-        middleCardStack.changeStackState();
+        middleCardStack.changeStackState(State.ACTIVE);
         Assert.assertTrue(middleCardStack.getState().equals(State.ACTIVE));
-        middleCardStack.changeStackState();
+        middleCardStack.changeStackState(State.INACTIVE);
         Assert.assertTrue(middleCardStack.getState().equals(State.INACTIVE));
     }
 

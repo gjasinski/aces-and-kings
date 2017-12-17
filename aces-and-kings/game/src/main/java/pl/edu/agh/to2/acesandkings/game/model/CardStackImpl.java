@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CardStackImpl implements CardStack, CardStackObservable {
+public class CardStackImpl implements CardStackObservable {
     private State state;
     private ObservableList<Card> stack;
     private StackPosition position;
@@ -50,11 +50,8 @@ public class CardStackImpl implements CardStack, CardStackObservable {
         return card;
     }
 
-    void changeStackState() {
-        if (state == State.ACTIVE)
-            state = State.INACTIVE;
-        else
-            state = State.ACTIVE;
+    void changeStackState(State newState) {
+        this.state = newState;
     }
 
     private boolean isPositionKing() {
@@ -84,13 +81,13 @@ public class CardStackImpl implements CardStack, CardStackObservable {
                 if (lastCard.isPresent() && card.equals(lastCard.get()))
                     result = (position.isPositionAce() && !card.getRank().equals(Rank.ACE)) ||
                             (position.isPositionKing() && !card.getRank().equals(Rank.KING)) ||
-                            position.isPositionMiddle();
+                            position.isMiddleStackPosition();
             }
         }
         return result;
     }
 
-    boolean isPutCardOnStackAllowed(Card card){
+    boolean isPutCardOnStackAllowed(Card card) {
         boolean result = false;
         Optional<Card> lastCard = getLastCard();
         if (!lastCard.isPresent())

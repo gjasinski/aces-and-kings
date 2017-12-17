@@ -2,6 +2,7 @@ package pl.edu.agh.to2.acesandkings.game.model;
 
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.common.model.State;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ public interface CardStackRepository {
 
     Optional<Card> removeCardFromStack(StackPosition position);
 
-    void changeStackState(StackPosition position);
+    void changeStackState(StackPosition position, State newState);
 
     boolean isRemoveCardFromStackAllowed(StackPosition position, Card card);
 
