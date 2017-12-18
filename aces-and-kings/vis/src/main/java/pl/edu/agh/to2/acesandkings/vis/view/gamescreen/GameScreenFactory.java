@@ -14,11 +14,15 @@ import java.util.Map;
  */
 public class GameScreenFactory {
     public GameScreenView createGameScreen(final List<CardStackObservable> cardStackObservables, Stage primaryStage) {
-        Map<StackPosition, CardStackObservable> map = new HashMap<>();
+        final Map<StackPosition, CardStackObservable> map = new HashMap<>();
         for(CardStackObservable cso : cardStackObservables){
             map.put(cso.getPosition(), cso);
         }
-        BoardView boardView = new BoardView(map);
-        return new GameScreenView(primaryStage);
+        final GameScreenView gameScreenView = new GameScreenView(primaryStage);
+        gameScreenView.setBoard(new BoardView(map));
+        gameScreenView.setUndoButton(new UndoButtonView());
+        gameScreenView.setRedoButton(new RedoButtonView());
+        gameScreenView.setMenuButton(new MenuButtonView());
+        return gameScreenView;
     }
 }

@@ -12,9 +12,7 @@ import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenFactory;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenView;
-import pl.edu.agh.to2.acesandkings.vis.view.menu.MenuScreenView;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -75,6 +73,7 @@ public class AppController {
         gameController.setAppController(this);
         GameScreenFactory gameScreenFactory= new GameScreenFactory();
         GameScreenView gameScreenView = gameScreenFactory.createGameScreen(cardStacks, primaryStage);
+        gameScreenView.connectController(gameController);
         gameScreenView.show();
 
     }

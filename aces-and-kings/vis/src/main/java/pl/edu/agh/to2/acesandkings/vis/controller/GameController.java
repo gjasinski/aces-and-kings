@@ -1,9 +1,7 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
-import pl.edu.agh.to2.acesandkings.common.model.CardStack;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.*;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.CardStackView;
 
 /**
  * Created by Julia on 2017-12-04.
@@ -23,6 +21,10 @@ public class GameController {
 
     public void setAppController(AppController appController) {
         this.appController = appController;
+    }
+
+    public AppController getAppController() {
+        return appController;
     }
 
     public void setActiveCardManipulator(ActiveCardsManipulator activeCardManipulator){
