@@ -101,4 +101,7 @@ public class BoardView {
         ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack());
         addStack(extraCardStackView.draw(x, y), root);
     }
+    //implementation is to change during implementation
+   // private final Map<StackPosition, CardStackView> cardStacks = new HashMap<>();
 }
+

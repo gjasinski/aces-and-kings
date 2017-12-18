@@ -25,6 +25,7 @@ public class GameScreenView extends ScreenView {
     private final StackPane undoButtonPlace = new StackPane();
     private final StackPane redoButtonPlace = new StackPane();
     private final StackPane menuButtonPlace = new StackPane();
+    private BoardView board;
 
     private static final String BACKGROUND_STYLE = "-fx-background-color: #4C664C";
 
@@ -92,4 +93,24 @@ public class GameScreenView extends ScreenView {
             launch(args);
         }
     }
+
+    public void show(){
+        this.board.draw();
+    }
+    /*Button undoButton = new Button();
+        undoButton.setText("Undo");
+        undoButton.setOnAction(e -> {
+            gameController.handleUndoAction();
+        });
+        Button redoButton = new Button();
+        redoButton.setText("Start new game");
+        redoButton.setOnAction(e -> {
+            gameController.handleRedoAction();
+        });
+        GridPane gamePane = new GridPane();
+        gamePane.getChildren().addAll(undoButton, redoButton);
+        Scene gameScene = new Scene(gamePane, 600, 400);
+        primaryStage.setScene(gameScene);*/
+   // private final UndoButtonView undoButton = null;
+   // private final RedoButtonView redoButton = null;
 }
