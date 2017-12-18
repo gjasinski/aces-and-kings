@@ -6,7 +6,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.game.model.GameManagerImpl;
 import pl.edu.agh.to2.acesandkings.vis.view.ScreenView;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Paweł Grochola on 03.12.2017.
@@ -49,6 +57,7 @@ public class GameScreenView extends ScreenView {
 
     public void setBoard(final BoardView boardView) {
         borderPane.setCenter(boardView.getNode());
+        boardView.draw();
     }
 
     public void setUndoButton(final UndoButtonView button) {
@@ -71,7 +80,12 @@ public class GameScreenView extends ScreenView {
             final GameScreenView gameScreenView = new GameScreenView(primaryStage);
             gameScreenView.setUndoButton(new UndoButtonView());
             gameScreenView.setRedoButton(new RedoButtonView());
-            gameScreenView.setMenuButton((new MenuButtonView()));
+            gameScreenView.setMenuButton(new MenuButtonView());
+            final GameManagerImpl gameManager = new GameManagerImpl();
+            final Map<StackPosition, CardStackObservable> cardStacks = Collections.unmodifiableMap(gameManager.initializeNewGame().stream()
+                    .map(cardStackObservable -> new Pair<>(cardStackObservable.getPosition(), cardStackObservable))
+                    .collect(Collectors.toMap(Pair::getKey, Pair::getValue)));
+            gameScreenView.setBoard(new BoardView(cardStacks));
             primaryStage.show();
         }
 

@@ -3,7 +3,6 @@ package pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.Rank;
 import pl.edu.agh.to2.acesandkings.common.model.Suit;

@@ -1,11 +1,10 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
@@ -22,27 +21,24 @@ import java.util.Map;
  */
 public class BoardView {
 
-    Group root = new Group();
-    Color c = new Color(0.3, 0.4, 0.3, 1);
-    Scene scene = new Scene(root, 700, 650, c);
+    private final Group root = new Group();
+    private final Color c = new Color(0.3, 0.4, 0.3, 1);
 
     private Map<StackPosition, CardStackObservable> cardStacks;
-    private Stage primaryStage;
 
-    public BoardView(Map<StackPosition, CardStackObservable> cardStacks, Stage primaryStage) {
+    public BoardView(Map<StackPosition, CardStackObservable> cardStacks) {
         this.cardStacks = cardStacks;
-        this.primaryStage = primaryStage;
     }
 
     public void draw() {
-
         drawBorderCardStack();
         drawMiddleCardStack();
         drawHandCardStack();
         drawExtraCardStack();
+    }
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public Node getNode() {
+        return root;
     }
 
     private void addStack(List<ImageView> stacks, Group root) {
