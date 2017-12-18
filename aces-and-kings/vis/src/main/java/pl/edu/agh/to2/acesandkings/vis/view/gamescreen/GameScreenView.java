@@ -26,20 +26,20 @@ public class GameScreenView extends ScreenView {
     private final StackPane redoButtonPlace = new StackPane();
     private final StackPane menuButtonPlace = new StackPane();
 
-    private static final String BACKGROUND_STYLE = "-fx-background-color: #009900";
+    private static final String BACKGROUND_STYLE = "-fx-background-color: #4C664C";
 
     public GameScreenView(final Stage stage) {
         this.stage = stage;
         setUpButtonRow();
         setUpRightColumn();
         stage.setScene(new Scene(borderPane));
+        borderPane.setStyle(BACKGROUND_STYLE);
     }
 
     private void setUpButtonRow() {
         final HBox buttonRow = new HBox();
         buttonRow.setPadding(new Insets(20, 20, 20, 20));
         buttonRow.setSpacing(10);
-        buttonRow.setStyle(BACKGROUND_STYLE);
         buttonRow.setAlignment(Pos.CENTER_RIGHT);
         final Pane spacer = new Pane();
         HBox.setHgrow(spacer, Priority.SOMETIMES);
@@ -50,7 +50,6 @@ public class GameScreenView extends ScreenView {
     private void setUpRightColumn() {
         final VBox rightColumn = new VBox();
         rightColumn.setPadding(new Insets(20, 20, 20, 20));
-        rightColumn.setStyle(BACKGROUND_STYLE);
         rightColumn.getChildren().add(menuButtonPlace);
         borderPane.setRight(rightColumn);
     }

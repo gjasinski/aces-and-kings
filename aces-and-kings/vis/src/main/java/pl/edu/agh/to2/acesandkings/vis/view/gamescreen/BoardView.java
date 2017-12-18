@@ -4,7 +4,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
@@ -22,7 +21,6 @@ import java.util.Map;
 public class BoardView {
 
     private final Group root = new Group();
-    private final Color c = new Color(0.3, 0.4, 0.3, 1);
 
     private Map<StackPosition, CardStackObservable> cardStacks;
 
