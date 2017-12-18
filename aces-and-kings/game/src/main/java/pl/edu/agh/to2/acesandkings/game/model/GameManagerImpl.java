@@ -71,8 +71,10 @@ public class GameManagerImpl implements GameManager {
         List<Card> cards = new ArrayList<>();
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
-                cards.add(new Card(suit, rank));
-                cards.add(new Card(suit, rank));
+                if(rank!=Rank.HAND && rank!=Rank.EXTRA) {//tmp
+                    cards.add(new Card(suit, rank));
+                    cards.add(new Card(suit, rank));
+                }//tmp
             }
         }
         Collections.shuffle(cards);

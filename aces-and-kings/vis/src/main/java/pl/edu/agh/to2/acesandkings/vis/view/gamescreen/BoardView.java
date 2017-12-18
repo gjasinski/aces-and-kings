@@ -1,6 +1,5 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
-<<<<<<< HEAD
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -13,10 +12,6 @@ import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.ExtraCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.HandCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.MiddleCardStackView;
-=======
-//import pl.edu.agh.to2.acesandkings.game.model.StackPosition;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.CardStackView;
->>>>>>> added some logic to controlers
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +21,6 @@ import java.util.Map;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class BoardView {
-<<<<<<< HEAD
 
     Group root = new Group();
     Color c = new Color(0.3, 0.4, 0.3, 1);
@@ -113,9 +107,7 @@ public class BoardView {
         ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack());
         addStack(extraCardStackView.draw(x, y), root);
     }
-}
-=======
     //implementation is to change during implementation
    // private final Map<StackPosition, CardStackView> cardStacks = new HashMap<>();
 }
->>>>>>> added some logic to controlers
+

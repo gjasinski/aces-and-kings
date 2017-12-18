@@ -1,7 +1,17 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
+import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenFactory;
+import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenView;
 import pl.edu.agh.to2.acesandkings.vis.view.menu.MenuScreenView;
 
 import java.io.IOException;
@@ -63,20 +73,9 @@ public class AppController {
     public void showGameViewDialog(List<CardStackObservable> cardStacks){
         GameController gameController = new GameController();
         gameController.setAppController(this);
-        Button undoButton = new Button();
-        undoButton.setText("Undo");
-        undoButton.setOnAction(e -> {
-            gameController.handleUndoAction();
-        });
-        Button redoButton = new Button();
-        redoButton.setText("Start new game");
-        redoButton.setOnAction(e -> {
-            gameController.handleRedoAction();
-        });
-        GridPane gamePane = new GridPane();
-        gamePane.getChildren().addAll(undoButton, redoButton);
-        Scene gameScene = new Scene(gamePane, 600, 400);
-        primaryStage.setScene(gameScene);
+        GameScreenFactory gameScreenFactory= new GameScreenFactory();
+        GameScreenView gameScreenView = gameScreenFactory.createGameScreen(cardStacks, primaryStage);
+        gameScreenView.show();
 
     }
 

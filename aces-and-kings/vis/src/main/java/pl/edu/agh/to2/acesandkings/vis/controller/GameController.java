@@ -61,12 +61,12 @@ public class GameController {
 //        }
 //    }
 
-    public void handleActivateCardsStackAction(StackPosition stackPosition){
-        if(cardsMovePossibilityGuard. isCardStackActive(StackPosition.EXTRA_STACK)
-        && cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
-            cardStackManager.activateCardStack(stackPosition);
-        }
-    }
+//    public void handleActivateCardsStackAction(StackPosition stackPosition){
+//        if(cardsMovePossibilityGuard. isCardStackActive(StackPosition.EXTRA_STACK)
+//        && cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
+//            cardStackManager.activateCardStack(stackPosition);
+//        }
+//    }
 
     //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
     public void handleDisactivateCardStackAction(){
