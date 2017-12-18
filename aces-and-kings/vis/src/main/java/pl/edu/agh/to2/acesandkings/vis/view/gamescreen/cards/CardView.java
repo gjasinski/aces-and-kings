@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class CardView {
     private Card card;
@@ -18,8 +20,14 @@ public class CardView {
 
     public CardView(Card card) {
         this.card = card;
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(resolvePath()).getFile());
+        final ClassLoader classLoader = getClass().getClassLoader();
+        String path = classLoader.getResource(resolvePath()).getFile();
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        File file = new File(path);
         BufferedImage imageb = null;
 
         try {
