@@ -1,18 +1,28 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenFactory;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.GameScreenView;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -32,7 +42,25 @@ public class AppController {
     public void setGameManager(GameManager gameManager){ this.gameManager = gameManager; }
 
     public void showMenuViewDialog(){
-        //imagesource http://clipart-library.com/clipart/ziXe8KzxT.htm
+        final ClassLoader classLoader = getClass().getClassLoader();
+        String path = classLoader.getResource("Others/aceskings.png").getFile();
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        File file = new File(path);
+        BufferedImage imageb = null;
+
+        try {
+            imageb = ImageIO.read(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Image image = SwingFXUtils.toFXImage(imageb, null);
+        ImageView header = new ImageView();
+        header.setImage(image);
         MenuController menuController = new MenuController();
         menuController.setAppController(this);
         GridPane menuLayout = new GridPane();
@@ -61,8 +89,10 @@ public class AppController {
         exitButton.setOnAction(e -> {
             menuController.handleExitAction();
         });
-        vBox.getChildren().addAll(startButton, continueButton, exitButton);
+        vBox.getChildren().addAll(header, startButton, continueButton, exitButton);
+        vBox.setAlignment(Pos.CENTER);
         menuLayout.add(vBox,0,0);
+        menuLayout.setStyle("-fx-background-color: #ffffff;");
         Scene menuScene = new Scene(menuLayout, 600, 400);
         primaryStage.setScene(menuScene);
         primaryStage.show();

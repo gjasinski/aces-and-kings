@@ -55,6 +55,10 @@ public class GameController {
         gameActionManager.redo();
     }
 
+    public void handleMenuAction(){
+        this.appController.showMenuViewDialog();
+    }
+
     //podniesienie karty otwierającej stos
     //odbywa się tylko w widoku(?) logicznie stosy się nie zmieniają
 //    public void handlePickUpKeyCardAction(){
@@ -76,7 +80,9 @@ public class GameController {
     }
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
+        System.out.println("Move action!");
         if(cardsMovePossibilityGuard.isMoveCardFromOneBorderStackToOtherAllowed(sourceSp, destSp)){
+            System.out.println("It's possible!");
             activeCardManipulator.moveCardFromOneBorderStackToOther(sourceSp, destSp);
         }
     }

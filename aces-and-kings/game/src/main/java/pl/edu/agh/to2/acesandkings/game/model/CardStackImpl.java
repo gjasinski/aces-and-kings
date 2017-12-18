@@ -104,9 +104,12 @@ public class CardStackImpl implements CardStackObservable {
     }
 
     @Override
-    public List<Card> getStack() {
-        return new ArrayList<>(this.stack);
+    public ObservableList<Card> getStack(){
+        return this.stack;
     }
+//    public List<Card> getStack() {
+//        return new ArrayList<>(this.stack);
+//    }
 
     @Override
     public ObservableList<Card> getUnmodifiableObservableStack() {

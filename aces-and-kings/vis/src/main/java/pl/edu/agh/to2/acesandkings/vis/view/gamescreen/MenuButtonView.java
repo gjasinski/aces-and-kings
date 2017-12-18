@@ -14,7 +14,7 @@ public class MenuButtonView extends ButtonView implements GameControllable {
 
     @Override
     public void connectController(final GameController controller) {
-        button.setOnMouseClicked(event -> controller.getAppController().showMenuViewDialog());
+        button.setOnMouseClicked(event -> controller.handleMenuAction());
     }
 
     public Node getNode() {

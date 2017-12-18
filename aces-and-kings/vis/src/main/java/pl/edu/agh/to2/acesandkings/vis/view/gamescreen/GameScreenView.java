@@ -30,6 +30,7 @@ public class GameScreenView extends ScreenView implements GameControllable {
         this.stage = stage;
         setUpButtonRow();
         setUpRightColumn();
+        borderPane.setPrefSize(900, 700);
         stage.setScene(new Scene(borderPane));
         borderPane.setStyle(BACKGROUND_STYLE);
     }
@@ -55,6 +56,7 @@ public class GameScreenView extends ScreenView implements GameControllable {
     public void setBoard(final BoardView boardView) {
         borderPane.setCenter(boardView.getNode());
         this.boardView = boardView;
+        controllables.add(boardView);
     }
 
     public void setUndoButton(final UndoButtonView button) {

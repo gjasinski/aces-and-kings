@@ -18,6 +18,10 @@ public class CardView {
     private Card card;
     private ImageView img;
 
+    public ImageView getImageView(){
+        return this.img;
+    }
+
     public CardView(Card card) {
         this.card = card;
         final ClassLoader classLoader = getClass().getClassLoader();
