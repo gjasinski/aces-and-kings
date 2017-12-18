@@ -11,7 +11,4 @@ public class Board {
         stacks = stacks;
     }
 
-
-
-
 }

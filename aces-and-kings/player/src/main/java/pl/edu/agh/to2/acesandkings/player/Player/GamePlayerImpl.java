@@ -1,7 +1,8 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
+import pl.edu.agh.to2.acesandkings.common.model.GamePlayer;
 
-public class GamePlayer {
+public class GamePlayerImpl implements GamePlayer{
     private Board lastBoard;
     private Board currentBoard;
     private Board nextBoard;
