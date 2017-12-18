@@ -1,29 +1,21 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
-import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
-import pl.edu.agh.to2.acesandkings.game.model.GameManagerImpl;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameControllable;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameController;
 import pl.edu.agh.to2.acesandkings.vis.view.ScreenView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Paweł Grochola on 03.12.2017.
  */
-public class GameScreenView extends ScreenView implements GameControllable{
+public class GameScreenView extends ScreenView implements GameControllable {
     private final Stage stage;
     private final BorderPane borderPane = new BorderPane();
     private final StackPane undoButtonPlace = new StackPane();
@@ -91,40 +83,4 @@ public class GameScreenView extends ScreenView implements GameControllable{
     public void connectController(final GameController controller) {
         controllables.forEach(controllable -> controllable.connectController(controller));
     }
-
-    public static class TemporaryMainToRemove extends Application {
-        @Override
-        public void start(final Stage primaryStage) throws Exception {
-            final GameScreenView gameScreenView = new GameScreenView(primaryStage);
-            gameScreenView.setUndoButton(new UndoButtonView());
-            gameScreenView.setRedoButton(new RedoButtonView());
-            gameScreenView.setMenuButton(new MenuButtonView());
-            final GameManagerImpl gameManager = new GameManagerImpl();
-            final Map<StackPosition, CardStackObservable> cardStacks = Collections.unmodifiableMap(gameManager.initializeNewGame().stream()
-                    .map(cardStackObservable -> new Pair<>(cardStackObservable.getPosition(), cardStackObservable))
-                    .collect(Collectors.toMap(Pair::getKey, Pair::getValue)));
-            gameScreenView.setBoard(new BoardView(cardStacks));
-            primaryStage.show();
-        }
-
-        public static void main(String[] args) {
-            launch(args);
-        }
-    }
-    /*Button undoButton = new Button();
-        undoButton.setText("Undo");
-        undoButton.setOnAction(e -> {
-            gameController.handleUndoAction();
-        });
-        Button redoButton = new Button();
-        redoButton.setText("Start new game");
-        redoButton.setOnAction(e -> {
-            gameController.handleRedoAction();
-        });
-        GridPane gamePane = new GridPane();
-        gamePane.getChildren().addAll(undoButton, redoButton);
-        Scene gameScene = new Scene(gamePane, 600, 400);
-        primaryStage.setScene(gameScene);*/
-    // private final UndoButtonView undoButton = null;
-    // private final RedoButtonView redoButton = null;
 }
