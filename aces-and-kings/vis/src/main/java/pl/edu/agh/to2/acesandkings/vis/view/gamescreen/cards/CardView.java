@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardView {
+<<<<<<< HEAD
     private Card card;
     private ImageView img;
 
@@ -50,4 +51,7 @@ public class CardView {
         Suit suit = card.getSuit();
         return "cards/"+rank.toString()+suit.toString() + ".png";
     }
+=======
+
+>>>>>>> added some logic to controlers
 }

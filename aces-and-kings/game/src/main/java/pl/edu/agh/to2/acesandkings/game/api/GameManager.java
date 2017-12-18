@@ -8,5 +8,4 @@ public interface GameManager {
     List<CardStackObservable> initializeNewGame();
 
     List<CardStackObservable> initializeSavedGame();
-
 }
