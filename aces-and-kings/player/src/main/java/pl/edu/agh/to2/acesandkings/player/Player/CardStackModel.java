@@ -12,19 +12,22 @@ import java.util.List;
 public class CardStackModel implements CardStack{
     private List<Card> cards;
     private State state;
-    private int cardStackId;
     private StackPosition stackPosition;
-//    int
 
-    public CardStackModel(ArrayList<Card> cards, boolean state, int cardStackId){
-        cards = cards;
-        state = state;
-        cardStackId = cardStackId;
+    public CardStackModel(List<Card> cards, State state, StackPosition stackPosition){
+        this.cards = cards;
+        this.state = state;
+        this.stackPosition = stackPosition;
+    }
+
+    public CardStackModel(State state, StackPosition stackPosition) {
+        this.state = state;
+        this.stackPosition = stackPosition;
     }
 
     @Override
     public List<Card> getStack() {
-        return null;
+        return cards;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
 
+import pl.edu.agh.to2.acesandkings.player.DB.Serializer;
+
 public class GamePlayer {
     private Board lastBoard;
     private Board currentBoard;
