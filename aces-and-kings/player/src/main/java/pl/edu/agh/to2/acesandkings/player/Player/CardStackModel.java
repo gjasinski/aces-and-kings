@@ -6,6 +6,7 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.common.model.State;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -23,6 +24,7 @@ public class CardStackModel implements CardStack{
     public CardStackModel(State state, StackPosition stackPosition) {
         this.state = state;
         this.stackPosition = stackPosition;
+        this.cards = new LinkedList<>();
     }
 
     @Override

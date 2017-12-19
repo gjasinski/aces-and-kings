@@ -1,16 +1,18 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
+import pl.edu.agh.to2.acesandkings.common.model.Board;
+import pl.edu.agh.to2.acesandkings.common.model.GamePlayer;
 
 import pl.edu.agh.to2.acesandkings.player.DB.Serializer;
 
-public class GamePlayer {
+public class GamePlayerImpl implements GamePlayer{
     private Board lastBoard;
     private Board currentBoard;
     private Board nextBoard;
     private Serializer serializer;
     private PersistenceManager persistenceManager;
 
-    public GamePlayer(Serializer serializer, PersistenceManager persistenceManager){
+    public GamePlayerImpl(Serializer serializer, PersistenceManager persistenceManager){
         this.persistenceManager = persistenceManager;
         this.serializer = serializer;
     }

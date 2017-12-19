@@ -5,7 +5,6 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.player.DB.GraphDatabaseConnection;
-import pl.edu.agh.to2.acesandkings.player.Player.Board;
 import pl.edu.agh.to2.acesandkings.player.Player.CardStackModel;
 import pl.edu.agh.to2.acesandkings.player.DB.Serializer;
 
@@ -54,9 +53,10 @@ public class Queries {
         StatementResult r = s.writeTransaction(tx -> tx.run(
            "MATCH (b:Board) RETURN max(b.id) as maxId", parameters()
         ));
-        int lastId = (Integer) r.single().asMap().get("maxId");
+        Object res = r.single().asMap().get("maxId");
+        int lastId = res == null ? 0 : Integer.parseInt(res.toString()) + 1;
 
-        Board board = new Board(distribution, lastId + 1);
+        Board board = new Board(distribution, lastId);
 
         s.writeTransaction(tx -> tx.run(
                 "CREATE (b: Board {id: $id}) " +
@@ -69,7 +69,7 @@ public class Queries {
                 parameters("board", Serializer.serialize(board), "id", lastId)
         ));
 
-        return lastId + 1;
+        return lastId;
     }
 
     // JUST A TEST

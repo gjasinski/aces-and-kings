@@ -1,6 +1,5 @@
 package pl.edu.agh.to2.acesandkings.player.DB;
 import pl.edu.agh.to2.acesandkings.common.model.*;
-import pl.edu.agh.to2.acesandkings.player.Player.Board;
 import pl.edu.agh.to2.acesandkings.player.Player.CardStackModel;
 import pl.edu.agh.to2.acesandkings.player.Player.Change;
 

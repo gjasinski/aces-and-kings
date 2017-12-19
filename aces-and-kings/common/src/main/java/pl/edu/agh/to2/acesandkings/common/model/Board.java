@@ -1,9 +1,5 @@
-package pl.edu.agh.to2.acesandkings.player.Player;
+package pl.edu.agh.to2.acesandkings.common.model;
 
-import pl.edu.agh.to2.acesandkings.common.model.Card;
-import pl.edu.agh.to2.acesandkings.common.model.CardStack;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
