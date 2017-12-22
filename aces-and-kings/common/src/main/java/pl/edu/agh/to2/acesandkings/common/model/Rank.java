@@ -13,7 +13,5 @@ public enum Rank {
     TEN,
     JACK,
     QUEEN,
-    KING,
-    HAND,
-    EXTRA
+    KING
 }
