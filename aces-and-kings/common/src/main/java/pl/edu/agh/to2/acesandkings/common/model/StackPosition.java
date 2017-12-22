@@ -25,8 +25,8 @@ public enum StackPosition {
     CLUBS_ACE(Rank.ACE, Suit.CLUBS),
     SPADES_KING(Rank.KING, Suit.SPADES),
     SPADES_ACE(Rank.ACE, Suit.SPADES),
-    EXTRA_STACK(Rank.EXTRA),
-    HAND_STACK(Rank.HAND);
+    EXTRA_STACK(),
+    HAND_STACK();
 
 
     private Rank rank;
