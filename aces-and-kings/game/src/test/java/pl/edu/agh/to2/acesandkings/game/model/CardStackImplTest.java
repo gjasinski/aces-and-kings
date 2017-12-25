@@ -207,16 +207,72 @@ public class CardStackImplTest {
 
     @Test //[12]
     public void putCardOnEmptyStackTest() {
-        acesCardStack = new CardStackImpl(StackPosition.FOUR);
+        CardStackImpl cardStack = new CardStackImpl(StackPosition.FOUR);
 
-        acesCardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
-        Assert.assertTrue(acesCardStack.getStack().size() == 1);
+        cardStack.putCardOnStack(new Card(Suit.DIAMONDS, Rank.THREE));
+        Assert.assertTrue(cardStack.getStack().size() == 1);
 
         // adding another card
-        acesCardStack.putCardOnStack(new Card(Suit.HEARTS, Rank.TEN));
-        Assert.assertTrue(acesCardStack.getStack().size() == 1);
+        cardStack.putCardOnStack(new Card(Suit.HEARTS, Rank.TEN));
+        Assert.assertTrue(cardStack.getStack().size() == 1);
     }
 
-    // TODO isRemoveCardFromStackAllowed
-    // TODO isPutCardOnStackAllowed
+    @Test //[13]
+    public void isRemoveCardFromStackAllowedTest() {
+        // Removing card from Aces stack
+        Assert.assertTrue(acesCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.THREE)));
+        Assert.assertFalse(acesCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.TWO)));
+        Assert.assertFalse(acesCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.SEVEN)));
+        acesCardStack.removeCardFromStack();
+        acesCardStack.removeCardFromStack();
+        // Card stack size == 1, can't remove last card from border stack
+        Assert.assertFalse(acesCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.ACE)));
+
+        // Removing card from Kings stack
+        Assert.assertTrue(kingsCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.JACK)));
+        Assert.assertFalse(kingsCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.QUEEN)));
+        Assert.assertFalse(kingsCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.EIGHT)));
+        kingsCardStack.removeCardFromStack();
+        kingsCardStack.removeCardFromStack();
+        // Card stack size == 1, can't remove last card from border stack
+        Assert.assertFalse(acesCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.KING)));
+
+        // Removing card from middle stack
+        // INACTIVE state
+        Assert.assertTrue(middleCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.JACK)));
+        Assert.assertFalse(middleCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.SEVEN)));
+        Assert.assertFalse(middleCardStack.isRemoveCardFromStackAllowed(new Card(Suit.DIAMONDS, Rank.THREE)));
+        // ACTIVE state
+        middleCardStack.changeStackState(State.ACTIVE);
+        Assert.assertTrue(middleCardStack.isRemoveCardFromStackAllowed(new Card(Suit.HEARTS, Rank.JACK)));
+        Assert.assertTrue(middleCardStack.isRemoveCardFromStackAllowed(new Card(Suit.CLUBS, Rank.SEVEN)));
+    }
+
+    @Test //[14]
+    public void isPutCardOnStackAllowedTest() {
+        // put card on ACES stack
+        Assert.assertTrue(acesCardStack.isPutCardOnStackAllowed(new Card(Suit.CLUBS, Rank.FOUR)));
+        Assert.assertFalse(acesCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.FOUR)));
+        Assert.assertFalse(acesCardStack.isPutCardOnStackAllowed(new Card(Suit.CLUBS, Rank.FIVE)));
+        Assert.assertFalse(acesCardStack.isPutCardOnStackAllowed(new Card(Suit.CLUBS, Rank.TWO)));
+
+        // put card on KINGS stack
+        Assert.assertTrue(kingsCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.TEN)));
+        Assert.assertFalse(kingsCardStack.isPutCardOnStackAllowed(new Card(Suit.DIAMONDS, Rank.FOUR)));
+        Assert.assertFalse(kingsCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.FIVE)));
+        Assert.assertFalse(kingsCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.QUEEN)));
+
+        // put card on middle stack
+        Assert.assertFalse(middleCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.TEN)));
+        Assert.assertFalse(middleCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.JACK)));
+        middleCardStack.changeStackState(State.ACTIVE);
+        Assert.assertFalse(middleCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.TEN)));
+        Assert.assertFalse(middleCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.JACK)));
+
+        // check method on empty stack
+        middleCardStack.removeCardFromStack();
+        middleCardStack.removeCardFromStack();
+        middleCardStack.removeCardFromStack();
+        Assert.assertTrue(middleCardStack.isPutCardOnStackAllowed(new Card(Suit.HEARTS, Rank.TEN)));
+    }
 }
