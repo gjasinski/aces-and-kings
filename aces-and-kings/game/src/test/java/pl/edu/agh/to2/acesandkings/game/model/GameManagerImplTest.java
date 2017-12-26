@@ -66,6 +66,28 @@ public class GameManagerImplTest {
         assertEquals(onBorderStacksShouldBe8Cards, numberOfCardsOnMiddleStacks);
     }
 
+    @Test
+    public void afterInitializingNewGameTwiceThenOnAllStacksShouldBe104Cards(){
+        //given
+        int onStacksShouldBe104Cards = 104;
+        GameManagerImpl gameManager = new GameManagerImpl();
+
+        //when
+        gameManager.initializeNewGame();
+        List<CardStackObservable> cardStackObservables = gameManager.initializeNewGame();
+
+        //then
+        int numberOfCardsOnAllStacks = countCardsOnBorderStacks(cardStackObservables) +
+                countCardsOnMiddleStacks(cardStackObservables);
+        assertEquals(onStacksShouldBe104Cards, numberOfCardsOnAllStacks);
+    }
+
+
+    @Test
+    public void afterInitializingSavedGameTwiceThen(){
+        //todo discuss behaviour
+    }
+
     private int countCardsOnMiddleStacks(List<CardStackObservable> cardStackObservables) {
         int cardCounter = 0;
         for (CardStackObservable cardStackObservable : cardStackObservables) {
