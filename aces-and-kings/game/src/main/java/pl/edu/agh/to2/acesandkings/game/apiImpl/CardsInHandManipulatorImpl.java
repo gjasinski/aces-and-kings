@@ -13,9 +13,9 @@ public class CardsInHandManipulatorImpl implements CardsInHandManipulator {
 
     @Override
     public boolean moveCardFromHandToStack(Card card, StackPosition stackPosition) {
-//        TODO functions isRemoveCardFromStackAllowed and isPutCardOnStackAllowed are calls two times - solution: let putCardOnStack return boolean not void
+//        TODO function isPutCardOnStackAllowed are calls two times - solution: let putCardOnStack don't check if it's possible - just put card (maybe the same with remove?)
         activeCardStackPosition = cardStackRepository.findActiveCardStack();
-        if (cardStackRepository.isRemoveCardFromStackAllowed(activeCardStackPosition, card) && cardStackRepository.isPutCardOnStackAllowed(stackPosition, card)) {
+        if (cardStackRepository.isPutCardOnStackAllowed(stackPosition, card)) {
             cardStackRepository.removeCardFromStack(activeCardStackPosition, card);
             cardStackRepository.putCardOnStack(stackPosition, card);
             return true;

@@ -15,6 +15,7 @@ public class CardStackManagerImpl implements CardStackManager {
 
     @Override
     public void deactivateCardStack() {
+//        TODO keep info about ACTIVE state in CardStackRepositoryImpl and rid off method findActiveCardStack
         StackPosition stackPosition = cardStackRepository.findActiveCardStack();
         cardStackRepository.changeStackState(stackPosition, State.INACTIVE);
     }
