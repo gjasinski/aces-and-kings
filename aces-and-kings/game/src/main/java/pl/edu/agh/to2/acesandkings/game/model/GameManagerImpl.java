@@ -11,18 +11,18 @@ import java.util.stream.Collectors;
 
 public class GameManagerImpl implements GameManager {
     private CardDisposer cardDisposer;
-    private CardValidator cardValidator = new CardValidator();
+    private CardValidator cardValidator;
     private CardStackRepositoryImpl cardStackRepository = new CardStackRepositoryImpl();//todo guice
 
     public GameManagerImpl() {
         List<CardStackImpl> cardStacks = initializeCardStacks();
         this.cardStackRepository.setCardStackList(cardStacks);
-        this.cardDisposer = new CardDisposer(cardStacks);
         this.cardValidator = new CardValidator();
     }
 
     @Override
     public List<CardStackObservable> initializeNewGame() {
+        this.cardDisposer = new CardDisposer(this.cardStackRepository.getCardStackList());
         List<Card> cards = shuffleCards(); //todo replace with final method
         if (!cardValidator.validate(cards)) {
             throw new IllegalArgumentException("CardDisposer - size of list of card should be equal 104 or 96, but is: "
