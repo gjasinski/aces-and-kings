@@ -20,18 +20,8 @@ public class CardStackImpl implements CardStackObservable {
     }
 
     void putCardOnStack(Card card) {
-        // empty stack
-        if (!getLastCard().isPresent())
+        if (isPutCardOnStackAllowed(card))
             stack.add(card);
-        else {
-            Card lastCard = getLastCard().get();
-            if (card.getSuit().equals(lastCard.getSuit())) {
-                if (isPositionKing() && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
-                    stack.add(card);
-                else if (isPositionAce() && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
-                    stack.add(card);
-            }
-        }
     }
 
     void setUpNewStack(List<Card> cardsList) {
@@ -44,9 +34,12 @@ public class CardStackImpl implements CardStackObservable {
     }
 
     Optional<Card> removeCardFromStack() {
-        Optional<Card> card = getLastCard();
-        if (card.isPresent() && isRemoveCardFromStackAllowed(card.get()))
-            stack.remove(card.get());
+        Optional<Card> lastCard = getLastCard();
+        Optional<Card> card = Optional.empty();
+        if (lastCard.isPresent() && isRemoveCardFromStackAllowed(lastCard.get())) {
+            stack.remove(lastCard.get());
+            card = lastCard;
+        }
         return card;
     }
 

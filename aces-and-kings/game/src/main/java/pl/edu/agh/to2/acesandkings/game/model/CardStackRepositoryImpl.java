@@ -7,7 +7,7 @@ import pl.edu.agh.to2.acesandkings.common.model.State;
 import java.util.List;
 import java.util.Optional;
 
-class CardStackRepositoryImpl implements CardStackRepository {
+public class CardStackRepositoryImpl implements CardStackRepository {
     private List<CardStackImpl> cardStackList;
 
     void setCardStackList(List<CardStackImpl> cardStackList) {
@@ -70,5 +70,12 @@ class CardStackRepositoryImpl implements CardStackRepository {
 
     List<CardStackImpl> getCardStackList() {
         return cardStackList;
+    }
+
+    public StackPosition findActiveCardStack() {
+        for (CardStackImpl cardStack : cardStackList)
+            if(cardStack.getState().equals(State.ACTIVE))
+                return cardStack.getPosition();
+        return null;
     }
 }
