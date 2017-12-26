@@ -5,5 +5,5 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 public interface CardStackManager {
     void activateCardStack(StackPosition position);
 
-    void disactivateCardStack();
+    void deactivateCardStack(StackPosition position);
 }
