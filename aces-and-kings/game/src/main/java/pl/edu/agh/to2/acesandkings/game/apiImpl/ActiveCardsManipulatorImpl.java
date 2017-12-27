@@ -10,6 +10,10 @@ import java.util.Optional;
 public class ActiveCardsManipulatorImpl implements ActiveCardsManipulator {
     private CardStackRepositoryImpl cardStackRepository;
 
+    ActiveCardsManipulatorImpl(CardStackRepositoryImpl cardStackRepository) {
+        this.cardStackRepository = cardStackRepository;
+    }
+
     @Override
     public void moveActiveCardToStack(StackPosition sourceStackPosition, StackPosition destinationStackPosition) {
         moveCard(sourceStackPosition, destinationStackPosition);
