@@ -8,6 +8,10 @@ import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
 public class CardStackManagerImpl implements CardStackManager {
     private CardStackRepositoryImpl cardStackRepository;
 
+    CardStackManagerImpl(CardStackRepositoryImpl cardStackRepository) {
+        this.cardStackRepository = cardStackRepository;
+    }
+
     @Override
     public void activateCardStack(StackPosition position) {
         cardStackRepository.changeStackState(position, State.ACTIVE);
