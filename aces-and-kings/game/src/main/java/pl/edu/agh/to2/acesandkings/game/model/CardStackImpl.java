@@ -13,7 +13,7 @@ public class CardStackImpl implements CardStackObservable {
     private ObservableList<Card> stack;
     private StackPosition position;
 
-    CardStackImpl(StackPosition position) {
+    public CardStackImpl(StackPosition position) {
         this.state = State.INACTIVE;
         this.stack = FXCollections.observableArrayList();
         this.position = position;
@@ -24,7 +24,7 @@ public class CardStackImpl implements CardStackObservable {
             stack.add(card);
     }
 
-    void setUpNewStack(List<Card> cardsList) {
+    public void setUpNewStack(List<Card> cardsList) {
         stack.clear();
         stack.addAll(cardsList);
     }
