@@ -68,6 +68,15 @@ public class CardStackRepositoryImpl implements CardStackRepository {
         return stack.get(stack.size() - 1);
     }
 
+    public Optional<Card> getLastCardFromStack(StackPosition position){
+        for(CardStackImpl cardStack: cardStackList){
+            if(cardStack.getPosition() == position){
+                return cardStack.getLastCard();
+            }
+        }
+        return Optional.empty();
+    }
+
     List<CardStackImpl> getCardStackList() {
         return cardStackList;
     }
