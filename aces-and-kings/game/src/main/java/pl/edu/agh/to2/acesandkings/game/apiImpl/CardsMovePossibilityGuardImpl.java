@@ -6,10 +6,16 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.CardsMovePossibilityGuard;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
 
+import javax.inject.Inject;
 import java.util.Optional;
 
 public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard {
-    private CardStackRepositoryImpl cardStackRepository;//todo guice
+    private CardStackRepositoryImpl cardStackRepository;
+
+    @Inject
+    public CardsMovePossibilityGuardImpl(CardStackRepositoryImpl cardStackRepository) {
+        this.cardStackRepository = cardStackRepository;
+    }
 
     @Override
     public boolean isMoveCardFromHandToStackAllowed(Card card, StackPosition stackPosition) {
