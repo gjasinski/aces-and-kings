@@ -57,7 +57,7 @@ public class CardStackImpl implements CardStackObservable {
                 position.equals(StackPosition.HEART_ACE) || position.equals(StackPosition.SPADES_ACE);
     }
 
-    private Optional<Card> getLastCard() {
+    Optional<Card> getLastCard() {
         Card card = null;
         if (!stack.isEmpty())
             card = stack.get(stack.size() - 1);

@@ -5,11 +5,17 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.CardsInHandManipulator;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class CardsInHandManipulatorImpl implements CardsInHandManipulator {
     private CardStackRepositoryImpl cardStackRepository;
     private StackPosition activeCardStackPosition;
+
+    @Inject
+    public CardsInHandManipulatorImpl(CardStackRepositoryImpl cardStackRepository) {
+        this.cardStackRepository = cardStackRepository;
+    }
 
     @Override
     public boolean moveCardFromHandToStack(Card card, StackPosition stackPosition) {

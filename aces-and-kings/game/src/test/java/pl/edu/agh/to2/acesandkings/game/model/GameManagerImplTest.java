@@ -1,8 +1,13 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.game.GameModule;
+import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 
 import java.util.Comparator;
 import java.util.List;
@@ -12,11 +17,19 @@ import java.util.stream.Stream;
 import static org.junit.Assert.*;
 
 public class GameManagerImplTest {
+    private GameManager gameManager;
+
+    @Before
+    public void setUp() {
+        Injector injector = Guice.createInjector(new GameModule());
+        gameManager = injector.getInstance(GameManager.class);
+    }
+
+
     @Test
     public void afterInitializingNewGameThenOnMiddleAndExtraStackShouldBe96Cards() {
         //given
         int onMiddleStacksShouldBe96Cards = 96;
-        GameManagerImpl gameManager = new GameManagerImpl();
 
         //when
         List<CardStackObservable> cardStackObservables = gameManager.initializeNewGame();
@@ -29,7 +42,6 @@ public class GameManagerImplTest {
     @Test
     public void afterInitializingNewGameThenDifferenceInSizeOfMiddleStackShouldBeMaxOneCard() {
         //given
-        GameManagerImpl gameManager = new GameManagerImpl();
 
         //when
         List<CardStackObservable> cardStackObservables = gameManager.initializeNewGame();
@@ -56,7 +68,6 @@ public class GameManagerImplTest {
     public void afterInitializingNewGameThenOnBorderStacksShouldBe8Cards() {
         //given
         int onBorderStacksShouldBe8Cards = 8;
-        GameManagerImpl gameManager = new GameManagerImpl();
 
         //when
         List<CardStackObservable> cardStackObservables = gameManager.initializeNewGame();
@@ -70,7 +81,6 @@ public class GameManagerImplTest {
     public void afterInitializingNewGameTwiceThenOnAllStacksShouldBe104Cards(){
         //given
         int onStacksShouldBe104Cards = 104;
-        GameManagerImpl gameManager = new GameManagerImpl();
 
         //when
         gameManager.initializeNewGame();

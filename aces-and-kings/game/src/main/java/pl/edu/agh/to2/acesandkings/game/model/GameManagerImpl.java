@@ -1,5 +1,6 @@
 package pl.edu.agh.to2.acesandkings.game.model;
 
+import com.google.inject.Inject;
 import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
 
@@ -12,10 +13,12 @@ import java.util.stream.Collectors;
 public class GameManagerImpl implements GameManager {
     private CardDisposer cardDisposer;
     private CardValidator cardValidator;
-    private CardStackRepositoryImpl cardStackRepository = new CardStackRepositoryImpl();//todo guice
+    private CardStackRepositoryImpl cardStackRepository;
 
-    public GameManagerImpl() {
+    @Inject
+    public GameManagerImpl(CardStackRepositoryImpl cardStackRepository) {
         List<CardStackImpl> cardStacks = initializeCardStacks();
+        this.cardStackRepository = cardStackRepository;
         this.cardStackRepository.setCardStackList(cardStacks);
         this.cardValidator = new CardValidator();
     }

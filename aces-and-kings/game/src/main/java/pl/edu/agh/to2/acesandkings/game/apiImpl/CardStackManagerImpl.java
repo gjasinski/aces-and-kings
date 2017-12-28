@@ -5,8 +5,15 @@ import pl.edu.agh.to2.acesandkings.common.model.State;
 import pl.edu.agh.to2.acesandkings.game.api.CardStackManager;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
 
+import javax.inject.Inject;
+
 public class CardStackManagerImpl implements CardStackManager {
     private CardStackRepositoryImpl cardStackRepository;
+
+    @Inject
+    public CardStackManagerImpl(CardStackRepositoryImpl cardStackRepository) {
+        this.cardStackRepository = cardStackRepository;
+    }
 
     @Override
     public void activateCardStack(StackPosition position) {
