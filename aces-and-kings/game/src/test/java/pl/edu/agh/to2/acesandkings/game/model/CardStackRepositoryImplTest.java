@@ -59,16 +59,10 @@ public class CardStackRepositoryImplTest {
         // put correct card on ACES stack
         cardStackRepository.putCardOnStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.THREE));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 3);
-        // put incorrect card on ACES stack
-        cardStackRepository.putCardOnStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.FIVE));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 3);
 
         Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 1);
         // put correct card on KINGS stack
         cardStackRepository.putCardOnStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.QUEEN));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 2);
-        // put incorrect card on KINGS stack
-        cardStackRepository.putCardOnStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.TEN));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 2);
 
         Assert.assertTrue(cardStackRepository.getCardStackList().get(3).getStack().size() == 0);
@@ -79,7 +73,7 @@ public class CardStackRepositoryImplTest {
         //  put card on middle stack
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 4);
         cardStackRepository.putCardOnStack(StackPosition.EIGHT, new Card(Suit.SPADES, Rank.FIVE));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 4);
+        Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 5);
     }
 
     @Test //[3]
@@ -104,9 +98,6 @@ public class CardStackRepositoryImplTest {
 //        can't remove incorrect card
         cardStackRepository.removeCardFromStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.TEN));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 1);
-//        can't remove last card from ACES stack
-        cardStackRepository.removeCardFromStack(StackPosition.SPADES_ACE, new Card(Suit.SPADES, Rank.ACE));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 1);
 
         // remove from KINGS stack
         cardStackRepository.putCardOnStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.QUEEN));
@@ -116,17 +107,11 @@ public class CardStackRepositoryImplTest {
 //        can't remove incorrect card
         cardStackRepository.removeCardFromStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.TEN));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 1);
-//        can't remove last card from KINGS stack
-        cardStackRepository.removeCardFromStack(StackPosition.CLUBS_KING, new Card(Suit.CLUBS, Rank.KING));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 1);
 
         // remove from middle stack
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 4);
 //        remove first card - always possible
         cardStackRepository.removeCardFromStack(StackPosition.EIGHT, new Card(Suit.CLUBS, Rank.QUEEN));
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 3);
-//        can't remove not first card from stack which is INACTIVE
-        cardStackRepository.removeCardFromStack(StackPosition.EIGHT, new Card(Suit.HEARTS, Rank.FOUR));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(2).getStack().size() == 3);
 //        removing cards from ACTIVE stack - always possible
         cardStackRepository.changeStackState(StackPosition.EIGHT, State.ACTIVE);

@@ -36,14 +36,14 @@ public class CardStackManagerImplTest {
     @Test
     public void activateCardStackTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
-        cardStackManager.activateCardStack(StackPosition.TWO);
+        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS,Rank.TWO));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.ACTIVE));
     }
 
     @Test
     public void deactivateCardStackTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
-        cardStackManager.activateCardStack(StackPosition.TWO);
+        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS,Rank.TWO));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.ACTIVE));
         cardStackManager.deactivateCardStack();
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
