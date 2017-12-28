@@ -77,7 +77,7 @@ public class CardStackRepositoryImpl implements CardStackRepository {
         return Optional.empty();
     }
 
-    List<CardStackImpl> getCardStackList() {
+    public List<CardStackImpl> getCardStackList() {
         return cardStackList;
     }
 

@@ -25,12 +25,8 @@ public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard 
     @Override
     public boolean isActivateCardStackAllowed(StackPosition stackPosition) {
         Optional<Card> lastCardOnExtraStack = cardStackRepository.getLastCardFromStack(StackPosition.EXTRA_STACK);
-        if(lastCardOnExtraStack.isPresent()){
-            return validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get());
-        }
-        else {
-            return false;
-        }
+        return stackPosition.isMiddleStackPosition() && lastCardOnExtraStack.isPresent() &&
+                validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get());
     }
 
     private boolean validateIfCanIActivateStack(StackPosition stackPosition, Card card) {
@@ -40,16 +36,14 @@ public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard 
     @Override
     public boolean isMoveCardFromOneBorderStackToOtherAllowed(StackPosition sourceStackPosition, StackPosition destinationStackPosition) {
         Optional<Card> cardToMove = cardStackRepository.getLastCardFromStack(sourceStackPosition);
-        if(cardToMove.isPresent()){
-            return cardStackRepository.isPutCardOnStackAllowed(destinationStackPosition, cardToMove.get());
-        }
-        else {
-            return false;
-        }
+        return cardToMove.isPresent() && sourceStackPosition.isBorderPosition() && destinationStackPosition.isBorderPosition()
+                && cardStackRepository.isPutCardOnStackAllowed(destinationStackPosition, cardToMove.get());
     }
 
     @Override
-    public boolean isMoveActiveCardToStackAllowed(StackPosition sourceStackPosition, StackPosition destinationFieldPosition) {
-        return isMoveCardFromOneBorderStackToOtherAllowed(sourceStackPosition, destinationFieldPosition);
+    public boolean isMoveActiveCardToStackAllowed(StackPosition sourceStackPosition, StackPosition destinationStackPosition) {
+        Optional<Card> cardToMove = cardStackRepository.getLastCardFromStack(sourceStackPosition);
+        return cardToMove.isPresent() && sourceStackPosition.isMiddleStackPosition()
+                && cardStackRepository.isPutCardOnStackAllowed(destinationStackPosition, cardToMove.get());
     }
 }
