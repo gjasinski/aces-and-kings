@@ -10,7 +10,7 @@ import java.util.Optional;
 public class CardStackRepositoryImpl implements CardStackRepository {
     private List<CardStackImpl> cardStackList;
 
-    void setCardStackList(List<CardStackImpl> cardStackList) {
+    public void setCardStackList(List<CardStackImpl> cardStackList) {
         this.cardStackList = cardStackList;
     }
 
