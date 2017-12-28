@@ -5,12 +5,14 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.ActiveCardsManipulator;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
 
+import javax.inject.Inject;
 import java.util.Optional;
 
 public class ActiveCardsManipulatorImpl implements ActiveCardsManipulator {
     private CardStackRepositoryImpl cardStackRepository;
 
-    ActiveCardsManipulatorImpl(CardStackRepositoryImpl cardStackRepository) {
+    @Inject
+    public ActiveCardsManipulatorImpl(CardStackRepositoryImpl cardStackRepository) {
         this.cardStackRepository = cardStackRepository;
     }
 
