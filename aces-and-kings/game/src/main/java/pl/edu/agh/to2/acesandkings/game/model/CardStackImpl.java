@@ -20,8 +20,7 @@ public class CardStackImpl implements CardStackObservable {
     }
 
     void putCardOnStack(Card card) {
-        if (isPutCardOnStackAllowed(card))
-            stack.add(card);
+        stack.add(card);
     }
 
     public void setUpNewStack(List<Card> cardsList) {
@@ -30,7 +29,7 @@ public class CardStackImpl implements CardStackObservable {
     }
 
     boolean removeCardFromStack(Card card) {
-        return isRemoveCardFromStackAllowed(card) && stack.remove(card);
+        return stack.remove(card);
     }
 
     Optional<Card> removeCardFromStack() {
