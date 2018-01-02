@@ -1,13 +1,13 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.vis.controller.GameControllable;
+import pl.edu.agh.to2.acesandkings.vis.controller.GameController;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.ExtraCardStackView;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.HandCardStackView;
@@ -20,29 +20,29 @@ import java.util.Map;
 /**
  * Created by Paweł Grochola on 03.12.2017.
  */
-public class BoardView {
+public class BoardView implements GameControllable {
 
-    Group root = new Group();
-    Color c = new Color(0.3, 0.4, 0.3, 1);
-    Scene scene = new Scene(root, 700, 650, c);
+    private final Group root = new Group();
+    private GameController gameController;
 
     private Map<StackPosition, CardStackObservable> cardStacks;
-    private Stage primaryStage;
 
-    public BoardView(Map<StackPosition, CardStackObservable> cardStacks, Stage primaryStage) {
+    private StackPosition sourceStack = null;
+    private StackPosition destStack = null;
+
+    public BoardView(Map<StackPosition, CardStackObservable> cardStacks) {
         this.cardStacks = cardStacks;
-        this.primaryStage = primaryStage;
     }
 
     public void draw() {
-
         drawBorderCardStack();
         drawMiddleCardStack();
         drawHandCardStack();
         drawExtraCardStack();
+    }
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public Node getNode() {
+        return root;
     }
 
     private void addStack(List<ImageView> stacks, Group root) {
@@ -60,7 +60,7 @@ public class BoardView {
         int y = 10;
         int x = 10;
         for (int i = 0; i <4; i ++) {
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsAce.get(i)).getStack());
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsAce.get(i)).getStack(), stackPositionsAce.get(i), this);
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
@@ -71,7 +71,7 @@ public class BoardView {
         List<StackPosition> stackPositionsKing = Arrays.asList(StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING);
 
         for (int i = 0; i < 4; i ++) {
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getStack());
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getStack(), stackPositionsKing.get(i), this);
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
@@ -84,7 +84,7 @@ public class BoardView {
         for (int i = 0; i < 4; i++) {
             int x = 130;
             for (int j = 0; j < 3; j++) {
-                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPositions.get(j+3*i)).getStack());
+                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPositions.get(j+3*i)).getStack(), stackPositions.get(j+3*i), this);
                 addStack(middleCardStackView.draw(x, y), root);
                 x = x + 130;
             }
@@ -96,7 +96,7 @@ public class BoardView {
         int y = 560;
         int x = 50;
 
-        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND_STACK).getStack());
+        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND_STACK).getStack(), StackPosition.HAND_STACK, this);
         addStack(handCardStackView.draw(x, y), root);
     }
 
@@ -104,7 +104,30 @@ public class BoardView {
         int y = 400;
         int x = 600;
 
-        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack());
+        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack(), StackPosition.EXTRA_STACK, this);
         addStack(extraCardStackView.draw(x, y), root);
     }
+
+    @Override
+    public void connectController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    public void setSourceStack(StackPosition stackPosition){
+        System.out.println("Set source stack: "+stackPosition.toString());
+        this.sourceStack = stackPosition;
+    }
+
+    public void setDestStack(StackPosition stackPosition){
+        if(this.sourceStack!=null) {
+            System.out.println("Set dest stack: "+stackPosition.toString());
+            this.destStack = stackPosition;
+            this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
+        }
+        this.sourceStack=null;
+        this.destStack=null;
+    }
+    //implementation is to change during implementation
+   // private final Map<StackPosition, CardStackView> cardStacks = new HashMap<>();
 }
+
