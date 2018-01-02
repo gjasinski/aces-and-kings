@@ -1,24 +1,29 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
 import pl.edu.agh.to2.acesandkings.common.model.Card;
+import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 
 
 public class Change {
-    private CardStackModel previousStack;
-    private CardStackModel nextStack;
+    private StackPosition previousStackPosition;
+    private StackPosition nextStackPosition;
     private Card card;
 
-    public Change(CardStackModel previousStack, CardStackModel nextStack, Card card){
-        this.previousStack = previousStack;
-        this.nextStack= nextStack;
+    public Change(StackPosition previousStackPosition, StackPosition nextStackPosition, Card card) {
+        this.previousStackPosition = previousStackPosition;
+        this.nextStackPosition = nextStackPosition;
         this.card = card;
     }
 
-    public CardStackModel getPreviousStack(){
-        return previousStack;
+    public StackPosition getPreviousStackPosition() {
+        return previousStackPosition;
     }
 
-    public CardStackModel getNextStack(){
-        return nextStack;
+    public StackPosition getNextStackPosition() {
+        return nextStackPosition;
+    }
+
+    public Card getCard() {
+        return card;
     }
 }

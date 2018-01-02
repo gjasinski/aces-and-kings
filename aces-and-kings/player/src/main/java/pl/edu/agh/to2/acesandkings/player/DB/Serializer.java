@@ -42,6 +42,15 @@ public class Serializer {
         return m;
     }
 
+    public static Map<String, Object> serialize(Change c){
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("previous", c.getPreviousStackPosition().toString());
+        m.put("next", c.getNextStackPosition().toString());
+        m.put("suit", c.getCard().getSuit().toString());
+        m.put("rank", c.getCard().getRank().toString());
+        return m;
+    }
+
     public static Card deserializeCard(Map<String, Object> o){
         return new Card(
                 Suit.valueOf((String) o.get("suit")),

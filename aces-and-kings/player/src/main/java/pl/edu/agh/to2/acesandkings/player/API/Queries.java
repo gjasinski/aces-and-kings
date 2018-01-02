@@ -6,6 +6,7 @@ import org.neo4j.driver.v1.StatementResult;
 import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.player.DB.GraphDatabaseConnection;
 import pl.edu.agh.to2.acesandkings.player.Player.CardStackModel;
+import pl.edu.agh.to2.acesandkings.player.Player.Change;
 import pl.edu.agh.to2.acesandkings.player.DB.Serializer;
 
 import java.util.*;
@@ -70,6 +71,18 @@ public class Queries {
         ));
 
         return lastId;
+    }
+
+    public static void createChange(int id, Change change){
+        Session s = GraphDatabaseConnection.getSession();
+        s.writeTransaction(tx -> tx.run(
+                "MATCH (b:Board{id: $id}) WITH b " +
+                " optional MATCH (b)-[:PRECEDES*]->(c) WHERE NOT (c)-[]->() " +
+                " FOREACH(x in case when c is null then [b] else [c] end | " +
+                " CREATE (x)-[:PRECEDES]->(d:Change " +
+                " {previous: $change.previous, next: $change.next, rank: $change.rank, suit: $change.suit}))",
+                parameters("id", id, "change", Serializer.serialize(change))
+        ));
     }
 
     // JUST A TEST
