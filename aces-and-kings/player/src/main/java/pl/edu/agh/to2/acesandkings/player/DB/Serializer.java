@@ -44,6 +44,7 @@ public class Serializer {
 
     public static Map<String, Object> serialize(Change c){
         HashMap<String, Object> m = new HashMap<>();
+        m.put("step", Integer.toString(c.getStep()));
         m.put("previous", c.getPreviousStackPosition().toString());
         m.put("next", c.getNextStackPosition().toString());
         m.put("suit", c.getCard().getSuit().toString());
@@ -112,5 +113,36 @@ public class Serializer {
         ).collect(Collectors.toList());
 
         return new Board(stacks, id);
+    }
+
+    public static List<Change> deserializeChanges(List<Map<String, Object>> changeQueryResult){
+        return changeQueryResult.stream()
+            .map(m -> 
+                new Change(
+                    StackPosition.valueOf((String) m.get("previous")), 
+                    StackPosition.valueOf((String) m.get("next")), 
+                    new Card(
+                        Suit.valueOf((String) m.get("suit")), 
+                        Rank.valueOf((String) m.get("rank"))
+                    ), 
+                    Integer.parseInt((String)m.get("step"))
+                )
+            ).collect(Collectors.toList());
+    }
+
+    public static Board deserializeChangedBoard(Board board, List<Map<String, Object>> changeQueryResult, int id){
+        List<Change> changes = deserializeChanges(changeQueryResult);
+        changes.sort((c1, c2) -> {
+            if(c1.getStep() == c2.getStep()) {
+                return 0;
+            }
+            return c1.getStep() < c2.getStep() ? -1 : 1;
+        });
+
+        for(Change c: changes){
+            board = c.applyTo(board);
+        }
+
+        return board;
     }
 }

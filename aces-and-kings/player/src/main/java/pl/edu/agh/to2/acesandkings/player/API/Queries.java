@@ -44,11 +44,11 @@ public class Queries {
         return res;
     }
 
-    public static int initializeGame(){
+    public static Board initializeGame(){
         return initializeGame(randomDistribution());
     }
 
-    public static int initializeGame(List<CardStack> distribution){
+    public static Board initializeGame(List<CardStack> distribution){
         Session s = GraphDatabaseConnection.getSession();
 
         StatementResult r = s.writeTransaction(tx -> tx.run(
@@ -70,17 +70,28 @@ public class Queries {
                 parameters("board", Serializer.serialize(board), "id", lastId)
         ));
 
-        return lastId;
+        return board;
+    }
+
+    public static void deleteNextChanges(int id, Change change){
+        Session s = GraphDatabaseConnection.getSession();
+        s.writeTransaction(tx -> tx.run(
+           "MATCH (b:Board{id:$id})-[:PRECEDES*]->(c:Change) WHERE c.step >= $step DETACH DELETE c",
+           parameters("id", id, "step", change.getStep()) 
+        ));
     }
 
     public static void createChange(int id, Change change){
         Session s = GraphDatabaseConnection.getSession();
+
+        deleteNextChanges(id, change);
+
         s.writeTransaction(tx -> tx.run(
                 "MATCH (b:Board{id: $id}) WITH b " +
                 " optional MATCH (b)-[:PRECEDES*]->(c) WHERE NOT (c)-[]->() " +
                 " FOREACH(x in case when c is null then [b] else [c] end | " +
                 " CREATE (x)-[:PRECEDES]->(d:Change " +
-                " {previous: $change.previous, next: $change.next, rank: $change.rank, suit: $change.suit}))",
+                " {previous: $change.previous, next: $change.next, rank: $change.rank, suit: $change.suit, step: $change.step}))",
                 parameters("id", id, "change", Serializer.serialize(change))
         ));
     }
@@ -111,20 +122,30 @@ public class Queries {
         );
     }
 
-    public static Board getBoard(int id){
+    public static Board getBoard(int id, int step){
         Session s = GraphDatabaseConnection.getSession();
-        return s.writeTransaction(
+        final Board initial = s.writeTransaction(
                 tx -> {
                     StatementResult r = tx.run(
-        "MATCH (b: Board {id: $id})-[:HAS]->(stack: Stack) " +
+                        " MATCH (b: Board {id: $id})-[:HAS]->(stack: Stack) " +
                         " WITH (stack) " +
                         " MATCH (stack) -[:CONTAINS]->(card:Card) " +
-                " RETURN stack{.*}, card{.*}",
-                            parameters("id", id)
+                        " RETURN stack{.*}, card{.*}",
+                        parameters("id", id)
                     );
 
                     return Serializer.deserializeBoard(r.list(Record::asMap), id);
                 }
         );
+
+        return s.writeTransaction(tx -> {
+            StatementResult r = tx.run(
+                "OPTIONAL MATCH (b:Board {id: $id})-[:PRECEDES*]->(c:Change) RETURN c{.*}",
+                parameters("id", id)
+            );
+            return Serializer.deserializeChangedBoard(initial, r.list(Record::asMap), id);
+        });
+
+
     }
 }
