@@ -1,6 +1,7 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
 
+import com.google.inject.Injector;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
@@ -32,8 +32,12 @@ public class AppController {
 
     private Stage primaryStage;
     private GameManager gameManager;
+    private Injector injector;
 
-    public AppController(Stage primaryStage){ this.primaryStage = primaryStage; }
+    public AppController(Stage primaryStage, Injector injector){
+        this.primaryStage = primaryStage;
+        this.injector = injector;
+    }
 
     public Stage getPrimaryStage(){
         return this.primaryStage;
@@ -99,7 +103,7 @@ public class AppController {
     }
 
     public void showGameViewDialog(List<CardStackObservable> cardStacks){
-        GameController gameController = new GameController();
+        GameController gameController = injector.getInstance(GameController.class);
         gameController.setAppController(this);
         GameScreenFactory gameScreenFactory= new GameScreenFactory();
         GameScreenView gameScreenView = gameScreenFactory.createGameScreen(cardStacks, primaryStage);

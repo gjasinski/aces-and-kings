@@ -44,7 +44,9 @@ public class CardStackView{
             CardView cardView = new CardView(card);
             cardView.getImageView().setOnMouseMoved(e -> System.out.println(this.stackPosition.toString()));
             cardView.getImageView().setOnMousePressed(e->this.board.setSourceStack(this.stackPosition));
-            cardView.getImageView().setOnMouseReleased(e -> this.board.setDestStack(this.stackPosition));
+            cardView.getImageView().setOnDragDetected(e-> {cardView.getImageView().startFullDrag(); cardView.getImageView().setOnMouseReleased(e2 ->{});} );
+            cardView.getImageView().setOnMouseDragReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
+            cardView.getImageView().setOnMouseReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
             cardViewList.add(cardView.draw(x, i));
             i += space;
             this.top_card_y = i;

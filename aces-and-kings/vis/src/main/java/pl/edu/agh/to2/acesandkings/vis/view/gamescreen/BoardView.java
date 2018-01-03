@@ -60,7 +60,7 @@ public class BoardView implements GameControllable {
         int y = 10;
         int x = 10;
         for (int i = 0; i <4; i ++) {
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsAce.get(i)).getStack(), stackPositionsAce.get(i), this);
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsAce.get(i)).getUnmodifiableObservableStack(), stackPositionsAce.get(i), this);
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
@@ -71,7 +71,7 @@ public class BoardView implements GameControllable {
         List<StackPosition> stackPositionsKing = Arrays.asList(StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING);
 
         for (int i = 0; i < 4; i ++) {
-            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getStack(), stackPositionsKing.get(i), this);
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPositionsKing.get(i)).getUnmodifiableObservableStack(), stackPositionsKing.get(i), this);
             addStack(borderCardStackView.draw(x, y), root);
             y += 145;
         }
@@ -84,7 +84,7 @@ public class BoardView implements GameControllable {
         for (int i = 0; i < 4; i++) {
             int x = 130;
             for (int j = 0; j < 3; j++) {
-                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPositions.get(j+3*i)).getStack(), stackPositions.get(j+3*i), this);
+                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPositions.get(j+3*i)).getUnmodifiableObservableStack(), stackPositions.get(j+3*i), this);
                 addStack(middleCardStackView.draw(x, y), root);
                 x = x + 130;
             }
@@ -96,7 +96,7 @@ public class BoardView implements GameControllable {
         int y = 560;
         int x = 50;
 
-        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND_STACK).getStack(), StackPosition.HAND_STACK, this);
+        HandCardStackView handCardStackView = new HandCardStackView(cardStacks.get(StackPosition.HAND_STACK).getUnmodifiableObservableStack(), StackPosition.HAND_STACK, this);
         addStack(handCardStackView.draw(x, y), root);
     }
 
@@ -104,7 +104,7 @@ public class BoardView implements GameControllable {
         int y = 400;
         int x = 600;
 
-        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getStack(), StackPosition.EXTRA_STACK, this);
+        ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardStacks.get(StackPosition.EXTRA_STACK).getUnmodifiableObservableStack(), StackPosition.EXTRA_STACK, this);
         addStack(extraCardStackView.draw(x, y), root);
     }
 
@@ -119,7 +119,12 @@ public class BoardView implements GameControllable {
     }
 
     public void setDestStack(StackPosition stackPosition){
-        if(this.sourceStack!=null) {
+        if(this.sourceStack!=null && this.sourceStack == stackPosition) {
+            System.out.println("Set dest stack: "+stackPosition.toString());
+            this.destStack = stackPosition;
+            //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
+            this.gameController.handleActivateCardsStackAction(this.sourceStack);
+        }else if(this.sourceStack!=null){
             System.out.println("Set dest stack: "+stackPosition.toString());
             this.destStack = stackPosition;
             this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);

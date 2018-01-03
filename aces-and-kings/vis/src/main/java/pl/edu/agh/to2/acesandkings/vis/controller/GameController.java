@@ -1,7 +1,10 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
+import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.*;
+
+import javax.inject.Inject;
 
 /**
  * Created by Julia on 2017-12-04.
@@ -27,22 +30,28 @@ public class GameController {
         return appController;
     }
 
+    @Inject
     public void setActiveCardManipulator(ActiveCardsManipulator activeCardManipulator){
+        System.out.println("Ala ma kota");
         this.activeCardManipulator = activeCardManipulator;
     }
 
+    @Inject
     public void setCardsMovePossibilityGuard(CardsMovePossibilityGuard cardsMovePossibilityGuard){
         this.cardsMovePossibilityGuard = cardsMovePossibilityGuard;
     }
 
+    @Inject
     public void setCardsInHandManipulator(CardsInHandManipulator cardsInHandManipulator){
         this.cardsInHandManipulator = cardsInHandManipulator;
     }
 
+    @Inject
     public void setCardStackManager(CardStackManager cardStackManager){
         this.cardStackManager = cardStackManager;
     }
 
+    @Inject
     public void setGameActionManager(GameActionManager gameActionManager){
         this.gameActionManager = gameActionManager;
     }
@@ -67,16 +76,17 @@ public class GameController {
 //        }
 //    }
 
-//    public void handleActivateCardsStackAction(StackPosition stackPosition){
-//        if(cardsMovePossibilityGuard. isCardStackActive(StackPosition.EXTRA_STACK)
-//        && cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
-//            cardStackManager.activateCardStack(stackPosition);
-//        }
-//    }
+    public void handleActivateCardsStackAction(StackPosition stackPosition){
+        System.out.println("Attempt to activate card stack");
+        if(cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition) && cardStackManager.getCardFromExtraStack().isPresent()){
+            this.cardStackManager.activateCardStack(stackPosition,cardStackManager.getCardFromExtraStack().get());
+            System.out.println("Card stack activated");
+        }
+    }
 
     //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
     public void handleDisactivateCardStackAction(){
-        cardStackManager.disactivateCardStack();
+        cardStackManager.deactivateCardStack();
     }
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
@@ -84,6 +94,9 @@ public class GameController {
         if(cardsMovePossibilityGuard.isMoveCardFromOneBorderStackToOtherAllowed(sourceSp, destSp)){
             System.out.println("It's possible!");
             activeCardManipulator.moveCardFromOneBorderStackToOther(sourceSp, destSp);
+        }
+        else{
+            System.out.println("You can't!");
         }
     }
 
