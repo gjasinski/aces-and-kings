@@ -28,4 +28,8 @@ public class Board {
         }
         return s.toString();
     }
+
+    public int getId(){
+        return id;
+    }
 }

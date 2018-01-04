@@ -11,11 +11,6 @@ public class Serializer {
         return null;
     }
 
-    public Board deserialize(Change change){
-//        get last Board state from database
-//        create actual Board state
-        return null;
-    }
 
     public static Map<String, Object> serialize(Card c){
         HashMap<String, Object> m = new HashMap<>();

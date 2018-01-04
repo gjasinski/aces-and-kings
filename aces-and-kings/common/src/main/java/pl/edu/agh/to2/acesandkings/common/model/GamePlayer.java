@@ -3,10 +3,12 @@ package pl.edu.agh.to2.acesandkings.common.model;
 
 public interface GamePlayer {
 
-    public Board undo();
+    Board startGame();
 
-    public Board redo();
+    Board undo();
 
-    public void makeMove(Board board);
+    Board redo();
+
+    void makeMove(Board board);
 
 }

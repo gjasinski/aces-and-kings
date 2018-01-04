@@ -3,41 +3,43 @@ package pl.edu.agh.to2.acesandkings.player.Player;
 import pl.edu.agh.to2.acesandkings.common.model.Board;
 import pl.edu.agh.to2.acesandkings.common.model.GamePlayer;
 
+import pl.edu.agh.to2.acesandkings.player.API.Queries;
 import pl.edu.agh.to2.acesandkings.player.DB.Serializer;
 
 public class GamePlayerImpl implements GamePlayer{
-    private Board lastBoard;
     private Board currentBoard;
-    private Board nextBoard;
     private Serializer serializer;
-    private PersistenceManager persistenceManager;
+    private int step;
 
-    public GamePlayerImpl(Serializer serializer, PersistenceManager persistenceManager){
-        this.persistenceManager = persistenceManager;
-        this.serializer = serializer;
+    public GamePlayerImpl(){
+        this.serializer = new Serializer();
+        step = 0;
+    }
+
+    public Board startGame() {
+        currentBoard = Queries.initializeGame();
+        return currentBoard;
     }
 
     public Board undo(){
-        nextBoard = currentBoard;
-        currentBoard = lastBoard;
+        step--;
+        currentBoard = Queries.getBoard(currentBoard.getId(), step);
         return currentBoard;
-        // lastBoard = ...
     }
 
     public Board redo(){
-        lastBoard = currentBoard;
-        currentBoard = nextBoard;
-        // nextBoard = ...
+        step++;
+        currentBoard = Queries.getBoard(currentBoard.getId(), step);
         return currentBoard;
     }
 
-    public void makeMove(Board board){
-        lastBoard = currentBoard;
-        currentBoard = board;
-        // add to database ...
+    
+    public void makeMove(Board nextBoard){
+        Change changeToMake = serializer.serialize(nextBoard, currentBoard);
+        Queries.createChange(currentBoard.getId(), changeToMake);
+        step++;
+        currentBoard = Queries.getBoard(currentBoard.getId(), step);
     }
 
-    public Board getBoard(){
-        return currentBoard;
-    }
+
 }
