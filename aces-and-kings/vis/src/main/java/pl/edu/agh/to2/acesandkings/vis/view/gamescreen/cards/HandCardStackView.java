@@ -20,12 +20,14 @@ public class HandCardStackView extends CardStackView {
 
     private final int space = 80;
 
+    @Override
     public List<ImageView> draw(int x, int y) {
         List<ImageView> cardViewList = new LinkedList<>();
         int i = x;
 
         for (Card card : cardList) {
             CardView cardView = new CardView(card);
+            addEventHandlersToCV(cardView);
             cardViewList.add(cardView.draw(i, y));
             i += space;
         }

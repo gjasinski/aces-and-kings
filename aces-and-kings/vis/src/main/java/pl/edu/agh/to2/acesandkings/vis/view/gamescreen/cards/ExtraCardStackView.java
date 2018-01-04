@@ -12,8 +12,8 @@ public class ExtraCardStackView extends CardStackView {
     public ExtraCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board) {
         super(cardList, stackPosition, board);
     }
-    @Override
-    public List<ImageView> draw(int x, int y) {
-        return super.draw(x, y);
-    }
+//    @Override
+//    public List<ImageView> draw(int x, int y) {
+//        return super.draw(x, y);
+//    }
 }

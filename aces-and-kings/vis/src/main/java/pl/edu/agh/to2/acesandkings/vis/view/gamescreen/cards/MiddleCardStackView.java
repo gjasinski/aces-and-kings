@@ -16,8 +16,8 @@ public class MiddleCardStackView extends CardStackView {
         super(cardList, stackPosition, board);
     }
 
-    @Override
-    public List<ImageView> draw(int x, int y) {
-        return super.draw(x, y);
-    }
+//    @Override
+//    public List<ImageView> draw(int x, int y) {
+//        return super.draw(x, y);
+//    }
 }

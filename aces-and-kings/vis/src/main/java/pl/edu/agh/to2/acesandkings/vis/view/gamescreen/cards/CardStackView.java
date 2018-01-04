@@ -24,14 +24,14 @@ import java.util.List;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class CardStackView{
-    private final int space = 10;
-    private int x;
-    private int y;
-    private int top_card_y;
+    protected final int space = 10;
+    protected int x;
+    protected int y;
+    protected int top_card_y;
 
-    StackPosition stackPosition;
-    ObservableList<Card> cardList;
-    BoardView board;
+    public StackPosition stackPosition;
+    public ObservableList<Card> cardList;
+    public BoardView board;
     protected List<CardView> cardViews;
 
 
@@ -40,14 +40,22 @@ public class CardStackView{
         this.stackPosition = stackPosition;
         this.board = board;
         this.cardViews = new ArrayList<>();
-        cardList.addListener((ListChangeListener<? super Card>) e -> {
-            System.out.println("Change event!");
-            this.clear();
-            //this.draw(this.x, this.y);
+        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
+            while(e.next()) {
+                if (e.wasRemoved()) {
+                    System.out.println(e.getAddedSize());
+                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
+                   // this.clear();
+                    this.draw(this.x, this.y);
+                }
+                else if(e.wasAdded()) {
+                    System.out.println(e.getRemovedSize());
+                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
+                    //this.clear();
+                    this.draw(this.x, this.y);
+                }
+            }
         });
-
-//        cardList.addListener((ListChangeListener<? super Card>) e->this.draw(x, y));
-
     }
 
     public List<ImageView> draw(int x, int y) {
@@ -56,57 +64,33 @@ public class CardStackView{
         List<ImageView> cardViewList = new LinkedList<>();
         int i = y;
         this.top_card_y = i;
+        this.cardViews = new ArrayList<>();
 
         for (Card card : cardList) {
             CardView cardView = new CardView(card);
-            cardView.getImageView().setOnMouseMoved(e -> System.out.println(this.stackPosition.toString()));
-            cardView.getImageView().setOnMousePressed(e->this.board.setSourceStack(this.stackPosition));
-            cardView.getImageView().setOnDragDetected(e-> {cardView.getImageView().startFullDrag(); cardView.getImageView().setOnMouseReleased(e2 ->{});} );
-            cardView.getImageView().setOnMouseDragReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
-            cardView.getImageView().setOnMouseReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
             cardViewList.add(cardView.draw(x, i));
+            addEventHandlersToCV(cardView);
             cardViews.add(cardView);
             i += space;
             this.top_card_y = i;
         }
 
-//        this.imageViews = cardViewList;
         return cardViewList;
     }
 
-    private void clear(){
-//        final ClassLoader classLoader = getClass().getClassLoader();
-//        String path = classLoader.getResource("cards/boarderaser.png").getFile();
-//        try {
-//            path = URLDecoder.decode(path, "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        File file = new File(path);
-//        BufferedImage imageb = null;
-//
-//        try {
-//            imageb = ImageIO.read(file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Image image = SwingFXUtils.toFXImage(imageb, null);
-//        for(int y = this.y; y<=this.top_card_y; y+=this.space){
-//            ImageView imageView = new ImageView();
-//            imageView.setFitHeight(60);
-//            imageView.setFitWidth(60);
-//            imageView.setImage(image);
-//            imageView.setX(this.x);
-//            imageView.setY(y);
-//            imageView.setPreserveRatio(true);
-//            System.out.println("ocb");
-//        }
+    protected void addEventHandlersToCV(CardView cardView){
+        cardView.getImageView().setOnMousePressed(e->this.board.setSourceStack(this.stackPosition));
+        cardView.getImageView().setOnDragDetected(e-> {cardView.getImageView().startFullDrag(); cardView.getImageView().setOnMouseReleased(e2 ->{});} );
+        cardView.getImageView().setOnMouseDragReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
+        cardView.getImageView().setOnMouseReleased(e ->{System.out.println(this.stackPosition); this.board.setDestStack(this.stackPosition);});
+
+    }
+
+    protected void clear(){
         for(CardView cardView: cardViews){
-//            cardView.getImageView().setX(570);
-//            cardView.getImageView().setY(100);
             cardView.getImageView().setVisible(false);
         }
+        this.cardViews.clear();
     }
 
     public ObservableList<Card> getCardList() {
