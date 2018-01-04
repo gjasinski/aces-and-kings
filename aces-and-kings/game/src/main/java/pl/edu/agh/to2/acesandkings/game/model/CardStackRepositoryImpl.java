@@ -4,6 +4,7 @@ import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.common.model.State;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,5 +92,13 @@ public class CardStackRepositoryImpl implements CardStackRepository {
             if(cardStack.getState().equals(State.ACTIVE))
                 return cardStack.getPosition();
         return null;
+    }
+
+    public void moveCardsFromStackToStack(StackPosition from, StackPosition to) {
+        CardStackImpl fromStack = getStackFromPosition(from);
+        CardStackImpl toStack = getStackFromPosition(to);
+        List<Card> cards = fromStack.getStack();
+        fromStack.setUpNewStack(Collections.emptyList());
+        toStack.setUpNewStack(cards);
     }
 }

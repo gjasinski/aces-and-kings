@@ -13,19 +13,25 @@ import java.util.List;
 public class CardStackManagerImplTest {
     private CardStackRepositoryImpl cardStackRepository;
     private CardStackManagerImpl cardStackManager;
+    private CardStackImpl handCardStack;
+    private CardStackImpl middleCardStack;
+    private List<Card> cardsOnMiddleStack;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         List<CardStackImpl> cardStackList = new ArrayList<>();
 
-        cardStackList.add(new CardStackImpl(StackPosition.TWO));
+        middleCardStack = new CardStackImpl(StackPosition.TWO);
+        handCardStack = new CardStackImpl(StackPosition.HAND_STACK);
+        cardStackList.add(middleCardStack);
+        cardStackList.add(handCardStack);
 
-        List<Card> stack0 = new ArrayList<>();
+        cardsOnMiddleStack = new ArrayList<>();
 
-        stack0.add(new Card(Suit.SPADES, Rank.TWO));
-        stack0.add(new Card(Suit.DIAMONDS, Rank.KING));
+        cardsOnMiddleStack.add(new Card(Suit.SPADES, Rank.TWO));
+        cardsOnMiddleStack.add(new Card(Suit.DIAMONDS, Rank.KING));
 
-        cardStackList.get(0).setUpNewStack(stack0);
+        cardStackList.get(0).setUpNewStack(cardsOnMiddleStack);
 
         cardStackRepository = new CardStackRepositoryImpl();
         cardStackRepository.setCardStackList(cardStackList);
@@ -36,16 +42,47 @@ public class CardStackManagerImplTest {
     @Test
     public void activateCardStackTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
-        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS,Rank.TWO));
+        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS, Rank.TWO));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.ACTIVE));
     }
 
     @Test
     public void deactivateCardStackTest() {
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
-        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS,Rank.TWO));
+        cardStackManager.activateCardStack(StackPosition.TWO, new Card(Suit.DIAMONDS, Rank.TWO));
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.ACTIVE));
         cardStackManager.deactivateCardStack();
         Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getState().equals(State.INACTIVE));
+    }
+
+    @Test
+    public void whenActivatingCardStackThenAllCardsShouldBeTransferredToHandStackWithExtraCardTest() {
+        //given
+        Card cardFromExtraStack = new Card(Suit.DIAMONDS, Rank.TWO);
+        List<Card> cardsShouldBeOnHandStack = cardsOnMiddleStack;
+        cardsShouldBeOnHandStack.add((cardFromExtraStack));
+
+        //when
+        cardStackManager.activateCardStack(StackPosition.TWO, cardFromExtraStack);
+
+        //then
+        Assert.assertEquals(0, middleCardStack.getStack().size());
+        Assert.assertEquals(cardsShouldBeOnHandStack, handCardStack.getStack());
+    }
+
+    @Test
+    public void whenDeactivatingCardStackThenAllCardsShouldBeTransferredToMiddleStackTest() {
+        //given
+        Card cardFromExtraStack = new Card(Suit.DIAMONDS, Rank.TWO);
+        List<Card> cardsShouldBeOnHandStack = cardsOnMiddleStack;
+        cardsShouldBeOnHandStack.add((cardFromExtraStack));
+
+        //when
+        cardStackManager.activateCardStack(StackPosition.TWO, cardFromExtraStack);
+        cardStackManager.deactivateCardStack();
+
+        //then
+        Assert.assertEquals(0, handCardStack.getStack().size());
+        Assert.assertEquals(cardsShouldBeOnHandStack, middleCardStack.getStack());
     }
 }
