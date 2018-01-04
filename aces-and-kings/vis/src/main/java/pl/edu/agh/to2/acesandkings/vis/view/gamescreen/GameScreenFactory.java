@@ -23,6 +23,7 @@ public class GameScreenFactory {
         gameScreenView.setUndoButton(new UndoButtonView());
         gameScreenView.setRedoButton(new RedoButtonView());
         gameScreenView.setMenuButton(new MenuButtonView());
+        gameScreenView.setDeactCSButton(new DeactCSButtonView());
         return gameScreenView;
     }
 }

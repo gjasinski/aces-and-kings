@@ -21,6 +21,7 @@ public class GameScreenView extends ScreenView implements GameControllable {
     private final StackPane undoButtonPlace = new StackPane();
     private final StackPane redoButtonPlace = new StackPane();
     private final StackPane menuButtonPlace = new StackPane();
+    private final StackPane deactCSButtonPlace = new StackPane();
     private final List<GameControllable> controllables = new ArrayList<>();
     private BoardView boardView;
 
@@ -42,7 +43,7 @@ public class GameScreenView extends ScreenView implements GameControllable {
         buttonRow.setAlignment(Pos.CENTER_RIGHT);
         final Pane spacer = new Pane();
         HBox.setHgrow(spacer, Priority.SOMETIMES);
-        buttonRow.getChildren().addAll(spacer, undoButtonPlace, redoButtonPlace);
+        buttonRow.getChildren().addAll(spacer,deactCSButtonPlace, undoButtonPlace, redoButtonPlace);
         borderPane.setBottom(buttonRow);
     }
 
@@ -74,6 +75,13 @@ public class GameScreenView extends ScreenView implements GameControllable {
     public void setMenuButton(final MenuButtonView button) {
         menuButtonPlace.getChildren().clear();
         menuButtonPlace.getChildren().add(button.getNode());
+        controllables.add(button);
+    }
+
+    public void setDeactCSButton(final DeactCSButtonView button) {
+
+        deactCSButtonPlace.getChildren().clear();
+        deactCSButtonPlace.getChildren().add(button.getNode());
         controllables.add(button);
     }
 

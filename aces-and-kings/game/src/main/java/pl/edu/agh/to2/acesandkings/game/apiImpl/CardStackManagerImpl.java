@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public class CardStackManagerImpl implements CardStackManager {
     private CardStackRepositoryImpl cardStackRepository;
+    private StackPosition activeStack = null;
 
     @Inject
     public CardStackManagerImpl(CardStackRepositoryImpl cardStackRepository) {
@@ -22,12 +23,14 @@ public class CardStackManagerImpl implements CardStackManager {
         cardStackRepository.putCardOnStack(position, card);
         cardStackRepository.changeStackState(position, State.ACTIVE);
         cardStackRepository.moveCardsFromStackToStack(position, StackPosition.HAND_STACK);
+        this.activeStack = position;
     }
 
     @Override
     public void deactivateCardStack() {
 //        TODO keep info about ACTIVE state in CardStackRepositoryImpl and rid off method findActiveCardStack
-        StackPosition activeStack = cardStackRepository.findActiveCardStack();
+        //StackPosition activeStack = cardStackRepository.findActiveCardStack();
+        //cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.moveCardsFromStackToStack(StackPosition.HAND_STACK, activeStack);
     }

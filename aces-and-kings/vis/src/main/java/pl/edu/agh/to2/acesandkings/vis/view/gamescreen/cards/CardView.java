@@ -22,6 +22,14 @@ public class CardView {
         return this.img;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void  finalize(){
+        this.img.setVisible(false);
+    }
+
     public CardView(Card card) {
         this.card = card;
         final ClassLoader classLoader = getClass().getClassLoader();

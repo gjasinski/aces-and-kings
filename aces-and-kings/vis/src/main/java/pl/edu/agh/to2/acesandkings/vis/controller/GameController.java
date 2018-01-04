@@ -69,33 +69,18 @@ public class GameController {
         this.appController.showMenuViewDialog();
     }
 
-    //podniesienie karty otwierającej stos
-    //odbywa się tylko w widoku(?) logicznie stosy się nie zmieniają
-//    public void handlePickUpKeyCardAction(){
-//        if(cardsMovePossibilityGuard.isCardStackActive(StackPosition.EXTRA_STACK)){
-//            activeCardManipulator.moveActiveCardToStack(StackPosition.EXTRA_STACK, StackPosition.HAND);
-//        }
-//    }
+    public void handleDeactivateCardStackAction(){
+        cardStackManager.deactivateCardStack();
+    }
 
     public void handleActivateCardsStackAction(StackPosition stackPosition){
-//        Optional<Card> optCard = cardStackManager.getCardFromExtraStack();
-//        if(/*cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition) &&*/ optCard.isPresent()){
-//            //this.cardStackManager.activateCardStack(stackPosition,optCard.get());Card card = optCard.get();
-            activeCardManipulator.moveActiveCardToStack(StackPosition.EXTRA_STACK, stackPosition);
-//            System.out.println("Card stack activated");
-//        }
+        if(cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
+            cardStackManager.activateCardStack(stackPosition, cardStackManager.getCardFromExtraStack().get());
+        }
     }
 
     public void handleGetCardFromExtraStckActn(){
-//        Optional<Card> optCard = cardStackManager.getCardFromExtraStack();
-//        if(optCard.isPresent()) {
-//            System.out.println("is present");
-//            Card card = optCard.get();
-            activeCardManipulator.moveActiveCardToStack(StackPosition.EXTRA_STACK, StackPosition.HAND_STACK);
-////            cardsInHandManipulator.moveCardFromHandToStack(card, StackPosition.HAND_STACK);
-//        }else{
-//            System.out.println("Not present!");
-//        }
+
     }
 
     //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
@@ -105,13 +90,21 @@ public class GameController {
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
         System.out.println("Move action!");
-        if(cardsMovePossibilityGuard.isMoveCardFromOneBorderStackToOtherAllowed(sourceSp, destSp)){
+            if(cardsMovePossibilityGuard.)
             System.out.println("It's possible!");
+            activeCardManipulator.moveActiveCardToStack(sourceSp, destSp);
             activeCardManipulator.moveCardFromOneBorderStackToOther(sourceSp, destSp);
+//        }
+//        else{
+//            System.out.println("You can't!");
+//        }
+    }
+
+    public void handleMoveCardFromHSAction(Card card, StackPosition destPos){
+        if(cardsMovePossibilityGuard.isMoveCardFromHandToStackAllowed(card, destPos)) {
+            cardsInHandManipulator.moveCardFromHandToStack(card, destPos);
         }
-        else{
-            System.out.println("You can't!");
-        }
+
     }
 
 

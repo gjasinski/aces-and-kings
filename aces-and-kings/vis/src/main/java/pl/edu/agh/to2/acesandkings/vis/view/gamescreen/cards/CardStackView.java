@@ -40,22 +40,7 @@ public class CardStackView{
         this.stackPosition = stackPosition;
         this.board = board;
         this.cardViews = new ArrayList<>();
-        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
-            while(e.next()) {
-                if (e.wasRemoved()) {
-                    System.out.println(e.getAddedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                   // this.clear();
-                    this.draw(this.x, this.y);
-                }
-                else if(e.wasAdded()) {
-                    System.out.println(e.getRemovedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    //this.clear();
-                    this.draw(this.x, this.y);
-                }
-            }
-        });
+        this.addCardStackListener();
     }
 
     public List<ImageView> draw(int x, int y) {
@@ -86,9 +71,40 @@ public class CardStackView{
 
     }
 
+    protected void addCardStackListener(){
+        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
+            while(e.next()) {
+                if (e.wasRemoved()) {
+                    System.out.println(e.getRemovedSize());
+                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
+                    this.clear();
+//                    this.draw(this.x, this.y);
+                    this.board.draw();
+                    try {
+                        this.finalize();
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+                else if(e.wasAdded()) {
+                    System.out.println(e.getAddedSize());
+                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
+                    this.clear();
+//                    this.draw(this.x, this.y);
+                    this.board.draw();
+                    try {
+                        this.finalize();
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     protected void clear(){
         for(CardView cardView: cardViews){
-            cardView.getImageView().setVisible(false);
+            cardView.finalize();
         }
         this.cardViews.clear();
     }

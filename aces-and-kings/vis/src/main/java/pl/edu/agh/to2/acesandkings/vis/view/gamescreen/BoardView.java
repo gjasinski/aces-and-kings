@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameControllable;
@@ -27,6 +28,7 @@ public class BoardView implements GameControllable {
 
     private StackPosition sourceStack = null;
     private StackPosition destStack = null;
+    private Card activeCard = null;
 
     public BoardView(Map<StackPosition, CardStackObservable> cardStacks) {
         this.cardStacks = cardStacks;
@@ -76,7 +78,12 @@ public class BoardView implements GameControllable {
         }
     }
 
-    private void drawMiddleCardStack() {
+    public void drawBorderCardStack(StackPosition stackPosition, int x, int y) {
+            BorderCardStackView borderCardStackView = new BorderCardStackView(cardStacks.get(stackPosition).getUnmodifiableObservableStack(), stackPosition, this);
+            addStack(borderCardStackView.draw(x, y), root);
+    }
+
+   public void drawMiddleCardStack() {
         List<StackPosition> stackPositions = Arrays.asList(StackPosition.ACE,StackPosition.TWO, StackPosition.THREE, StackPosition.FOUR, StackPosition.FIVE,
                 StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN);
         int y = 10;
@@ -91,7 +98,13 @@ public class BoardView implements GameControllable {
         }
     }
 
-    private void drawHandCardStack() {
+    public void drawMiddleCardStack(StackPosition stackPosition, int x, int y) {
+                MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardStacks.get(stackPosition).getUnmodifiableObservableStack(), stackPosition, this);
+                addStack(middleCardStackView.draw(x, y), root);
+//                x = x + 130;
+    }
+
+    public void drawHandCardStack() {
         int y = 560;
         int x = 50;
 
@@ -99,7 +112,7 @@ public class BoardView implements GameControllable {
         addStack(handCardStackView.draw(x, y), root);
     }
 
-    private void drawExtraCardStack() {
+    public void drawExtraCardStack() {
         int y = 400;
         int x = 600;
 
@@ -118,12 +131,14 @@ public class BoardView implements GameControllable {
     }
 
     public void setDestStack(StackPosition stackPosition){
-        if(this.sourceStack!=null && this.sourceStack == stackPosition && stackPosition==StackPosition.EXTRA_STACK) {
+        if(sourceStack!=null && sourceStack==StackPosition.HAND_STACK){
+            gameController.handleMoveCardFromHSAction(activeCard, stackPosition);
+        }
+        else if(this.sourceStack!=null && this.sourceStack == stackPosition && stackPosition==StackPosition.EXTRA_STACK) {
             System.out.println("Set dest stack: "+stackPosition.toString());
             this.destStack = stackPosition;
             //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
             this.gameController.handleGetCardFromExtraStckActn();
-            this.draw();
         }else if(this.sourceStack!=null && this.sourceStack == stackPosition) {
             System.out.println("Set dest stack: "+stackPosition.toString());
             this.destStack = stackPosition;
@@ -136,6 +151,12 @@ public class BoardView implements GameControllable {
         }
         this.sourceStack=null;
         this.destStack=null;
+        this.activeCard=null;
+    }
+
+    public void handleMoveCardFromHS(Card card){
+        this.sourceStack = StackPosition.HAND_STACK;
+        this.activeCard = card;
     }
     //implementation is to change during implementation
    // private final Map<StackPosition, CardStackView> cardStacks = new HashMap<>();
