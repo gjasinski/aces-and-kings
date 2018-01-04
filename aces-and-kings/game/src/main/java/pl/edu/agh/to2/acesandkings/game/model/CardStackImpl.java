@@ -35,9 +35,10 @@ public class CardStackImpl implements CardStackObservable {
     Optional<Card> removeCardFromStack() {
         Optional<Card> lastCard = getLastCard();
         Optional<Card> card = Optional.empty();
-        if (lastCard.isPresent() && isRemoveCardFromStackAllowed(lastCard.get())) {
+        if (lastCard.isPresent() /*&& isRemoveCardFromStackAllowed(lastCard.get())*/) {
             stack.remove(lastCard.get());
             card = lastCard;
+            System.out.println("Hehe");
         }
         return card;
     }
@@ -58,14 +59,16 @@ public class CardStackImpl implements CardStackObservable {
 
     Optional<Card> getLastCard() {
         Card card = null;
-        if (!stack.isEmpty())
+        if (!stack.isEmpty()) {
             card = stack.get(stack.size() - 1);
+        }
         return Optional.ofNullable(card);
     }
 
     boolean isRemoveCardFromStackAllowed(Card card) {
         boolean result = false;
         if (stack.contains(card)) {
+            System.out.println("Contains");
             if (state.equals(State.ACTIVE))
                 result = true;
             else {

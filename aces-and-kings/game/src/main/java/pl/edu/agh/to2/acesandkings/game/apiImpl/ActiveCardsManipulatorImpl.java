@@ -19,6 +19,7 @@ public class ActiveCardsManipulatorImpl implements ActiveCardsManipulator {
     @Override
     public void moveActiveCardToStack(StackPosition sourceStackPosition, StackPosition destinationStackPosition) {
         moveCard(sourceStackPosition, destinationStackPosition);
+        System.out.println("moveActiveCardToStack");
     }
 
     @Override

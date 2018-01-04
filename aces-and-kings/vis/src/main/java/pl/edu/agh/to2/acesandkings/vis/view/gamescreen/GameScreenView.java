@@ -30,7 +30,7 @@ public class GameScreenView extends ScreenView implements GameControllable {
         this.stage = stage;
         setUpButtonRow();
         setUpRightColumn();
-        borderPane.setPrefSize(900, 700);
+        borderPane.setPrefSize(950, 740);
         stage.setScene(new Scene(borderPane));
         borderPane.setStyle(BACKGROUND_STYLE);
     }

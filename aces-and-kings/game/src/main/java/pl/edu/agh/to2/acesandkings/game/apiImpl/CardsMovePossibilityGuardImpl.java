@@ -25,11 +25,18 @@ public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard 
     @Override
     public boolean isActivateCardStackAllowed(StackPosition stackPosition) {
         Optional<Card> lastCardOnExtraStack = cardStackRepository.getLastCardFromStack(StackPosition.EXTRA_STACK);
+        String odp = stackPosition.isMiddleStackPosition() ? "IsMiddleStPos":"Isn'tMiddlStPos";
+        System.out.println(odp);
+        odp = lastCardOnExtraStack.isPresent() ? "Present": "Not present";
+        System.out.println(odp);
+        odp = validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get()) ? "can act":"cant act";
+        System.out.println(odp);
         return stackPosition.isMiddleStackPosition() && lastCardOnExtraStack.isPresent() &&
                 validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get());
     }
 
     private boolean validateIfCanIActivateStack(StackPosition stackPosition, Card card) {
+        System.out.println(card.getRank().toString()+" "+stackPosition.getRank().toString());
         return card.getRank() == Rank.KING || card.getRank() == stackPosition.getRank();
     }
 

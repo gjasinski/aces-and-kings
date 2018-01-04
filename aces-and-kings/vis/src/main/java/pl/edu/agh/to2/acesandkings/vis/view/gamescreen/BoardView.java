@@ -1,5 +1,6 @@
 package pl.edu.agh.to2.acesandkings.vis.view.gamescreen;
 
+import javafx.collections.FXCollections;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -8,10 +9,7 @@ import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameControllable;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameController;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.BorderCardStackView;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.ExtraCardStackView;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.HandCardStackView;
-import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.MiddleCardStackView;
+import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +37,7 @@ public class BoardView implements GameControllable {
         drawMiddleCardStack();
         drawHandCardStack();
         drawExtraCardStack();
+        System.out.println("Draw!");
     }
 
     public Node getNode() {
@@ -119,7 +118,13 @@ public class BoardView implements GameControllable {
     }
 
     public void setDestStack(StackPosition stackPosition){
-        if(this.sourceStack!=null && this.sourceStack == stackPosition) {
+        if(this.sourceStack!=null && this.sourceStack == stackPosition && stackPosition==StackPosition.EXTRA_STACK) {
+            System.out.println("Set dest stack: "+stackPosition.toString());
+            this.destStack = stackPosition;
+            //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
+            this.gameController.handleGetCardFromExtraStckActn();
+            this.draw();
+        }else if(this.sourceStack!=null && this.sourceStack == stackPosition) {
             System.out.println("Set dest stack: "+stackPosition.toString());
             this.destStack = stackPosition;
             //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
