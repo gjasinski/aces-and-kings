@@ -46,6 +46,11 @@ public class Change {
                 stacks.add(stack);
             }
         }
-        return board;
+        return new Board(stacks, board.getId());
+    }
+
+    @Override
+    public String toString(){
+        return previousStackPosition + " - " + card + " -> " + nextStackPosition;
     }
 }

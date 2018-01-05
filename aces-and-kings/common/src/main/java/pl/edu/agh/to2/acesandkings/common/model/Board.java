@@ -1,5 +1,7 @@
 package pl.edu.agh.to2.acesandkings.common.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -31,5 +33,33 @@ public class Board {
 
     public int getId(){
         return id;
+    }
+
+    public boolean compare(Board b){
+        List<CardStack> stacks = this.stacks;
+        HashMap<StackPosition, CardStack> otherStacks = new HashMap<>();
+        for(CardStack s: b.stacks){
+            otherStacks.put(s.getPosition(), s);
+        }
+        for(CardStack s: stacks){
+            CardStack other = otherStacks.get(s.getPosition());
+            if(other == null) {
+                return false;
+            }
+            HashSet otherCards = new HashSet<>();
+            for(Card c: other.getStack()){
+                otherCards.add(c);
+            }
+            for(Card c: s.getStack()){
+                if(!otherCards.contains(c)){
+                    return false;
+                }
+                otherCards.remove(c);
+            }
+            if(otherCards.size() > 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

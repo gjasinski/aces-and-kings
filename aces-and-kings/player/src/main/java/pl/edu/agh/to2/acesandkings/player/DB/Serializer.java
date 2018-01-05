@@ -111,22 +111,28 @@ public class Serializer {
     }
 
     public static List<Change> deserializeChanges(List<Map<String, Object>> changeQueryResult){
+        if(changeQueryResult.get(0).get("change") == null){
+            return new LinkedList<>();
+        }
         return changeQueryResult.stream()
-            .map(m -> 
-                new Change(
-                    StackPosition.valueOf((String) m.get("previous")), 
-                    StackPosition.valueOf((String) m.get("next")), 
-                    new Card(
-                        Suit.valueOf((String) m.get("suit")), 
-                        Rank.valueOf((String) m.get("rank"))
-                    ), 
-                    Integer.parseInt((String)m.get("step"))
-                )
+            .map(m -> {
+                    Map<String, Object> c = (Map<String, Object>) m.get("change");
+                    return new Change(
+                        StackPosition.valueOf((String) c.get("previous")), 
+                        StackPosition.valueOf((String) c.get("next")), 
+                        new Card(
+                            Suit.valueOf((String) c.get("suit")), 
+                            Rank.valueOf((String) c.get("rank"))
+                        ), 
+                        Integer.parseInt((String)c.get("step"))
+                    );
+                }
             ).collect(Collectors.toList());
     }
 
     public static Board deserializeChangedBoard(Board board, List<Map<String, Object>> changeQueryResult, int id){
         List<Change> changes = deserializeChanges(changeQueryResult);
+
         changes.sort((c1, c2) -> {
             if(c1.getStep() == c2.getStep()) {
                 return 0;

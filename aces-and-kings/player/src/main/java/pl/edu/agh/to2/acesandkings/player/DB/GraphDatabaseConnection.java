@@ -49,10 +49,4 @@ public class GraphDatabaseConnection implements AutoCloseable {
     public static Session getSession() {
         return session;
     }
-
-    public static void main(String... args) throws Exception {
-        Queries.dropAll();
-        Queries.initializeGame();
-        System.out.println(Queries.getBoard(0, 0));
-    }
 }

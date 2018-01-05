@@ -11,4 +11,6 @@ public interface GamePlayer {
 
     void makeMove(Board board);
 
+    Board restoreGame(int id, int step); // step=-1 for all
+
 }

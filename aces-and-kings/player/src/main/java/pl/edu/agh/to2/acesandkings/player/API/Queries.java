@@ -122,9 +122,26 @@ public class Queries {
         );
     }
 
-    public static Board getBoard(int id, int step){
+    public static List<Change> getChanges(int id, int step){
         Session s = GraphDatabaseConnection.getSession();
-        final Board initial = s.writeTransaction(
+        String query;
+        if(step < 0){
+            query = "OPTIONAL MATCH (b:Board {id: $id})-[:PRECEDES*]->(change:Change) RETURN change{.*}";
+        } else {
+            query = "OPTIONAL MATCH (b:Board {id: $id})-[:PRECEDES*]->(change:Change) WHERE change.step <= $step RETURN change{.*}";
+        }
+        return s.writeTransaction(tx -> {
+            StatementResult r = tx.run(
+                query,
+                parameters("id", id, "step", step)
+            );
+            return Serializer.deserializeChanges(r.list(Record::asMap));
+        });
+    }
+
+    public static Board getBoard(int id){
+        Session s = GraphDatabaseConnection.getSession();
+        return s.writeTransaction(
                 tx -> {
                     StatementResult r = tx.run(
                         " MATCH (b: Board {id: $id})-[:HAS]->(stack: Stack) " +
@@ -137,15 +154,23 @@ public class Queries {
                     return Serializer.deserializeBoard(r.list(Record::asMap), id);
                 }
         );
+    }
 
-        return s.writeTransaction(tx -> {
-            StatementResult r = tx.run(
-                "OPTIONAL MATCH (b:Board {id: $id})-[:PRECEDES*]->(c:Change) RETURN c{.*}",
-                parameters("id", id)
-            );
-            return Serializer.deserializeChangedBoard(initial, r.list(Record::asMap), id);
+    public static Board getBoard(int id, int step){
+        Board board = getBoard(id);
+        List<Change> changes = getChanges(id, step);
+
+        changes.sort((c1, c2) -> {
+            if(c1.getStep() == c2.getStep()) {
+                return 0;
+            }
+            return c1.getStep() < c2.getStep() ? -1 : 1;
         });
 
+        for(Change c: changes){
+            board = c.applyTo(board);
+        }
 
+        return board;
     }
 }

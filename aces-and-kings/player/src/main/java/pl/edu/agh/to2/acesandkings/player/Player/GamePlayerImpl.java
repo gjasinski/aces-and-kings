@@ -41,5 +41,9 @@ public class GamePlayerImpl implements GamePlayer{
         currentBoard = Queries.getBoard(currentBoard.getId(), step);
     }
 
-
+    @Override
+    public Board restoreGame(int id, int step){
+        this.step = step;
+        return Queries.getBoard(id, step);
+    }
 }
