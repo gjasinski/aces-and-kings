@@ -41,8 +41,5 @@ public class GameActionManagerImpl implements GameActionManager {
 
     private void setStackState(CardStack stack) {
         this.cardStackRepository.changeStackState(stack.getPosition(), stack.getState());
-        if(stack.getState() == State.ACTIVE){
-            this.cardStackRepository.moveCardsFromStackToStack(stack.getPosition(), StackPosition.HAND_STACK);
-        }
     }
 }

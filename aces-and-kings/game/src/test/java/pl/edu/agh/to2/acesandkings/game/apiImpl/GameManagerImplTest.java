@@ -4,17 +4,22 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-import pl.edu.agh.to2.acesandkings.common.model.CardStackObservable;
-import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
+import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.game.GameModule;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 public class GameManagerImplTest {
     private GameManager gameManager;
@@ -58,10 +63,10 @@ public class GameManagerImplTest {
 
     private Stream<Integer> getMiddleCardStackSizeStream(List<CardStackObservable> cardStackObservables) {
         return cardStackObservables
-                    .stream()
-                    .filter(stack -> stack.getPosition().isMiddleStackPosition())
-                    .map(stack -> stack.getUnmodifiableObservableStack()
-                            .size());
+                .stream()
+                .filter(stack -> stack.getPosition().isMiddleStackPosition())
+                .map(stack -> stack.getUnmodifiableObservableStack()
+                        .size());
     }
 
     @Test
@@ -78,7 +83,7 @@ public class GameManagerImplTest {
     }
 
     @Test
-    public void afterInitializingNewGameTwiceThenOnAllStacksShouldBe104Cards(){
+    public void afterInitializingNewGameTwiceThenOnAllStacksShouldBe104Cards() {
         //given
         int onStacksShouldBe104Cards = 104;
 
@@ -94,8 +99,29 @@ public class GameManagerImplTest {
 
 
     @Test
-    public void afterInitializingSavedGameTwiceThen(){
-        //todo discuss behaviour
+    public void afterInitializingSavedGameThen() {
+        //given
+        CardStackRepository cardStackRepository = new CardStackRepository();
+        GamePlayer gamePlayer = mock(GamePlayer.class);
+        GameManager gameManager = new GameManagerImpl(cardStackRepository, gamePlayer);
+        Board board = mock(Board.class);
+        doReturn(getSomeRandomNewGame()).when(board).getStacks();
+        doReturn(board).when(gamePlayer).restoreGame(anyInt(), anyInt());
+        int onMiddleStacksShouldBe96Cards = 96;
+
+        //when
+        List<CardStackObservable> cardStackObservables = gameManager.initializeSavedGame();
+
+        //then
+        int numberOfCardsOnMiddleStacks = countCardsOnMiddleStacks(cardStackObservables);
+        assertEquals(onMiddleStacksShouldBe96Cards, numberOfCardsOnMiddleStacks);
+    }
+
+    private Object getSomeRandomNewGame() {
+        return this.gameManager.initializeNewGame()
+                .stream()
+                .map(stack -> (CardStack) stack)
+                .collect(Collectors.toList());
     }
 
     private int countCardsOnMiddleStacks(List<CardStackObservable> cardStackObservables) {
