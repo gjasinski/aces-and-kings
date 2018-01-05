@@ -1,9 +1,14 @@
 package pl.edu.agh.to2.acesandkings.game.api;
 
+import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 
-public interface CardStackManager {
-    void activateCardStack(StackPosition position);
+import java.util.Optional;
 
-    void disactivateCardStack();
+public interface CardStackManager {
+    void activateCardStack(StackPosition position, Card card);
+
+    void deactivateCardStack();
+
+    Optional<Card> getCardFromExtraStack();
 }

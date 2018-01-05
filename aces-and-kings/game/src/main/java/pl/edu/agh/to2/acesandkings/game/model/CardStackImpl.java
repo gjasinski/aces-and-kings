@@ -8,52 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CardStackImpl implements CardStack, CardStackObservable {
+public class CardStackImpl implements CardStackObservable {
     private State state;
     private ObservableList<Card> stack;
     private StackPosition position;
 
-    CardStackImpl(StackPosition position) {
+    public CardStackImpl(StackPosition position) {
         this.state = State.INACTIVE;
         this.stack = FXCollections.observableArrayList();
         this.position = position;
     }
 
     void putCardOnStack(Card card) {
-        // empty stack
-        if (!getLastCard().isPresent())
-            stack.add(card);
-        else {
-            Card lastCard = getLastCard().get();
-            if (card.getSuit().equals(lastCard.getSuit())) {
-                if (isPositionKing() && card.getRank().ordinal() == lastCard.getRank().ordinal() - 1)
-                    stack.add(card);
-                else if (isPositionAce() && card.getRank().ordinal() == lastCard.getRank().ordinal() + 1)
-                    stack.add(card);
-            }
-        }
+        stack.add(card);
     }
 
-    void setUpNewStack(List<Card> cardsList) {
+    public void setUpNewStack(List<Card> cardsList) {
+        stack.clear();
         stack.addAll(cardsList);
     }
 
     boolean removeCardFromStack(Card card) {
-        return (state.equals(State.ACTIVE) || stack.get(stack.size() - 1).equals(card)) && stack.remove(card);
+        return stack.remove(card);
     }
 
     Optional<Card> removeCardFromStack() {
-        Card card = null;
-        if (!stack.isEmpty())
-            card = stack.remove(stack.size() - 1);
-        return Optional.ofNullable(card);
+        Optional<Card> lastCard = getLastCard();
+        Optional<Card> card = Optional.empty();
+        if (lastCard.isPresent() && isRemoveCardFromStackAllowed(lastCard.get())) {
+            stack.remove(lastCard.get());
+            card = lastCard;
+        }
+        return card;
     }
 
-    void changeStackState() {
-        if (state == State.ACTIVE)
-            state = State.INACTIVE;
-        else
-            state = State.ACTIVE;
+    void changeStackState(State newState) {
+        this.state = newState;
     }
 
     private boolean isPositionKing() {
@@ -66,11 +56,43 @@ public class CardStackImpl implements CardStack, CardStackObservable {
                 position.equals(StackPosition.HEART_ACE) || position.equals(StackPosition.SPADES_ACE);
     }
 
-    private Optional<Card> getLastCard() {
+    Optional<Card> getLastCard() {
         Card card = null;
         if (!stack.isEmpty())
             card = stack.get(stack.size() - 1);
         return Optional.ofNullable(card);
+    }
+
+    boolean isRemoveCardFromStackAllowed(Card card) {
+        boolean result = false;
+        if (stack.contains(card)) {
+            if (state.equals(State.ACTIVE))
+                result = true;
+            else {
+                Optional<Card> lastCard = getLastCard();
+                if (lastCard.isPresent() && card.equals(lastCard.get()))
+                    result = (position.isPositionAce() && !card.getRank().equals(Rank.ACE)) ||
+                            (position.isPositionKing() && !card.getRank().equals(Rank.KING)) ||
+                            position.isMiddleStackPosition();
+            }
+        }
+        return result;
+    }
+
+    boolean isPutCardOnStackAllowed(Card card) {
+        boolean result = false;
+        Optional<Card> lastCard = getLastCard();
+        if (!lastCard.isPresent())
+            result = true;
+        else {
+            if (card.getSuit().equals(lastCard.get().getSuit())) {
+                if (position.isPositionKing() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() - 1)
+                    result = true;
+                else if (position.isPositionAce() && card.getRank().ordinal() == lastCard.get().getRank().ordinal() + 1)
+                    result = true;
+            }
+        }
+        return result;
     }
 
     @Override
