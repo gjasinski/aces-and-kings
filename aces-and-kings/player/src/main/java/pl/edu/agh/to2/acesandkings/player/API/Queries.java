@@ -173,4 +173,16 @@ public class Queries {
 
         return board;
     }
+
+    public static int countSteps(int id){
+        Session s = GraphDatabaseConnection.getSession();
+        return s.writeTransaction(
+                tx -> 
+                    tx.run(
+                        " MATCH p=(: Board {id: $id})-[:PRECEDES*]->(:Change) " +                        
+                        " RETURN max(length(p)) as l",
+                        parameters("id", id)
+                    ).single().get("l").asInt()
+        );
+    }
 }

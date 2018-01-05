@@ -96,4 +96,17 @@ public class BasicsTest {
         Board b2 = new Board(stacks, b.getId());
         Assert.assertTrue(fromDB.compare(b2));
     }
+
+    public void noBoardTest(){
+        Board b = Queries.initializeGame(stacks);
+        Board b2 = Queries.getBoard(b.getId()+1);
+        Assert.assertTrue(b2 == null);
+    }
+
+    public void countStepsTest(){
+        Board b = Queries.initializeGame(stacks);
+        Queries.createChange(b.getId(), change1);
+        Queries.createChange(b.getId(), change2);
+        Assert.assertEquals(2, Queries.countSteps(b.getId()));
+    }
 }
