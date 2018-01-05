@@ -4,16 +4,16 @@ import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.common.model.State;
 import pl.edu.agh.to2.acesandkings.game.api.CardStackManager;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import javax.inject.Inject;
 import java.util.Optional;
 
 public class CardStackManagerImpl implements CardStackManager {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
 
     @Inject
-    public CardStackManagerImpl(CardStackRepositoryImpl cardStackRepository) {
+    public CardStackManagerImpl(CardStackRepository cardStackRepository) {
         this.cardStackRepository = cardStackRepository;
     }
 
@@ -26,7 +26,7 @@ public class CardStackManagerImpl implements CardStackManager {
 
     @Override
     public void deactivateCardStack() {
-//        TODO keep info about ACTIVE state in CardStackRepositoryImpl and rid off method findActiveCardStack
+//        TODO keep info about ACTIVE state in CardStackRepository and rid off method findActiveCardStack
         StackPosition activeStack = cardStackRepository.findActiveCardStack();
         cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.moveCardsFromStackToStack(StackPosition.HAND_STACK, activeStack);

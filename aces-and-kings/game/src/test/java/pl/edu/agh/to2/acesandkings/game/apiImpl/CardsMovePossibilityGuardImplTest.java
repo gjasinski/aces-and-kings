@@ -11,7 +11,7 @@ import pl.edu.agh.to2.acesandkings.common.model.Suit;
 import pl.edu.agh.to2.acesandkings.game.GameModule;
 import pl.edu.agh.to2.acesandkings.game.api.CardsMovePossibilityGuard;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackImpl;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,13 +21,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CardsMovePossibilityGuardImplTest {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
     private CardsMovePossibilityGuard cardsMovePossibilityGuard;
 
     @Before
     public void setUp() {
         Injector injector = Guice.createInjector(new GameModule());
-        this.cardStackRepository = injector.getInstance(CardStackRepositoryImpl.class);
+        this.cardStackRepository = injector.getInstance(CardStackRepository.class);
         this.cardStackRepository.setCardStackList(initializeCardStacks());
         this.cardsMovePossibilityGuard = new CardsMovePossibilityGuardImpl(this.cardStackRepository);
     }

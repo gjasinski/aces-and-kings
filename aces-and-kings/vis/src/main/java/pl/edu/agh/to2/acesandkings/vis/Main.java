@@ -1,9 +1,11 @@
 package pl.edu.agh.to2.acesandkings.vis;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import pl.edu.agh.to2.acesandkings.game.GameModule;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
-import pl.edu.agh.to2.acesandkings.game.model.GameManagerImpl;
 import pl.edu.agh.to2.acesandkings.vis.controller.AppController;
 
 /**
@@ -21,7 +23,8 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
 
         this.primaryStage.setTitle("Aces & Kings");
-        GameManager gameManager = new GameManagerImpl();
+        Injector injector = Guice.createInjector(new GameModule());
+        GameManager gameManager = injector.getInstance(GameManager.class);
 
         this.appController = new AppController(primaryStage);
         this.appController.setGameManager(gameManager);

@@ -76,7 +76,7 @@ public class GameController {
 
     //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
     public void handleDisactivateCardStackAction(){
-        cardStackManager.disactivateCardStack();
+        cardStackManager.deactivateCardStack();
     }
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
