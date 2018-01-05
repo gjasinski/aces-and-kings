@@ -1,4 +1,4 @@
-package pl.edu.agh.to2.acesandkings.game.model;
+package pl.edu.agh.to2.acesandkings.game.apiImpl;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

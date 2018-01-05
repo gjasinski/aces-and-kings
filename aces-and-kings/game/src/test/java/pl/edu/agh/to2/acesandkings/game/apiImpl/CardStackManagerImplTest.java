@@ -5,13 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackImpl;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardStackManagerImplTest {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
     private CardStackManagerImpl cardStackManager;
     private CardStackImpl handCardStack;
     private CardStackImpl middleCardStack;
@@ -33,7 +33,7 @@ public class CardStackManagerImplTest {
 
         cardStackList.get(0).setUpNewStack(cardsOnMiddleStack);
 
-        cardStackRepository = new CardStackRepositoryImpl();
+        cardStackRepository = new CardStackRepository();
         cardStackRepository.setCardStackList(cardStackList);
 
         cardStackManager = new CardStackManagerImpl(cardStackRepository);

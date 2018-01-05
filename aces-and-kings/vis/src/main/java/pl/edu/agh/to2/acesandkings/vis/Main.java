@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import pl.edu.agh.to2.acesandkings.game.GameModule;
 import pl.edu.agh.to2.acesandkings.game.api.GameManager;
-import pl.edu.agh.to2.acesandkings.game.model.GameManagerImpl;
 import pl.edu.agh.to2.acesandkings.vis.controller.AppController;
 
 /**

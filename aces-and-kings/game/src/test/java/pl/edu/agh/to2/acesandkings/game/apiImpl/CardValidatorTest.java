@@ -1,9 +1,10 @@
-package pl.edu.agh.to2.acesandkings.game.model;
+package pl.edu.agh.to2.acesandkings.game.apiImpl;
 
 import org.junit.Test;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.Rank;
 import pl.edu.agh.to2.acesandkings.common.model.Suit;
+import pl.edu.agh.to2.acesandkings.game.apiImpl.CardValidator;
 
 import java.util.LinkedList;
 import java.util.List;

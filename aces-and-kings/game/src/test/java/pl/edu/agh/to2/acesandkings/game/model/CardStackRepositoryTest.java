@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CardStackRepositoryImplTest {
-    private CardStackRepositoryImpl cardStackRepository;
+public class CardStackRepositoryTest {
+    private CardStackRepository cardStackRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class CardStackRepositoryImplTest {
         cardStackList.get(1).setUpNewStack(stack1);
         cardStackList.get(2).setUpNewStack(stack2);
 
-        cardStackRepository = new CardStackRepositoryImpl();
+        cardStackRepository = new CardStackRepository();
         cardStackRepository.setCardStackList(cardStackList);
     }
 

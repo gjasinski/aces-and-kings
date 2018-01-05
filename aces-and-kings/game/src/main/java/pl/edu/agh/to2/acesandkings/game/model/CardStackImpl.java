@@ -46,16 +46,6 @@ public class CardStackImpl implements CardStackObservable {
         this.state = newState;
     }
 
-    private boolean isPositionKing() {
-        return position.equals(StackPosition.CLUBS_KING) || position.equals(StackPosition.DIAMONDS_KING) ||
-                position.equals(StackPosition.HEART_KING) || position.equals(StackPosition.SPADES_KING);
-    }
-
-    private boolean isPositionAce() {
-        return position.equals(StackPosition.CLUBS_ACE) || position.equals(StackPosition.DIAMONDS_ACE) ||
-                position.equals(StackPosition.HEART_ACE) || position.equals(StackPosition.SPADES_ACE);
-    }
-
     Optional<Card> getLastCard() {
         Card card = null;
         if (!stack.isEmpty())

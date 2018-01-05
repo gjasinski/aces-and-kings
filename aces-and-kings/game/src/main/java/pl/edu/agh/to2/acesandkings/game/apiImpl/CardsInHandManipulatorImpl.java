@@ -3,17 +3,17 @@ package pl.edu.agh.to2.acesandkings.game.apiImpl;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.CardsInHandManipulator;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class CardsInHandManipulatorImpl implements CardsInHandManipulator {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
     private StackPosition activeCardStackPosition;
 
     @Inject
-    public CardsInHandManipulatorImpl(CardStackRepositoryImpl cardStackRepository) {
+    public CardsInHandManipulatorImpl(CardStackRepository cardStackRepository) {
         this.cardStackRepository = cardStackRepository;
     }
 

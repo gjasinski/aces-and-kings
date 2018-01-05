@@ -8,13 +8,13 @@ import pl.edu.agh.to2.acesandkings.common.model.Rank;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.common.model.Suit;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackImpl;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActiveCardsManipulatorImplTest {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
     private ActiveCardsManipulatorImpl activeCardsManipulator;
 
     @Before
@@ -43,7 +43,7 @@ public class ActiveCardsManipulatorImplTest {
         cardStackList.get(2).setUpNewStack(stack2);
         cardStackList.get(3).setUpNewStack(stack3);
 
-        cardStackRepository = new CardStackRepositoryImpl();
+        cardStackRepository = new CardStackRepository();
         cardStackRepository.setCardStackList(cardStackList);
 
         activeCardsManipulator = new ActiveCardsManipulatorImpl(cardStackRepository);

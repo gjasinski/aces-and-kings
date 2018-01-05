@@ -2,16 +2,16 @@ package pl.edu.agh.to2.acesandkings.game.apiImpl;
 
 import pl.edu.agh.to2.acesandkings.common.model.*;
 import pl.edu.agh.to2.acesandkings.game.api.GameActionManager;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import javax.inject.Inject;
 
 public class GameActionManagerImpl implements GameActionManager {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
     private GamePlayer gamePlayer;
 
     @Inject
-    public GameActionManagerImpl(CardStackRepositoryImpl cardStackRepository, GamePlayer gamePlayer) {
+    public GameActionManagerImpl(CardStackRepository cardStackRepository, GamePlayer gamePlayer) {
         this.cardStackRepository = cardStackRepository;
         this.gamePlayer = gamePlayer;
     }

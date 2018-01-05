@@ -4,16 +4,16 @@ import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.Rank;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.CardsMovePossibilityGuard;
-import pl.edu.agh.to2.acesandkings.game.model.CardStackRepositoryImpl;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import javax.inject.Inject;
 import java.util.Optional;
 
 public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard {
-    private CardStackRepositoryImpl cardStackRepository;
+    private CardStackRepository cardStackRepository;
 
     @Inject
-    public CardsMovePossibilityGuardImpl(CardStackRepositoryImpl cardStackRepository) {
+    public CardsMovePossibilityGuardImpl(CardStackRepository cardStackRepository) {
         this.cardStackRepository = cardStackRepository;
     }
 
