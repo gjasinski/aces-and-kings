@@ -89,9 +89,9 @@ public class CardStackRepositoryImpl implements CardStackRepository {
         return null;
     }
 
-    public void moveCardsFromStackToStack(StackPosition from, StackPosition to) {
-        CardStackImpl fromStack = getStackFromPosition(from);
-        CardStackImpl toStack = getStackFromPosition(to);
+    public void moveCardsFromStackToStack(StackPosition source, StackPosition destination) {
+        CardStackImpl fromStack = getStackFromPosition(source);
+        CardStackImpl toStack = getStackFromPosition(destination);
         List<Card> cards = fromStack.getStack();
         fromStack.setUpNewStack(Collections.emptyList());
         toStack.setUpNewStack(cards);
