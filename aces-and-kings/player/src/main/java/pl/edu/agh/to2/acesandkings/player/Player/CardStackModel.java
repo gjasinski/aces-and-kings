@@ -5,7 +5,6 @@ import pl.edu.agh.to2.acesandkings.common.model.CardStack;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.common.model.State;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +13,24 @@ public class CardStackModel implements CardStack{
     private List<Card> cards;
     private State state;
     private StackPosition stackPosition;
+
+    public CardStackModel(CardStack stack, Card card){
+        List<Card> cards = new LinkedList<>();
+        boolean remove = false;
+        for(Card c: stack.getStack()){
+            if(!c.equals(card)){
+                cards.add(c);
+            } else {
+                remove = true;
+            }
+        }
+        if(!remove){
+            cards.add(card);
+        }
+        this.cards = cards;
+        this.state = stack.getState();
+        this.stackPosition = stack.getPosition();
+    }
 
     public CardStackModel(List<Card> cards, State state, StackPosition stackPosition){
         this.cards = cards;

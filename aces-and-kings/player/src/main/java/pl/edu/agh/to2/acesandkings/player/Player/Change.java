@@ -1,5 +1,7 @@
 package pl.edu.agh.to2.acesandkings.player.Player;
 
+import java.util.LinkedList;
+import java.util.List;
 import pl.edu.agh.to2.acesandkings.common.model.Board;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.CardStack;
@@ -36,7 +38,14 @@ public class Change {
     }
 
     public Board applyTo(Board board){
-        //TODO: ACTUALLY CHANGE BOARD
+        List<CardStack> stacks = new LinkedList<>();
+        for(CardStack stack: board.getStacks()){
+            if(stack.getPosition().equals(previousStackPosition) || stack.getPosition().equals(nextStackPosition)){
+                stacks.add(new CardStackModel(stack, card));
+            } else {
+                stacks.add(stack);
+            }
+        }
         return board;
     }
 }
