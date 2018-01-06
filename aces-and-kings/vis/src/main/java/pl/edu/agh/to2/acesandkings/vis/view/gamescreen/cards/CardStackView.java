@@ -2,35 +2,24 @@ package pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.BoardView;
 
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class CardStackView{
-    protected final int space = 10;
-    protected int x;
-    protected int y;
-    protected int top_card_y;
+    private static final int dy = 10;
     protected ListChangeListener<Card> cardStackListener;
+    protected final Group group = new Group();
 
-    public StackPosition stackPosition;
+    protected final StackPosition stackPosition;
     public ObservableList<Card> cardList;
     public BoardView board;
     protected List<CardView> cardViews;
@@ -44,24 +33,17 @@ public class CardStackView{
         this.addCardStackListener();
     }
 
-    public List<ImageView> draw(int x, int y) {
-        this.x = x;
-        this.y = y;
-        List<ImageView> cardViewList = new LinkedList<>();
-        int i = y;
-        this.top_card_y = i;
-        this.cardViews = new ArrayList<>();
-
-        for (Card card : cardList) {
-            CardView cardView = new CardView(card);
-            cardViewList.add(cardView.draw(x, i));
-            addEventHandlersToCV(cardView);
+    public void draw() {
+        final int x = 0;
+        int y = 0;
+        for(final Card card : cardList) {
+            final CardView cardView = new CardView(card);
             cardViews.add(cardView);
-            i += space;
-            this.top_card_y = i;
+            addEventHandlersToCV(cardView);
+            cardView.draw(x,y);
+            group.getChildren().add(cardView.getImageView());
+            y += dy;
         }
-
-        return cardViewList;
     }
 
     protected void addEventHandlersToCV(CardView cardView){
@@ -83,4 +65,11 @@ public class CardStackView{
         this.cardList.removeListener(cardStackListener);
     }
 
+    public Node getGroup() {
+        return group;
+    }
+
+    public StackPosition getStackPosition() {
+        return stackPosition;
+    }
 }

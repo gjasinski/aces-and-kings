@@ -2,12 +2,9 @@ package pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.BoardView;
-
-import java.util.List;
 
 /**
  * Created by Paweł Grochola on 03.12.2017.
@@ -24,7 +21,7 @@ public class MiddleCardStackView extends CardStackView {
                 while(e.next()) {
                     if (e.wasRemoved()||e.wasAdded()) {
                         clear();
-                        board.drawMiddleCardStack(stackPosition, x,y);
+                        board.drawMiddleCardStack(stackPosition);
 
                         System.out.println("Change! "+stackPosition.toString());
                         try {
