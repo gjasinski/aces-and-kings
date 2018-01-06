@@ -10,11 +10,11 @@ import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.BoardView;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class HandCardStackView extends CardStackView {
-    public HandCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board) {
-        super(cardList, stackPosition, board);
+    public HandCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board, final CardResizer cardResizer) {
+        super(cardList, stackPosition, board, cardResizer);
     }
 
-    private static final int dx = 80;
+    private static final int horizontalSpace = 80;
     private ListChangeListener<Card> cardStackListener;
 
     @Override
@@ -23,11 +23,23 @@ public class HandCardStackView extends CardStackView {
         final int y = 0;
         for(final Card card : cardList) {
             final CardView cardView = new CardView(card);
+            cardResizer.updateCardSize(cardView);
             cardView.draw(x,y);
             cardViews.add(cardView);
             addEventHandlersToCV(cardView);
             group.getChildren().add(cardView.getImageView());
-            x += dx;
+            x += horizontalSpace;
+        }
+    }
+
+    @Override
+    public void redraw() {
+        int x = 0;
+        final int y = 0;
+        for(final CardView cardView : cardViews) {
+            cardView.draw(x,y);
+            cardResizer.updateCardSize(cardView);
+            x += horizontalSpace;
         }
     }
 

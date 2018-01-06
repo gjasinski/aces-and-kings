@@ -51,8 +51,6 @@ public class CardView {
         Image image = SwingFXUtils.toFXImage(imageb, null);
         img = new ImageView();
 
-        img.setFitHeight(60);
-        img.setFitWidth(60);
         img.setImage(image);
     }
 

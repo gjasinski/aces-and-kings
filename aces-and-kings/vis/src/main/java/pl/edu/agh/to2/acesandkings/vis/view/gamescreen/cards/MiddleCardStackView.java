@@ -10,8 +10,8 @@ import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.BoardView;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class MiddleCardStackView extends CardStackView {
-    public MiddleCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board) {
-        super(cardList, stackPosition, board);
+    public MiddleCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board, final CardResizer cardResizer) {
+        super(cardList, stackPosition, board, cardResizer);
     }
 
     protected void addCardStackListener(){

@@ -5,7 +5,6 @@ import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.*;
 
 import javax.inject.Inject;
-import java.util.Optional;
 
 /**
  * Created by Julia on 2017-12-04.
@@ -102,7 +101,4 @@ public class GameController {
             cardsInHandManipulator.moveCardFromHandToStack(card, destPos);
         }
     }
-
-
-
 }

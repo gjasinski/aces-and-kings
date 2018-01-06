@@ -13,10 +13,7 @@ import pl.edu.agh.to2.acesandkings.vis.controller.GameControllable;
 import pl.edu.agh.to2.acesandkings.vis.controller.GameController;
 import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.cards.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Paweł Grochola on 03.12.2017.
@@ -27,11 +24,14 @@ public class BoardView implements GameControllable {
     private final GridPane grid = new GridPane();
     private static final Map<StackPosition, GridPosition> STACK_POSITIONS = new HashMap<>();
     private Map<StackPosition, CardStackObservable> cardStacks;
+    private final Map<StackPosition, CardStackView> cardStackViews = new HashMap<>();
 
     private StackPosition sourceStack = null;
 
     private StackPosition destStack = null;
     private Card activeCard = null;
+
+    private final CardResizer cardResizer;
 
     private static class GridPosition {
         public final int col;
@@ -74,8 +74,9 @@ public class BoardView implements GameControllable {
         STACK_POSITIONS.put(StackPosition.HAND_STACK, new GridPosition(0, 4));
     }
 
-    public BoardView(Map<StackPosition, CardStackObservable> cardStacks) {
+    public BoardView(Map<StackPosition, CardStackObservable> cardStacks, final CardResizer cardResizer) {
         this.cardStacks = cardStacks;
+        this.cardResizer = cardResizer;
     }
 
     public void draw() {
@@ -103,6 +104,7 @@ public class BoardView implements GameControllable {
         if(stackPosition == StackPosition.EXTRA_STACK) {
             GridPane.setRowSpan(stackNode, 2);
         }
+        cardStackViews.put(stackPosition, cardStackView);
     }
 
     private void drawBorderCardStacks() {
@@ -111,7 +113,7 @@ public class BoardView implements GameControllable {
                 StackPosition.SPADES_KING, StackPosition.CLUBS_KING, StackPosition.HEART_KING, StackPosition.DIAMONDS_KING);
         for (final StackPosition stackPosition : borderStackPositions) {
             final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-            final BorderCardStackView borderCardStackView = new BorderCardStackView(cardList, stackPosition, this);
+            final BorderCardStackView borderCardStackView = new BorderCardStackView(cardList, stackPosition, this, cardResizer);
             borderCardStackView.draw();
             addStack(borderCardStackView);
         }
@@ -119,7 +121,7 @@ public class BoardView implements GameControllable {
 
     public void drawBorderCardStack(StackPosition stackPosition) {
         final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-        final BorderCardStackView borderCardStackView = new BorderCardStackView(cardList, stackPosition, this);
+        final BorderCardStackView borderCardStackView = new BorderCardStackView(cardList, stackPosition, this, cardResizer);
         borderCardStackView.draw();
         addStack(borderCardStackView);
     }
@@ -129,7 +131,7 @@ public class BoardView implements GameControllable {
                 StackPosition.SIX, StackPosition.SEVEN, StackPosition.EIGHT, StackPosition.NINE, StackPosition.TEN, StackPosition.JACK, StackPosition.QUEEN);
         for (final StackPosition stackPosition : middleStackPositions) {
             final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-            final MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardList, stackPosition, this);
+            final MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardList, stackPosition, this,cardResizer);
             middleCardStackView.draw();
             addStack(middleCardStackView);
         }
@@ -137,7 +139,7 @@ public class BoardView implements GameControllable {
 
     public void drawMiddleCardStack(StackPosition stackPosition) {
         final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-        final MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardList, stackPosition, this);
+        final MiddleCardStackView middleCardStackView = new MiddleCardStackView(cardList, stackPosition, this,cardResizer);
         middleCardStackView.draw();
         addStack(middleCardStackView);
     }
@@ -145,7 +147,7 @@ public class BoardView implements GameControllable {
     public void drawHandCardStack() {
         final StackPosition stackPosition = StackPosition.HAND_STACK;
         final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-        final HandCardStackView handCardStackView = new HandCardStackView(cardList, stackPosition, this);
+        final HandCardStackView handCardStackView = new HandCardStackView(cardList, stackPosition, this, cardResizer);
         handCardStackView.draw();
         addStack(handCardStackView);
     }
@@ -153,7 +155,7 @@ public class BoardView implements GameControllable {
     public void drawExtraCardStack() {
         final StackPosition stackPosition = StackPosition.EXTRA_STACK;
         final ObservableList<Card> cardList = cardStacks.get(stackPosition).getUnmodifiableObservableStack();
-        final ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardList, stackPosition, this);
+        final ExtraCardStackView extraCardStackView = new ExtraCardStackView(cardList, stackPosition, this,cardResizer);
         extraCardStackView.draw();
         addStack(extraCardStackView);
     }
@@ -191,6 +193,22 @@ public class BoardView implements GameControllable {
         this.sourceStack = StackPosition.HAND_STACK;
         this.activeCard = card;
     }
+
+    public void enlargeCards() {
+        cardResizer.enlarge();
+        redrawStacks();
+    }
+
+    public void shrinkCards() {
+        cardResizer.shrink();
+        redrawStacks();
+    }
+
+    private void redrawStacks() {
+        cardStackViews.values().forEach(CardStackView::redraw);
+    }
+
+
     //implementation is to change during implementation
    // private final Map<StackPosition, CardStackView> cardStacks = new HashMap<>();
 }

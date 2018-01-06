@@ -10,8 +10,8 @@ import pl.edu.agh.to2.acesandkings.vis.view.gamescreen.BoardView;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class BorderCardStackView extends CardStackView {
-    public BorderCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board) {
-        super(cardList, stackPosition, board);
+    public BorderCardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board, final CardResizer cardResizer) {
+        super(cardList, stackPosition, board, cardResizer);
     }
 
     @Override
@@ -20,10 +20,21 @@ public class BorderCardStackView extends CardStackView {
         final int y = 0;
         for(final Card card : cardList) {
             final CardView cardView = new CardView(card);
+            cardResizer.updateCardSize(cardView);
             cardViews.add(cardView);
             addEventHandlersToCV(cardView);
             cardView.draw(x,y);
             group.getChildren().add(cardView.getImageView());
+        }
+    }
+
+    @Override
+    public void redraw() {
+        final int x = 0;
+        final int y = 0;
+        for (final CardView cardView : cardViews) {
+            cardResizer.updateCardSize(cardView);
+            cardView.draw(x,y);
         }
     }
 

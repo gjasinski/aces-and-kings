@@ -22,6 +22,8 @@ public class GameScreenView extends ScreenView implements GameControllable {
     private final StackPane redoButtonPlace = new StackPane();
     private final StackPane menuButtonPlace = new StackPane();
     private final StackPane deactCSButtonPlace = new StackPane();
+    private final StackPane enlargeCardsButtonPlace = new StackPane();
+    private final StackPane shrinkCardsButtonPlace = new StackPane();
     private final List<GameControllable> controllables = new ArrayList<>();
     private BoardView boardView;
 
@@ -50,7 +52,10 @@ public class GameScreenView extends ScreenView implements GameControllable {
     private void setUpRightColumn() {
         final VBox rightColumn = new VBox();
         rightColumn.setPadding(new Insets(20, 20, 20, 20));
+        rightColumn.setSpacing(10);
         rightColumn.getChildren().add(menuButtonPlace);
+        rightColumn.getChildren().add(enlargeCardsButtonPlace);
+        rightColumn.getChildren().add(shrinkCardsButtonPlace);
         borderPane.setRight(rightColumn);
     }
 
@@ -79,10 +84,19 @@ public class GameScreenView extends ScreenView implements GameControllable {
     }
 
     public void setDeactCSButton(final DeactCSButtonView button) {
-
         deactCSButtonPlace.getChildren().clear();
         deactCSButtonPlace.getChildren().add(button.getNode());
         controllables.add(button);
+    }
+
+    public void setEnlargeCardsButton(final EnlargeCardsButtonView button) {
+        enlargeCardsButtonPlace.getChildren().clear();
+        enlargeCardsButtonPlace.getChildren().add(button.getNode());
+    }
+
+    public void setShrinkCardsButton(final ShrinkCardsButtonView button) {
+        shrinkCardsButtonPlace.getChildren().clear();
+        shrinkCardsButtonPlace.getChildren().add(button.getNode());
     }
 
     public void show() {

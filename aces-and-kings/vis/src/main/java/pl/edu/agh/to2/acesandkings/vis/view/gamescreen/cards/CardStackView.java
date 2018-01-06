@@ -15,20 +15,21 @@ import java.util.List;
  * Created by Paweł Grochola on 03.12.2017.
  */
 public class CardStackView{
-    private static final int dy = 10;
+
     protected ListChangeListener<Card> cardStackListener;
     protected final Group group = new Group();
-
     protected final StackPosition stackPosition;
+
     public ObservableList<Card> cardList;
     public BoardView board;
-    protected List<CardView> cardViews;
+    protected final List<CardView> cardViews;
+    protected final CardResizer cardResizer;
 
-
-    public CardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board) {
+    public CardStackView(ObservableList<Card> cardList, StackPosition stackPosition, BoardView board, final CardResizer cardResizer) {
         this.cardList = cardList;
         this.stackPosition = stackPosition;
         this.board = board;
+        this.cardResizer = cardResizer;
         this.cardViews = new ArrayList<>();
         this.addCardStackListener();
     }
@@ -36,13 +37,26 @@ public class CardStackView{
     public void draw() {
         final int x = 0;
         int y = 0;
+        final double verticalSpacing = cardResizer.getCurrentVerticalSpacing();
         for(final Card card : cardList) {
             final CardView cardView = new CardView(card);
             cardViews.add(cardView);
             addEventHandlersToCV(cardView);
             cardView.draw(x,y);
+            cardResizer.updateCardSize(cardView);
             group.getChildren().add(cardView.getImageView());
-            y += dy;
+            y += verticalSpacing;
+        }
+    }
+
+    public void redraw() {
+        final int x = 0;
+        int y = 0;
+        final double verticalSpacing = cardResizer.getCurrentVerticalSpacing();
+        for(final CardView cardView : cardViews) {
+            cardView.draw(x,y);
+            cardResizer.updateCardSize(cardView);
+            y += verticalSpacing;
         }
     }
 
