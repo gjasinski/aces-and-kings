@@ -38,7 +38,6 @@ public class CardStackImpl implements CardStackObservable {
         if (lastCard.isPresent() /*&& isRemoveCardFromStackAllowed(lastCard.get())*/) {
             stack.remove(lastCard.get());
             card = lastCard;
-            System.out.println("Hehe");
         }
         return card;
     }
@@ -68,7 +67,6 @@ public class CardStackImpl implements CardStackObservable {
     boolean isRemoveCardFromStackAllowed(Card card) {
         boolean result = false;
         if (stack.contains(card)) {
-            System.out.println("Contains");
             if (state.equals(State.ACTIVE))
                 result = true;
             else {

@@ -36,11 +36,6 @@ public class CardStackRepositoryImpl implements CardStackRepository {
     @Override
     public Optional<Card> removeCardFromStack(StackPosition position) {
         CardStackImpl searchedCardStack = getStackFromPosition(position);
-        if(searchedCardStack== null){
-            System.out.println("null");
-        }else{
-            System.out.println("not null");
-        }
         return searchedCardStack.removeCardFromStack();
     }
 

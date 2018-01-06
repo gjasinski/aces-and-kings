@@ -53,22 +53,11 @@ public class HandCardStackView extends CardStackView {
             @Override
             public void onChanged(Change<? extends Card> e) {
                 while(e.next()) {
-                    if (e.wasRemoved()) {
-                        System.out.println(e.getRemovedSize());
-                        System.out.println("Change event in " + stackPosition.toString() + "!");
+                    if (e.wasRemoved()||e.wasAdded()) {
                         clear();
                         board.drawHandCardStack();
-                        try {
-                            this.finalize();
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                    else if(e.wasAdded()) {
                         System.out.println(e.getAddedSize());
-                        System.out.println("Change event in " + stackPosition.toString() + "!");
-                        clear();
-                        board.drawHandCardStack();
+                        System.out.println("Change! "+stackPosition.toString());
                         try {
                             this.finalize();
                         } catch (Throwable throwable) {

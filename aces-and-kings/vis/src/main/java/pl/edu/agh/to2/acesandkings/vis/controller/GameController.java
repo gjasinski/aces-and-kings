@@ -79,32 +79,28 @@ public class GameController {
         }
     }
 
-    public void handleGetCardFromExtraStckActn(){
-
-    }
-
-    //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
     public void handleDisactivateCardStackAction(){
         cardStackManager.deactivateCardStack();
     }
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
-        System.out.println("Move action!");
-            if(cardsMovePossibilityGuard.)
-            System.out.println("It's possible!");
-            activeCardManipulator.moveActiveCardToStack(sourceSp, destSp);
+
+       if(cardsMovePossibilityGuard.isMoveActiveCardToStackAllowed(sourceSp, destSp)){
+        activeCardManipulator.moveActiveCardToStack(sourceSp, destSp);
+        }
+    }
+
+    public void handleMoveFromBorderStack(StackPosition sourceSp, StackPosition destSp){
+        if(cardsMovePossibilityGuard.isMoveCardFromOneBorderStackToOtherAllowed(sourceSp, destSp)){
             activeCardManipulator.moveCardFromOneBorderStackToOther(sourceSp, destSp);
-//        }
-//        else{
-//            System.out.println("You can't!");
-//        }
+        }
     }
 
     public void handleMoveCardFromHSAction(Card card, StackPosition destPos){
         if(cardsMovePossibilityGuard.isMoveCardFromHandToStackAllowed(card, destPos)) {
+
             cardsInHandManipulator.moveCardFromHandToStack(card, destPos);
         }
-
     }
 
 

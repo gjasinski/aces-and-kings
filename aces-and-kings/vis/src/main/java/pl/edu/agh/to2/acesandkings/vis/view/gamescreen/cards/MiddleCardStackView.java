@@ -18,38 +18,25 @@ public class MiddleCardStackView extends CardStackView {
     }
 
     protected void addCardStackListener(){
-        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
-            while(e.next()) {
-                if (e.wasRemoved()) {
-                    System.out.println(e.getRemovedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.drawMiddleCardStack(this.stackPosition, this.x, this.y);
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }
-                else if(e.wasAdded()) {
-                    System.out.println(e.getAddedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.drawMiddleCardStack(this.stackPosition, this.x, this.y);
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
+        this.cardStackListener = new ListChangeListener<Card>(){
+            @Override
+            public void onChanged(Change<? extends Card> e) {
+                while(e.next()) {
+                    if (e.wasRemoved()||e.wasAdded()) {
+                        clear();
+                        board.drawMiddleCardStack(stackPosition, x,y);
+
+                        System.out.println("Change! "+stackPosition.toString());
+                        try {
+                            this.finalize();
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
                     }
                 }
             }
-        });
+        };
+        cardList.addListener(cardStackListener);
     }
 
-//    @Override
-//    public List<ImageView> draw(int x, int y) {
-//        return super.draw(x, y);
-//    }
 }

@@ -28,6 +28,7 @@ public class CardStackView{
     protected int x;
     protected int y;
     protected int top_card_y;
+    protected ListChangeListener<Card> cardStackListener;
 
     public StackPosition stackPosition;
     public ObservableList<Card> cardList;
@@ -72,34 +73,6 @@ public class CardStackView{
     }
 
     protected void addCardStackListener(){
-        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
-            while(e.next()) {
-                if (e.wasRemoved()) {
-                    System.out.println(e.getRemovedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.draw();
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }
-                else if(e.wasAdded()) {
-                    System.out.println(e.getAddedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.draw();
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }
-            }
-        });
     }
 
     protected void clear(){
@@ -107,13 +80,7 @@ public class CardStackView{
             cardView.finalize();
         }
         this.cardViews.clear();
+        this.cardList.removeListener(cardStackListener);
     }
 
-    public ObservableList<Card> getCardList() {
-        return cardList;
-    }
-
-    public void setCardList(ObservableList<Card> cardList) {
-        this.cardList = cardList;
-    }
 }

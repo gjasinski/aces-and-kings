@@ -39,7 +39,6 @@ public class BoardView implements GameControllable {
         drawMiddleCardStack();
         drawHandCardStack();
         drawExtraCardStack();
-        System.out.println("Draw!");
     }
 
     public Node getNode() {
@@ -50,7 +49,7 @@ public class BoardView implements GameControllable {
         for (ImageView imageView : stacks) {
             imageView.setPickOnBounds(true);
             imageView.setOnMouseClicked((MouseEvent e) -> {
-                System.out.println("Clicked!");
+               // System.out.println("Clicked!");
             });
             root.getChildren().add(imageView);
         }
@@ -126,26 +125,21 @@ public class BoardView implements GameControllable {
     }
 
     public void setSourceStack(StackPosition stackPosition){
-        System.out.println("Set source stack: "+stackPosition.toString());
         this.sourceStack = stackPosition;
     }
 
     public void setDestStack(StackPosition stackPosition){
         if(sourceStack!=null && sourceStack==StackPosition.HAND_STACK){
             gameController.handleMoveCardFromHSAction(activeCard, stackPosition);
-        }
-        else if(this.sourceStack!=null && this.sourceStack == stackPosition && stackPosition==StackPosition.EXTRA_STACK) {
-            System.out.println("Set dest stack: "+stackPosition.toString());
+        }else if(sourceStack!=null && sourceStack.isBorderPosition()){
             this.destStack = stackPosition;
-            //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
-            this.gameController.handleGetCardFromExtraStckActn();
-        }else if(this.sourceStack!=null && this.sourceStack == stackPosition) {
-            System.out.println("Set dest stack: "+stackPosition.toString());
+            gameController.handleMoveFromBorderStack(sourceStack, destStack);
+        }
+        if(this.sourceStack!=null && this.sourceStack == stackPosition && stackPosition!=StackPosition.EXTRA_STACK) {
             this.destStack = stackPosition;
             //this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
             this.gameController.handleActivateCardsStackAction(this.sourceStack);
         }else if(this.sourceStack!=null){
-            System.out.println("Set dest stack: "+stackPosition.toString());
             this.destStack = stackPosition;
             this.gameController.handleMoveCardAction(this.sourceStack, this.destStack);
         }

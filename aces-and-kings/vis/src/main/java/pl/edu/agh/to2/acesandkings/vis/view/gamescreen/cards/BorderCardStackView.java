@@ -20,42 +20,26 @@ public class BorderCardStackView extends CardStackView {
 
     @Override
     protected void addCardStackListener(){
-        cardList.addListener((ListChangeListener.Change<? extends Card> e) -> {
-            while(e.next()) {
-                if (e.wasRemoved()) {
-                    System.out.println(e.getRemovedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.drawBorderCardStack(this.stackPosition, this.x, this.y);
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                }
-                else if(e.wasAdded()) {
-                    System.out.println(e.getAddedSize());
-                    System.out.println("Change event in " + this.stackPosition.toString() + "!");
-                    this.clear();
-//                    this.draw(this.x, this.y);
-                    this.board.drawBorderCardStack(this.stackPosition, this.x, this.y);
-                    try {
-                        this.finalize();
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
+        this.cardStackListener = new ListChangeListener<Card>(){
+            @Override
+            public void onChanged(Change<? extends Card> e) {
+                while(e.next()) {
+                    if (e.wasRemoved()||e.wasAdded()) {
+                        clear();
+                        board.drawBorderCardStack(stackPosition,x,y);
+
+                        System.out.println("Change! "+stackPosition.toString());
+                        try {
+                            this.finalize();
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
                     }
                 }
             }
-        });
+        };
+        cardList.addListener(cardStackListener);
     }
 
-//    public List<ImageView> draw(int x, int y) {
-//        List<ImageView> cardViewList = new LinkedList<>();
-//        int i = y;
-//
-//        CardView cardView = new CardView(cardList.get(cardList.size()-1));
-//        cardViewList.add(cardView.draw(x, i));
-//        return cardViewList;
-//    }
+
 }

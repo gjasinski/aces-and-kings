@@ -33,6 +33,7 @@ public class CardStackManagerImpl implements CardStackManager {
         //cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.moveCardsFromStackToStack(StackPosition.HAND_STACK, activeStack);
+        activeStack=null;
     }
 
     @Override
