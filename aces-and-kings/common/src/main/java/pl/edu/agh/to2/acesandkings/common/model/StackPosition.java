@@ -31,7 +31,7 @@ public enum StackPosition {
 
     private Rank rank;
     private Suit suit;
-    private boolean middleStackPosition;// = false;
+    private boolean middleStackPosition = false;
     private boolean borderPosition = false;
     private static final int NUMBER_OF_MIDDLE_STACKS = 12;
 
@@ -44,8 +44,6 @@ public enum StackPosition {
         this.rank = rank;
         this.suit = suit;
         this.borderPosition = true;
-        this.middleStackPosition = false;
-
     }
 
     StackPosition(){
