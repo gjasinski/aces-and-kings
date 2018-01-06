@@ -10,17 +10,19 @@ import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CardsInHandManipulatorImplTest {
     private CardStackRepository cardStackRepository;
     private CardsInHandManipulatorImpl cardsInHandManipulator;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         List<CardStackImpl> cardStackList = new ArrayList<>();
 
         cardStackList.add(new CardStackImpl(StackPosition.SPADES_ACE));
         cardStackList.add(new CardStackImpl(StackPosition.TWO));
+        cardStackList.add(new CardStackImpl(StackPosition.HAND_STACK));
 
         List<Card> stack0 = new ArrayList<>();
         List<Card> stack1 = new ArrayList<>();
@@ -41,19 +43,35 @@ public class CardsInHandManipulatorImplTest {
 
     @Test
     public void moveCardFromHandToStackTest() {
+        //given
         cardStackRepository.changeStackState(StackPosition.TWO, State.ACTIVE);
-        List<Card> cards = cardStackRepository.getCardStackList().get(1).getStack().subList(0, 3);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 1);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 3);
+        cardStackRepository.moveCardsFromStackToStack(StackPosition.TWO, StackPosition.HAND_STACK);
+        Optional<CardStackImpl> handStackOptional = cardStackRepository.getCardStackList()
+                .stream()
+                .filter(stack -> stack.getPosition() == StackPosition.HAND_STACK)
+                .findAny();
+        Optional<CardStackImpl> stackSpadeAceOptional = cardStackRepository.getCardStackList()
+                .stream()
+                .filter(stack -> stack.getPosition() == StackPosition.SPADES_ACE)
+                .findAny();
+        Assert.assertTrue(handStackOptional.isPresent());
+        Assert.assertTrue(stackSpadeAceOptional.isPresent());
+        CardStackImpl spadeAceStack = stackSpadeAceOptional.get();
+        CardStackImpl handStack = handStackOptional.get();
+
+        //when
+        List<Card> cards = handStack.getStack().subList(0, 3);
+        Assert.assertTrue(spadeAceStack.getStack().size() == 1);
+        Assert.assertTrue(handStack.getStack().size() == 3);
         cardsInHandManipulator.moveCardFromHandToStack(cards.get(2), StackPosition.SPADES_ACE);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 2);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 2);
+        Assert.assertTrue(spadeAceStack.getStack().size() == 2);
+        Assert.assertTrue(handStack.getStack().size() == 2);
         cardsInHandManipulator.moveCardFromHandToStack(cards.get(0), StackPosition.SPADES_ACE);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 3);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 1);
+        Assert.assertTrue(spadeAceStack.getStack().size() == 3);
+        Assert.assertTrue(handStack.getStack().size() == 1);
         cardsInHandManipulator.moveCardFromHandToStack(cards.get(1), StackPosition.SPADES_ACE);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(0).getStack().size() == 4);
-        Assert.assertTrue(cardStackRepository.getCardStackList().get(1).getStack().size() == 0);
+        Assert.assertTrue(spadeAceStack.getStack().size() == 4);
+        Assert.assertTrue(handStack.getStack().size() == 0);
     }
 
     @Test

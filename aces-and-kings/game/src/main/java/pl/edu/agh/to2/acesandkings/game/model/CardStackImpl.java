@@ -35,7 +35,7 @@ public class CardStackImpl implements CardStackObservable {
     Optional<Card> removeCardFromStack() {
         Optional<Card> lastCard = getLastCard();
         Optional<Card> card = Optional.empty();
-        if (lastCard.isPresent() /*&& isRemoveCardFromStackAllowed(lastCard.get())*/) {
+        if (lastCard.isPresent() && isRemoveCardFromStackAllowed(lastCard.get())) {
             stack.remove(lastCard.get());
             card = lastCard;
         }
@@ -64,7 +64,7 @@ public class CardStackImpl implements CardStackObservable {
                 if (lastCard.isPresent() && card.equals(lastCard.get()))
                     result = (position.isPositionAce() && !card.getRank().equals(Rank.ACE)) ||
                             (position.isPositionKing() && !card.getRank().equals(Rank.KING)) ||
-                            position.isMiddleStackPosition();
+                            position.isMiddleStackPosition() || position == StackPosition.EXTRA_STACK;
             }
         }
         return result;
