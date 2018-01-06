@@ -4,6 +4,7 @@ import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.Rank;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.CardsMovePossibilityGuard;
+import pl.edu.agh.to2.acesandkings.game.model.CardStackImpl;
 import pl.edu.agh.to2.acesandkings.game.model.CardStackRepository;
 
 import javax.inject.Inject;
@@ -26,7 +27,15 @@ public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard 
     public boolean isActivateCardStackAllowed(StackPosition stackPosition) {
         Optional<Card> lastCardOnExtraStack = cardStackRepository.getLastCardFromStack(StackPosition.EXTRA_STACK);
         return stackPosition.isMiddleStackPosition() && lastCardOnExtraStack.isPresent() &&
-                validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get());
+                validateIfCanIActivateStack(stackPosition, lastCardOnExtraStack.get()) && isHandStackEmpty();
+    }
+
+    private boolean isHandStackEmpty() {
+        Optional<CardStackImpl> handStack = cardStackRepository.getCardStackList().stream().filter(v -> v.getPosition() == StackPosition.HAND_STACK).findAny();
+        if(!handStack.isPresent()){
+            throw new IllegalArgumentException();
+        }
+        return handStack.get().getStack().size() == 0;
     }
 
     private boolean validateIfCanIActivateStack(StackPosition stackPosition, Card card) {
