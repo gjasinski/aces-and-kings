@@ -19,9 +19,9 @@ public class CardsInHandManipulatorImpl implements CardsInHandManipulator {
 
     @Override
     public boolean moveCardFromHandToStack(Card card, StackPosition stackPosition) {
-        activeCardStackPosition = cardStackRepository.findActiveCardStack();
+//        activeCardStackPosition = cardStackRepository.findActiveCardStack();
         if (cardStackRepository.isPutCardOnStackAllowed(stackPosition, card)) {
-            cardStackRepository.removeCardFromStack(activeCardStackPosition, card);
+            cardStackRepository.removeCardFromStack(StackPosition.HAND_STACK, card);
             cardStackRepository.putCardOnStack(stackPosition, card);
             return true;
         }

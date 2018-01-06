@@ -22,6 +22,14 @@ public class CardView {
         return this.img;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void  finalize(){
+        this.img.setVisible(false);
+    }
+
     public CardView(Card card) {
         this.card = card;
         final ClassLoader classLoader = getClass().getClassLoader();
@@ -43,8 +51,6 @@ public class CardView {
         Image image = SwingFXUtils.toFXImage(imageb, null);
         img = new ImageView();
 
-        img.setFitHeight(60);
-        img.setFitWidth(60);
         img.setImage(image);
     }
 

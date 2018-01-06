@@ -30,6 +30,7 @@ public class CardsMovePossibilityGuardImpl implements CardsMovePossibilityGuard 
     }
 
     private boolean validateIfCanIActivateStack(StackPosition stackPosition, Card card) {
+        System.out.println(card.getRank().toString()+" "+stackPosition.getRank().toString());
         return card.getRank() == Rank.KING || card.getRank() == stackPosition.getRank();
     }
 

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import java.util.Optional;
 
 public class CardStackManagerImpl implements CardStackManager {
+    private StackPosition activeStack = null;
     private CardStackRepository cardStackRepository;
 
     @Inject
@@ -22,14 +23,17 @@ public class CardStackManagerImpl implements CardStackManager {
         cardStackRepository.putCardOnStack(position, card);
         cardStackRepository.changeStackState(position, State.ACTIVE);
         cardStackRepository.moveCardsFromStackToStack(position, StackPosition.HAND_STACK);
+        this.activeStack = position;
     }
 
     @Override
     public void deactivateCardStack() {
 //        TODO keep info about ACTIVE state in CardStackRepository and rid off method findActiveCardStack
-        StackPosition activeStack = cardStackRepository.findActiveCardStack();
+        //StackPosition activeStack = cardStackRepository.findActiveCardStack();
+        //cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.changeStackState(activeStack, State.INACTIVE);
         cardStackRepository.moveCardsFromStackToStack(StackPosition.HAND_STACK, activeStack);
+        activeStack=null;
     }
 
     @Override

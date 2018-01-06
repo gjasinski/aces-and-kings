@@ -26,7 +26,7 @@ public class Main extends Application {
         Injector injector = Guice.createInjector(new GameModule());
         GameManager gameManager = injector.getInstance(GameManager.class);
 
-        this.appController = new AppController(primaryStage);
+        this.appController = new AppController(primaryStage, injector);
         this.appController.setGameManager(gameManager);
         this.appController.showMenuViewDialog();
 

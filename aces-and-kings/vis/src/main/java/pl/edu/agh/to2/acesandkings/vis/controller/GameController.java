@@ -1,7 +1,10 @@
 package pl.edu.agh.to2.acesandkings.vis.controller;
 
+import pl.edu.agh.to2.acesandkings.common.model.Card;
 import pl.edu.agh.to2.acesandkings.common.model.StackPosition;
 import pl.edu.agh.to2.acesandkings.game.api.*;
+
+import javax.inject.Inject;
 
 /**
  * Created by Julia on 2017-12-04.
@@ -27,22 +30,28 @@ public class GameController {
         return appController;
     }
 
+    @Inject
     public void setActiveCardManipulator(ActiveCardsManipulator activeCardManipulator){
+        System.out.println("Ala ma kota");
         this.activeCardManipulator = activeCardManipulator;
     }
 
+    @Inject
     public void setCardsMovePossibilityGuard(CardsMovePossibilityGuard cardsMovePossibilityGuard){
         this.cardsMovePossibilityGuard = cardsMovePossibilityGuard;
     }
 
+    @Inject
     public void setCardsInHandManipulator(CardsInHandManipulator cardsInHandManipulator){
         this.cardsInHandManipulator = cardsInHandManipulator;
     }
 
+    @Inject
     public void setCardStackManager(CardStackManager cardStackManager){
         this.cardStackManager = cardStackManager;
     }
 
+    @Inject
     public void setGameActionManager(GameActionManager gameActionManager){
         this.gameActionManager = gameActionManager;
     }
@@ -59,34 +68,37 @@ public class GameController {
         this.appController.showMenuViewDialog();
     }
 
-    //podniesienie karty otwierającej stos
-    //odbywa się tylko w widoku(?) logicznie stosy się nie zmieniają
-//    public void handlePickUpKeyCardAction(){
-//        if(cardsMovePossibilityGuard.isCardStackActive(StackPosition.EXTRA_STACK)){
-//            activeCardManipulator.moveActiveCardToStack(StackPosition.EXTRA_STACK, StackPosition.HAND);
-//        }
-//    }
+    public void handleDeactivateCardStackAction(){
+        cardStackManager.deactivateCardStack();
+    }
 
-//    public void handleActivateCardsStackAction(StackPosition stackPosition){
-//        if(cardsMovePossibilityGuard. isCardStackActive(StackPosition.EXTRA_STACK)
-//        && cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
-//            cardStackManager.activateCardStack(stackPosition);
-//        }
-//    }
+    public void handleActivateCardsStackAction(StackPosition stackPosition){
+        if(cardsMovePossibilityGuard.isActivateCardStackAllowed(stackPosition)){
+            cardStackManager.activateCardStack(stackPosition, cardStackManager.getCardFromExtraStack().get());
+        }
+    }
 
-    //kiedy stwierdzimy, że już nie mamy ruch - dezaktywujemy aktywny stos i możemy pobrać nową kartę z extra stosu
     public void handleDisactivateCardStackAction(){
         cardStackManager.deactivateCardStack();
     }
 
     public void handleMoveCardAction(StackPosition sourceSp, StackPosition destSp){
-        System.out.println("Move action!");
+
+       if(cardsMovePossibilityGuard.isMoveActiveCardToStackAllowed(sourceSp, destSp)){
+        activeCardManipulator.moveActiveCardToStack(sourceSp, destSp);
+        }
+    }
+
+    public void handleMoveFromBorderStack(StackPosition sourceSp, StackPosition destSp){
         if(cardsMovePossibilityGuard.isMoveCardFromOneBorderStackToOtherAllowed(sourceSp, destSp)){
-            System.out.println("It's possible!");
             activeCardManipulator.moveCardFromOneBorderStackToOther(sourceSp, destSp);
         }
     }
 
+    public void handleMoveCardFromHSAction(Card card, StackPosition destPos){
+        if(cardsMovePossibilityGuard.isMoveCardFromHandToStackAllowed(card, destPos)) {
 
-
+            cardsInHandManipulator.moveCardFromHandToStack(card, destPos);
+        }
+    }
 }
