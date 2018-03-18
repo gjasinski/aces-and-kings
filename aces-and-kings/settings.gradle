@@ -1,0 +1,7 @@
+rootProject.name = 'aces-and-kings'
+include 'vis'
+include 'game'
+include 'player'
+include 'app'
+include 'common'
+

@@ -93,7 +93,7 @@ cmake-build-debug/
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
+/**/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -245,3 +245,6 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 # End of https://www.gitignore.io/api/java,macos,linux,maven,gradle,windows,eclipse,netbeans,intellij+all
+
+
+*.iml

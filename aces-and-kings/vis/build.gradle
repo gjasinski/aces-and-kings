@@ -1,0 +1,7 @@
+group 'pl.edu.agh.to2'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile project(':game')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
